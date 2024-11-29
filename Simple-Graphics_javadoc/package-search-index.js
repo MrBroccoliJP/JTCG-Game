@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.codeforall.online.simplegraphics.graphics"},{"l":"com.codeforall.online.simplegraphics.keyboard"},{"l":"com.codeforall.online.simplegraphics.mouse"},{"l":"com.codeforall.online.simplegraphics.pictures"}];updateSearchResults();
