@@ -1,7 +1,8 @@
 package Input;
 
 
-import SnakeBody.Snake;
+import Game.Game;
+import Snake.Snake;
 import com.codeforall.online.simplegraphics.keyboard.Keyboard;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEvent;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEventType;
@@ -9,9 +10,10 @@ import com.codeforall.online.simplegraphics.keyboard.KeyboardHandler;
 
 public class MyKeyboard implements KeyboardHandler {
     private Keyboard keyboard;
-    private Snake snake;
+    private Game game;
 
-    public void init(){
+    public void init(Game game){
+        this.game = game;
         keyboard = new Keyboard(this);
 
         KeyboardEvent goRight = new KeyboardEvent();
@@ -43,28 +45,25 @@ public class MyKeyboard implements KeyboardHandler {
     public void keyPressed(KeyboardEvent keyboardEvent) {
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_D || keyboardEvent.getKey() == KeyboardEvent.KEY_RIGHT)  {
             System.out.println("move right");
-            snake.moveSnake(Snake.Movement.RIGHT); //this is asynchronous at the moment
+            game.keyboardInput(Movements.RIGHT); //this is asynchronous at the moment
         }
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_A||keyboardEvent.getKey() == KeyboardEvent.KEY_LEFT)  {
             System.out.println("move left");
-            snake.moveSnake(Snake.Movement.LEFT); //this is asynchronous at the moment
+            game.keyboardInput(Movements.LEFT); //this is asynchronous at the moment
         }
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_W||keyboardEvent.getKey() == KeyboardEvent.KEY_UP)  {
             System.out.println("move up");
-            snake.moveSnake(Snake.Movement.UP); //this is asynchronous at the moment
+            game.keyboardInput(Movements.UP); //this is asynchronous at the moment
         }
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_S||keyboardEvent.getKey() == KeyboardEvent.KEY_DOWN)  {
             System.out.println("move down");
-            snake.moveSnake(Snake.Movement.DOWN); //this is asynchronous at the moment
+            game.keyboardInput(Movements.DOWN); //this is asynchronous at the moment
         }
     }
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
 
-    }
-    public void setSnake(Snake snake){
-        this.snake = snake;
     }
 
 }

@@ -10,12 +10,8 @@ public class Main {
         Canvas.setMaxY(800);
 
         Game game = new Game();
-        game.init();
+        game.start();
 
-//        for (int i = 0; i < 20; i++) {
-//            Thread.sleep(1000);
-//            snake.moveRIGHT();
-//        }
 
 
     }

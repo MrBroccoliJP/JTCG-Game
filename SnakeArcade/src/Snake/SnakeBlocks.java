@@ -1,4 +1,4 @@
-package SnakeBody;
+package Snake;
 
 import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;

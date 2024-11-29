@@ -1,5 +1,6 @@
-package SnakeBody;
+package Snake;
 
+import Input.Movements;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 
 import java.util.LinkedList;
@@ -8,12 +9,11 @@ public class Snake {
     private LinkedList<SnakeBlocks> snakeBlocksList;
     private final int block_size = 20;
     private int blockBuffer = 0;
+    private Movements lastMove = Movements.NONE;
 
-    public enum Movement{
-        UP, DOWN, LEFT, RIGHT, NONE
-    }
-    private Movement lastMove = Movement.NONE;
-
+//    public enum Movement{
+//        UP, DOWN, LEFT, RIGHT, NONE
+//    }
 
     public Snake(int x, int y) {  //x, y starting location
         snakeBlocksList = new LinkedList<>();
@@ -25,7 +25,7 @@ public class Snake {
         }
     }
 
-    public void moveSnake(Movement movement) {
+    public void moveSnake(Movements movement) {
         //if(movement != lastMove) {
             lastMove = movement;
             switch(movement){
@@ -186,5 +186,8 @@ public class Snake {
 
     }
 
+    void setBlockBuffer(int blockBuffer) {
+        this.blockBuffer = blockBuffer;
+    }
 
 }
