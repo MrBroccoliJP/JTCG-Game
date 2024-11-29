@@ -6,8 +6,8 @@ import com.codeforall.online.simplegraphics.graphics.Rectangle;
 public class SnakeBlocks {
     private int x;
     private int y;
-    private int width;
-    private int height;
+    private int width = 18;
+    private int height = 18;
     private Rectangle rectangle;
     private Color color;
 
@@ -17,7 +17,7 @@ public class SnakeBlocks {
         color = Color.GREEN;
         rectangle = new Rectangle(x,y,width,height);
         rectangle.setColor(color);
-        rectangle.fill(); // Fill the rectangle
+        //rectangle.fill(); // Fill the rectangle
     }
 
     public int getX(){
@@ -26,6 +26,14 @@ public class SnakeBlocks {
     public int getY(){
         return this.y;
     }
+    public void setX(int x){
+        this.x = x;
+    }
+    public void setY(int y){
+        this.y = y;
+    }
+
+
     public Rectangle getRectangle() {
         return rectangle;
     }
