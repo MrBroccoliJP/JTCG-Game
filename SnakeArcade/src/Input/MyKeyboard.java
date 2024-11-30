@@ -16,29 +16,21 @@ public class MyKeyboard implements KeyboardHandler {
         this.game = game;
         keyboard = new Keyboard(this);
 
-        KeyboardEvent goRight = new KeyboardEvent();
-        //goRight.setKey(KeyboardEvent.KEY_D);
-        goRight.setKey(KeyboardEvent.KEY_RIGHT);
-        goRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        keyboard.addEventListener(goRight);
+        addKey(KeyboardEvent.KEY_RIGHT);
+        addKey(KeyboardEvent.KEY_LEFT);
+        addKey(KeyboardEvent.KEY_UP);
+        addKey(KeyboardEvent.KEY_DOWN);
+        addKey(KeyboardEvent.KEY_D);
+        addKey(KeyboardEvent.KEY_A);
+        addKey(KeyboardEvent.KEY_S);
+        addKey(KeyboardEvent.KEY_W);
+    }
 
-        KeyboardEvent goLeft = new KeyboardEvent();
-        //goLeft.setKey(KeyboardEvent.KEY_A);
-        goLeft.setKey(KeyboardEvent.KEY_LEFT);
-        goLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        keyboard.addEventListener(goLeft);
-
-        KeyboardEvent goUp = new KeyboardEvent();
-       // goUp.setKey(KeyboardEvent.KEY_W);
-        goUp.setKey(KeyboardEvent.KEY_UP);
-        goUp.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        keyboard.addEventListener(goUp);
-
-        KeyboardEvent goDown = new KeyboardEvent();
-       // goDown.setKey(KeyboardEvent.KEY_S);
-        goDown.setKey(KeyboardEvent.KEY_DOWN);
-        goDown.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        keyboard.addEventListener(goDown);
+    private void addKey(int eventKey){
+        KeyboardEvent newEvent = new KeyboardEvent();
+        newEvent.setKey(eventKey);
+        newEvent.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(newEvent);
     }
 
     @Override
