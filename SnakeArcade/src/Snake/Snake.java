@@ -11,9 +11,6 @@ public class Snake {
     private int blockBuffer = 0;
     private Movements lastMove = Movements.NONE;
 
-//    public enum Movement{
-//        UP, DOWN, LEFT, RIGHT, NONE
-//    }
 
     public Snake(int x, int y) {  //x, y starting location
         snakeBlocksList = new LinkedList<>();
