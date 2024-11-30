@@ -17,7 +17,7 @@ public class Game {
     private GoodOrb goodorb;
 
     public Game() {
-        grid = new Grid(50, 50, 20);
+        grid = new Grid(50, 30, 20);
         grid.init();
 
         MyKeyboard myKeyboard = new MyKeyboard();

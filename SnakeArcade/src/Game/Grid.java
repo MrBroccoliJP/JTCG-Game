@@ -6,7 +6,7 @@ public class Grid {
 
     public static final int PADDING = 18;
 
-    private int cellSize = 15;
+    private int cellSize;
     private int cols;
     private int rows;
 
@@ -26,9 +26,9 @@ public class Grid {
      * Initializes the field simple graphics rectangle and draws it
      */
     public void init() {
-        Canvas.setMaxX(cols * cellSize+PADDING + Math.round((float) PADDING /2));
-        Canvas.setMaxY(rows * cellSize+PADDING+ Math.round((float) PADDING /2));
-        Rectangle field = new Rectangle(PADDING, PADDING, cols * cellSize, rows * cellSize);
+        Canvas.setMaxX(cols * cellSize);
+        Canvas.setMaxY(rows * cellSize);
+        Rectangle field = new Rectangle(PADDING, PADDING, cols * cellSize - PADDING, rows * cellSize - PADDING);
         field.draw();
     }
 
