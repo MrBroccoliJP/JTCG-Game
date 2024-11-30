@@ -1,6 +1,7 @@
 //import com.codeforall.online.simplegraphics.*;
 
 import Game.Game;
+import Snake.GoodOrb;
 import com.codeforall.online.simplegraphics.graphics.*;
 
 public class Main {
@@ -11,6 +12,10 @@ public class Main {
 
         Game game = new Game();
         game.start();
+
+        //testing orbs
+       // GoodOrb goodOrb = new GoodOrb();
+       // goodOrb.randomSpawn();
 
 
 

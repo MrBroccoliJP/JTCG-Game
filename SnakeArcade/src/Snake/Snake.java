@@ -9,7 +9,7 @@ import java.util.LinkedList;
 public class Snake {
     private LinkedList<SnakeBlocks> snakeBlocksList;
     private final int block_size = 20;
-    private int blockBuffer = 0;
+    private int blockBuffer = 5;
     private Movements lastMove = Movements.NONE;
 
 
@@ -188,13 +188,12 @@ public class Snake {
         this.blockBuffer = blockBuffer;
     }
 
-
-
     public boolean selfCollisionCheck() {
         SnakeBlocks head = snakeBlocksList.getFirst();
         for (int i = 1; i < snakeBlocksList.size(); i++) {
             SnakeBlocks block = snakeBlocksList.get(i);
-            if (head.getX() == block.getX() && head.getY() == block.getY()) {
+            if (head.getRectangle().getX() == block.getRectangle().getX() &&
+                    head.getRectangle().getY() == block.getRectangle().getY()) {
                 return true;
             }
         }
