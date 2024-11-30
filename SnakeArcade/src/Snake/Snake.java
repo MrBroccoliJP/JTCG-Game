@@ -1,5 +1,6 @@
 package Snake;
 
+import Game.Grid;
 import Input.Movements;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 
@@ -187,4 +188,26 @@ public class Snake {
         this.blockBuffer = blockBuffer;
     }
 
+    public boolean boundsCheck(int gridWidth, int gridHeight) {
+        SnakeBlocks head = snakeBlocksList.getFirst();
+
+        int leftBound = Grid.PADDING;
+        int topBound = Grid.PADDING;
+        int rightBound = gridWidth - Grid.PADDING;
+        int bottomBound = gridHeight - Grid.PADDING;
+
+        return head.getX() < leftBound || head.getY() < topBound ||
+                head.getX() > rightBound || head.getY() > bottomBound;
+    }
+
+    public boolean selfCollisionCheck() {
+        SnakeBlocks head = snakeBlocksList.getFirst();
+        for (int i = 1; i < snakeBlocksList.size(); i++) {
+            SnakeBlocks block = snakeBlocksList.get(i);
+            if (head.getX() == block.getX() && head.getY() == block.getY()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
