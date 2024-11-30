@@ -188,17 +188,7 @@ public class Snake {
         this.blockBuffer = blockBuffer;
     }
 
-    public boolean boundsCheck(int gridWidth, int gridHeight) {
-        SnakeBlocks head = snakeBlocksList.getFirst();
 
-        int leftBound = Grid.PADDING;
-        int topBound = Grid.PADDING;
-        int rightBound = gridWidth - Grid.PADDING;
-        int bottomBound = gridHeight - Grid.PADDING;
-
-        return head.getX() < leftBound || head.getY() < topBound ||
-                head.getX() > rightBound || head.getY() > bottomBound;
-    }
 
     public boolean selfCollisionCheck() {
         SnakeBlocks head = snakeBlocksList.getFirst();
@@ -209,5 +199,13 @@ public class Snake {
             }
         }
         return false;
+    }
+
+    public int getHeadX(){
+        return snakeBlocksList.getFirst().getRectangle().getX();
+    }
+
+    public int getHeadY(){
+        return snakeBlocksList.getFirst().getRectangle().getY();
     }
 }
