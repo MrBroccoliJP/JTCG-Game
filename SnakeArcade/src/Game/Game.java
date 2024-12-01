@@ -59,7 +59,10 @@ public class Game {
             System.out.println("movement: " + movement);
             System.out.println("opposite: " + movement.getOpposite());
 
-            goodOrb.randomSpawn();
+            if(!goodOrb.active()){
+                goodOrb.randomSpawn();
+            }
+
 
             if (movement != Movements.NONE && movement != currentMovement.getOpposite()) {
                 snake.moveSnake(movement);
@@ -77,6 +80,8 @@ public class Game {
             }
         }
     }
+
+
 
 
     private void drawScore(){
