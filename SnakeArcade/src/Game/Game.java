@@ -45,6 +45,7 @@ public class Game {
         Text title = new Text(Grid.PADDING,0,"SnakeArcade:");
         title.setColor(Color.BLACK);
         title.draw();
+
         start();
         //goodOrb.randomSpawn();
 
@@ -63,7 +64,6 @@ public class Game {
                 goodOrb.randomSpawn();
             }
 
-
             if (movement != Movements.NONE && movement != currentMovement.getOpposite()) {
                 snake.moveSnake(movement);
                 currentMovement = movement;
@@ -78,6 +78,7 @@ public class Game {
                     endScreen();
                     break;}
             }
+            orbCheck(goodOrb);
         }
     }
 
@@ -92,6 +93,16 @@ public class Game {
 
     public boolean CollisionCheck() {
         return boundsCollisionCheck() || snake.selfCollisionCheck();
+    }
+
+    public void orbCheck(SnakeOrbs orb){   //this is to check if the head of the snake "ate" the orb
+        if(orb instanceof GoodOrb){
+            if(orb.getX() == snake.getHeadX() && orb.getY() == snake.getHeadY()){
+                orb.delete();
+                System.out.println("SNAKE ATE THE ORB");
+            }
+        }
+
     }
 
     public boolean boundsCollisionCheck() {

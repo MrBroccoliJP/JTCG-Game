@@ -17,7 +17,7 @@ public class GoodOrb implements SnakeOrbs {
         int randomCol = (int) (Math.random() * (grid.getCols()-1));
         int randomRow = (int) (Math.random() * (grid.getRows()-1));
         this.active = true;
-        rectangle = new Rectangle(grid.columnToX(randomCol), grid.rowToY(randomRow), 18, 18);
+        rectangle = new Rectangle(grid.columnToX(randomCol)+1, grid.rowToY(randomRow)+1, 18, 18);
         rectangle.setColor(Color.RED);
         rectangle.fill();
     }

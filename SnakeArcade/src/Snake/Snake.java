@@ -197,6 +197,7 @@ public class Snake {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -207,4 +208,6 @@ public class Snake {
     public int getHeadY(){
         return snakeBlocksList.getFirst().getRectangle().getY();
     }
+
+
 }
