@@ -11,7 +11,14 @@ public class Main {
         //O jogo começa quando o user clica numa seta no teclado
 
         Game game = new Game();
-        game.start();
+
+
+
+
+
+
+
+
 
     }
 }

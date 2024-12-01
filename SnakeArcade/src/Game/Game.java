@@ -17,38 +17,45 @@ public class Game {
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
     private Grid grid;
+    private Text score;
+    private Text title;
     private GoodOrb goodOrb;
 
-    public Game() {
-        grid = new Grid(50, 30, 20);
-        grid.init();
-        Text title = new Text(Grid.PADDING,0,"SnakeArcade:");
-        title.setColor(Color.BLACK);
-        title.draw();
+    public Game() throws InterruptedException {
 
+        //this only serves to initialize objects
+        grid = new Grid(50, 30, 20);
         MyKeyboard myKeyboard = new MyKeyboard();
-        snake = new Snake(grid.columnToX(25), grid.rowToY(15));
-        setSnake(snake);
         keyboard = new Keyboard(myKeyboard);
         movement = Movements.NONE;
         myKeyboard.init(this);
+        score = new Text(0,0," ");
+        title = new Text(0,0," ");
 
         //TEST ORBS
-         goodOrb = new GoodOrb();
-         goodOrb.setGrid(grid);
-         goodOrb.randomSpawn();
-         goodOrb.spawn(grid.columnToX(0), grid.rowToY(0));
+         //goodOrb = new GoodOrb();
+        // goodOrb.setGrid(grid);
+        // goodOrb.randomSpawn();
+        // goodOrb.spawn(grid.columnToX(0), grid.rowToY(0));
 
 
          //TEST SCORE TEXT
-        Text score = new Text(0,0,"Score:");
-        score.translate(grid.columnToX(grid.getCols())-score.getWidth()- Grid.PADDING,0);
-        score.setColor(Color.BLACK);
-        score.draw();
 
+        startingScreen();
     }
 
-    public void start() throws InterruptedException {
+    private void startSnakeGame() throws InterruptedException {
+        grid.init();
+        snake = new Snake(grid.columnToX(25), grid.rowToY(15));
+        setSnake(snake);
+
+        Text title = new Text(Grid.PADDING,0,"SnakeArcade:");
+        title.setColor(Color.BLACK);
+        title.draw();
+        start();
+    }
+
+    private void start() throws InterruptedException {
 
         while (true) {  //infinite loop
 
@@ -61,13 +68,24 @@ public class Game {
                 snake.moveSnake(movement);
                 currentMovement = movement;
                 movement = Movements.NONE;
-                if(CollisionCheck()) { break;}
+                if(CollisionCheck()) {
+                    endScreen();
+                    break;}
             } else {
                 snake.moveSnake();
                 movement = Movements.NONE;
-                if(CollisionCheck()) { break;}
+                if(CollisionCheck()) {
+                    endScreen();
+                    break;}
             }
         }
+    }
+
+
+    private void drawScore(){
+        score.translate(grid.columnToX(grid.getCols())-score.getWidth()- Grid.PADDING,0);
+        score.setColor(Color.GREEN);
+        score.draw();
     }
 
     public boolean CollisionCheck() {
@@ -104,7 +122,38 @@ public class Game {
         }
     }
 
-            public void setSnake (Snake snake){
+    private void startingScreen() throws InterruptedException{
+        Canvas.setMaxX(grid.getCellSize()* grid.getCols());
+        Canvas.setMaxY(grid.getCellSize()* grid.getRows());
+        Text text = new Text(((double) grid.columnToX(grid.getCols()) /2), 0, "Snake Arcade");
+        text.translate((double) -text.getWidth() ,0);
+        text.setColor(Color.GREEN);
+        text.grow(300,70);
+
+
+        for(int i = 0; i < grid.getRows()+(text.getHeight()/2); i++){
+            text.translate(0,1);
+            text.draw();
+            Thread.sleep(20);
+        }
+        Thread.sleep(500);
+        text.delete();
+        startSnakeGame();
+    }
+
+    private void endScreen(){
+        Canvas.setMaxX(grid.getCellSize()* grid.getCols());
+        Canvas.setMaxY(grid.getCellSize()* grid.getRows());
+        Text text = new Text(((double) grid.columnToX(grid.getCols()) /2), 0, "GAME OVER");
+        text.translate((double) -text.getWidth() ,0);
+        text.setColor(Color.RED);
+        text.grow(300,70);
+        text.translate(0,grid.getRows()+((double) text.getHeight() /2));
+        text.draw();
+    }
+
+
+    public void setSnake (Snake snake){
                 this.snake = snake;
             }
-        }
+}
