@@ -9,7 +9,7 @@ import java.util.LinkedList;
 public class Snake {
     private LinkedList<SnakeBlocks> snakeBlocksList;
     private final int block_size = 20;
-    private int blockBuffer = 5;
+    private int blockBuffer = 0;
     private Movements lastMove = Movements.NONE;
 
 
@@ -184,8 +184,8 @@ public class Snake {
 
     }
 
-    void setBlockBuffer(int blockBuffer) {
-        this.blockBuffer = blockBuffer;
+    public void setBlockBuffer(int addition) {
+        this.blockBuffer+=addition;
     }
 
     public boolean selfCollisionCheck() {

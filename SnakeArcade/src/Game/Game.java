@@ -99,6 +99,7 @@ public class Game {
         if(orb instanceof GoodOrb){
             if(orb.getX() == snake.getHeadX() && orb.getY() == snake.getHeadY()){
                 orb.delete();
+                snake.setBlockBuffer(+1);
                 System.out.println("SNAKE ATE THE ORB");
             }
         }
