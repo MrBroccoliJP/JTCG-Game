@@ -20,9 +20,9 @@ public class Game {
     private Text score;
     private Text title;
     private GoodOrb goodOrb;
+    private int cycleCount;
 
     public Game() throws InterruptedException {
-
         //this only serves to initialize objects
         grid = new Grid(50, 30, 20);
         MyKeyboard myKeyboard = new MyKeyboard();
@@ -32,15 +32,6 @@ public class Game {
         score = new Text(0,0," ");
         title = new Text(0,0," ");
 
-        //TEST ORBS
-         //goodOrb = new GoodOrb();
-        // goodOrb.setGrid(grid);
-        // goodOrb.randomSpawn();
-        // goodOrb.spawn(grid.columnToX(0), grid.rowToY(0));
-
-
-         //TEST SCORE TEXT
-
         startingScreen();
     }
 
@@ -48,11 +39,15 @@ public class Game {
         grid.init();
         snake = new Snake(grid.columnToX(25), grid.rowToY(15));
         setSnake(snake);
+        goodOrb = new GoodOrb();
+        goodOrb.setGrid(grid);
 
         Text title = new Text(Grid.PADDING,0,"SnakeArcade:");
         title.setColor(Color.BLACK);
         title.draw();
         start();
+        //goodOrb.randomSpawn();
+
     }
 
     private void start() throws InterruptedException {
@@ -63,6 +58,8 @@ public class Game {
             System.out.println("currentMovement: " + currentMovement);
             System.out.println("movement: " + movement);
             System.out.println("opposite: " + movement.getOpposite());
+
+            goodOrb.randomSpawn();
 
             if (movement != Movements.NONE && movement != currentMovement.getOpposite()) {
                 snake.moveSnake(movement);
@@ -129,7 +126,6 @@ public class Game {
         text.translate((double) -text.getWidth() ,0);
         text.setColor(Color.GREEN);
         text.grow(300,70);
-
 
         for(int i = 0; i < grid.getRows()+(text.getHeight()/2); i++){
             text.translate(0,1);
