@@ -13,11 +13,5 @@ public class Main {
         Game game = new Game();
         game.start();
 
-        //testing orbs
-       // GoodOrb goodOrb = new GoodOrb();
-       // goodOrb.randomSpawn();
-
-
-
     }
 }

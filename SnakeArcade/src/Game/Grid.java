@@ -4,7 +4,7 @@ import com.codeforall.online.simplegraphics.graphics.Rectangle;
 
 public class Grid {
 
-    public static final int PADDING = 18;
+    public static final int PADDING = 20;
 
     private int cellSize;
     private int cols;
@@ -26,8 +26,8 @@ public class Grid {
      * Initializes the field simple graphics rectangle and draws it
      */
     public void init() {
-        Canvas.setMaxX(cols * cellSize);
-        Canvas.setMaxY(rows * cellSize);
+        Canvas.setMaxX((cols * cellSize)+PADDING);
+        Canvas.setMaxY((rows * cellSize)+PADDING);
         Rectangle field = new Rectangle(PADDING, PADDING, cols * cellSize - PADDING, rows * cellSize - PADDING);
         field.draw();
     }

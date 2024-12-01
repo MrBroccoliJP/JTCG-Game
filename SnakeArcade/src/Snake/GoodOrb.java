@@ -10,30 +10,23 @@ public class GoodOrb implements SnakeOrbs {
     private Rectangle rectangle;
     private Grid grid;
     @Override
+
     public void randomSpawn() {
+        int randomCol = (int) (Math.random() * grid.getCols());
+        int randomRow = (int) (Math.random() * grid.getRows());
 
-        double random_x = Math.random();
-        double random_y = Math.random();
-        int padding_x = 0;
-        int padding_y = 0;
-        if (random_x < 0.5) {
-            padding_x = Grid.PADDING;
-        } else {
-            padding_x = -Grid.PADDING;
-        }
-        if (random_y < 0.5) {
-            padding_y = Grid.PADDING;
-        } else {
-            padding_y = -Grid.PADDING;
-        }
-
-        int x = (int) Math.floor(random_x * (grid.getCols() * grid.getCellSize() + 1) + padding_x);
-        int y = (int) Math.floor(random_y * (grid.getRows() * grid.getCellSize() + 1) + padding_y);
-
-        rectangle = new Rectangle(x, y, 18, 18);
+        rectangle = new Rectangle(grid.columnToX(randomCol), grid.rowToY(randomRow), 18, 18);
         rectangle.setColor(Color.RED);
         rectangle.fill();
+    }
 
+    @Override
+    public void spawn(int x, int y) {
+        this.x = x;
+        this.y = y;
+        rectangle = new Rectangle(x, y, 18, 18);
+        rectangle.setColor(Color.PINK);
+        rectangle.fill();
     }
 
     @Override
