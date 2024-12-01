@@ -20,9 +20,9 @@ public class Game {
     private Text score;
     private Text title;
     private GoodOrb goodOrb;
+    private int cycleCount;
 
     public Game() throws InterruptedException {
-
         //this only serves to initialize objects
         grid = new Grid(50, 30, 20);
         MyKeyboard myKeyboard = new MyKeyboard();
@@ -32,15 +32,6 @@ public class Game {
         score = new Text(0,0," ");
         title = new Text(0,0," ");
 
-        //TEST ORBS
-         //goodOrb = new GoodOrb();
-        // goodOrb.setGrid(grid);
-        // goodOrb.randomSpawn();
-        // goodOrb.spawn(grid.columnToX(0), grid.rowToY(0));
-
-
-         //TEST SCORE TEXT
-
         startingScreen();
     }
 
@@ -48,11 +39,16 @@ public class Game {
         grid.init();
         snake = new Snake(grid.columnToX(25), grid.rowToY(15));
         setSnake(snake);
+        goodOrb = new GoodOrb();
+        goodOrb.setGrid(grid);
 
         Text title = new Text(Grid.PADDING,0,"SnakeArcade:");
         title.setColor(Color.BLACK);
         title.draw();
+
         start();
+        //goodOrb.randomSpawn();
+
     }
 
     private void start() throws InterruptedException {
@@ -63,6 +59,10 @@ public class Game {
             System.out.println("currentMovement: " + currentMovement);
             System.out.println("movement: " + movement);
             System.out.println("opposite: " + movement.getOpposite());
+
+            if(!goodOrb.active()){
+                goodOrb.randomSpawn();
+            }
 
             if (movement != Movements.NONE && movement != currentMovement.getOpposite()) {
                 snake.moveSnake(movement);
@@ -78,8 +78,11 @@ public class Game {
                     endScreen();
                     break;}
             }
+            orbCheck(goodOrb);
         }
     }
+
+
 
 
     private void drawScore(){
@@ -90,6 +93,16 @@ public class Game {
 
     public boolean CollisionCheck() {
         return boundsCollisionCheck() || snake.selfCollisionCheck();
+    }
+
+    public void orbCheck(SnakeOrbs orb){   //this is to check if the head of the snake "ate" the orb
+        if(orb instanceof GoodOrb){
+            if(orb.getX() == snake.getHeadX() && orb.getY() == snake.getHeadY()){
+                orb.delete();
+                System.out.println("SNAKE ATE THE ORB");
+            }
+        }
+
     }
 
     public boolean boundsCollisionCheck() {
@@ -129,7 +142,6 @@ public class Game {
         text.translate((double) -text.getWidth() ,0);
         text.setColor(Color.GREEN);
         text.grow(300,70);
-
 
         for(int i = 0; i < grid.getRows()+(text.getHeight()/2); i++){
             text.translate(0,1);

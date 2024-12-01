@@ -15,7 +15,7 @@ public class SnakeBlocks {
         this.x = x;
         this.y = y;
         color = Color.GREEN;
-        rectangle = new Rectangle(x,y,width,height);
+        rectangle = new Rectangle(x+1,y+1,width,height);
         rectangle.setColor(color);
         //rectangle.fill(); // Fill the rectangle
     }
