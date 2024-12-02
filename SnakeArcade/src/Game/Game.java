@@ -18,6 +18,7 @@ public class Game {
     Snake snake;
     Keyboard keyboard;
     Picture logo;
+    private int baseSpeed = 200;
     private int speed = 200;
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
@@ -74,7 +75,7 @@ public class Game {
         int bonusCycleDuration = 0;
         while (true) {  //infinite loop
 
-
+            speedStepsCalc();
             Thread.sleep(speed); //speed of the game
 
             drawScore();
@@ -93,7 +94,7 @@ public class Game {
                     bonusCycleNextAppearance=-1;
                 }
                 else if(bonusCycleNextAppearance == -1){
-                    bonusCycleNextAppearance = 15 + cycleCount + (int)(Math.random()*29)+1;
+                    bonusCycleNextAppearance = cycleCount + 15 + (int)(Math.random()*29)+1;
                 }
             }
             if(bonusOrb.active()){
@@ -126,6 +127,20 @@ public class Game {
             cycleCount++;
         }
 
+    }
+
+    private void speedStepsCalc(){
+        int score = scoreSystem.getScore();
+
+        // Base speed adjustment logic
+        if (score < 1000) {
+            speed = 200; // Default speed for scores below 1000
+        } else {
+            if(speed > 100) {
+                speed = (int) (baseSpeed - (score - 1000) * 0.01); // Increase speed for scores above 1000
+            }
+           //System.out.println("speed change: " + speed);
+        }
     }
 
     private void drawScore(){
@@ -203,6 +218,10 @@ public class Game {
 
     public void setSnake (Snake snake){
                 this.snake = snake;
+    }
+
+    private int getSpeed(){
+        return speed;
     }
 
 

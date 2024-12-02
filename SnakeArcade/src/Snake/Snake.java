@@ -25,7 +25,6 @@ public class Snake {
     }
 
     public void moveSnake(Movements movement) {
-        //if(movement != lastMove) {
             lastMove = movement;
             switch(movement){
                 case UP:
