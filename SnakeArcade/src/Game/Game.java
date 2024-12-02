@@ -1,7 +1,7 @@
 package Game;
 
 import Input.Movements;
-import Input.MyKeyboard;
+import Input.MyGameKeyboard;
 import Orbs.BadOrb;
 import Orbs.BonusOrb;
 import Orbs.GoodOrb;
@@ -37,7 +37,7 @@ public class Game {
     public Game() throws InterruptedException {
         //this only serves to initialize objects
         grid = new Grid(50, 30, CELLSIZE);
-        MyKeyboard myKeyboard = new MyKeyboard();
+        MyGameKeyboard myKeyboard = new MyGameKeyboard();
         keyboard = new Keyboard(myKeyboard);
         movement = Movements.NONE;
         myKeyboard.init(this);

@@ -2,13 +2,12 @@ package Input;
 
 
 import Game.Game;
-import Snake.Snake;
 import com.codeforall.online.simplegraphics.keyboard.Keyboard;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEvent;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEventType;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardHandler;
 
-public class MyKeyboard implements KeyboardHandler {
+public class MyGameKeyboard implements KeyboardHandler {
     private Keyboard keyboard;
     private Game game;
 
