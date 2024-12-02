@@ -186,7 +186,18 @@ public class Snake {
     }
 
     public void setBlockBuffer(int addition) {
-        this.blockBuffer+=addition;
+        if(snakeBlocksList.size() > 3){
+            this.blockBuffer+=addition;
+        }
+        else{           //PREVENT THE SNAKE FROM GETTING BELOW 3 BLOCKS
+            if(addition > 0){
+                this.blockBuffer+=addition;
+            }
+            else{
+                this.blockBuffer=0;
+            }
+        }
+
     }
 
     public boolean selfCollisionCheck() {

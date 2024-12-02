@@ -1,4 +1,4 @@
-package Snake;
+package Orbs;
 
 public interface SnakeOrbs {
     void randomSpawn();

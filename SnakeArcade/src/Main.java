@@ -1,8 +1,6 @@
 //import com.codeforall.online.simplegraphics.*;
 
 import Game.Game;
-import Snake.GoodOrb;
-import com.codeforall.online.simplegraphics.graphics.*;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {

@@ -1,8 +1,9 @@
-package Snake;
+package Orbs;
 
 import Game.Grid;
 import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
+import com.codeforall.online.simplegraphics.pictures.Picture;
 
 public class GoodOrb implements SnakeOrbs {
     private int col;
@@ -12,6 +13,8 @@ public class GoodOrb implements SnakeOrbs {
     private Grid grid;
     private boolean active = false;
     private int buffer = +1;
+    private Picture picture;
+
 
     public GoodOrb(Grid grid){
         this.grid = grid;
@@ -22,9 +25,11 @@ public class GoodOrb implements SnakeOrbs {
         int randomCol = (int) (Math.random() * (grid.getCols()-1));
         int randomRow = (int) (Math.random() * (grid.getRows()-1));
         this.active = true;
-        rectangle = new Rectangle(grid.columnToX(randomCol)+1, grid.rowToY(randomRow)+1, 18, 18);
-        rectangle.setColor(Color.RED);
-        rectangle.fill();
+        rectangle = new Rectangle(grid.columnToX(randomCol)+1, grid.rowToY(randomRow)+1, grid.getCellSize()-2, grid.getCellSize()-2);
+        picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"resources/IntelliJ_18_18.png");
+        //rectangle.setColor(Color.WHITE);
+        //rectangle.draw();
+        picture.draw();
     }
 
     @Override
@@ -64,6 +69,7 @@ public class GoodOrb implements SnakeOrbs {
     public void delete(){
         this.active = false;
         rectangle.delete();
+        picture.delete();
     }
     @Override
     public int getBuffer(){

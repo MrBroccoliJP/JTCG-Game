@@ -2,15 +2,16 @@ package Game;
 
 import Input.Movements;
 import Input.MyKeyboard;
+import Orbs.BadOrb;
+import Orbs.BonusOrb;
+import Orbs.GoodOrb;
+import Orbs.SnakeOrbs;
 import Snake.Snake;
-import Snake.*;
 import com.codeforall.online.simplegraphics.graphics.Canvas;
 import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Text;
 import com.codeforall.online.simplegraphics.keyboard.Keyboard;
 import com.codeforall.online.simplegraphics.pictures.Picture;
-
-import java.util.LinkedList;
 
 public class Game {
 
@@ -25,6 +26,8 @@ public class Game {
     private Text title;
     private GoodOrb goodOrb;
     private BadOrb badOrb;
+    private BonusOrb bonusOrb;
+
 
     private int cycleCount;
     private final ScoreSystem scoreSystem;
@@ -61,13 +64,16 @@ public class Game {
         drawScore();
         goodOrb = new GoodOrb(grid);
         badOrb = new BadOrb(grid);
+        bonusOrb = new BonusOrb(grid);
         startNormalDifficulty();
     }
 
 
     private void startNormalDifficulty() throws InterruptedException {
-
+        int bonusCycleNextAppearance = 0;
+        int bonusCycleDuration = 0;
         while (true) {  //infinite loop
+
 
             Thread.sleep(speed); //speed of the game
 
@@ -79,6 +85,24 @@ public class Game {
             if(!badOrb.active()){
                 badOrb.randomSpawn();
             }
+
+            if(!bonusOrb.active()){
+                if(bonusCycleNextAppearance == cycleCount) {
+                    bonusCycleDuration = 50 + (int) (Math.random() * 29) + 1;
+                    bonusOrb.randomSpawn();
+                    bonusCycleNextAppearance=-1;
+                }
+                else if(bonusCycleNextAppearance == -1){
+                    bonusCycleNextAppearance = 15 + cycleCount + (int)(Math.random()*29)+1;
+                }
+            }
+            if(bonusOrb.active()){
+                if(bonusCycleDuration == 0){
+                    bonusOrb.delete();
+                }
+                bonusCycleDuration--;
+            }
+
 
 
             if (movement != Movements.NONE && movement != currentMovement.getOpposite()) {
@@ -97,7 +121,11 @@ public class Game {
             }
             orbCheck(goodOrb);
             orbCheck(badOrb);
+            orbCheck(bonusOrb);
+
+            cycleCount++;
         }
+
     }
 
     private void drawScore(){
@@ -154,7 +182,7 @@ public class Game {
         Canvas.setMaxY(grid.getCellSize()* grid.getRows());
 
         logo = new Picture();
-        logo.load("/resources/untitled.png");
+        logo.load("/resources/snake_arcade_logo.png");  //this logo was created with the dimensions of the screen | todo: make it scale with the screen
         logo.draw();
         Thread.sleep(5000);
         logo.delete();
