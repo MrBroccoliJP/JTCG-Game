@@ -192,8 +192,21 @@ public class Snake {
         SnakeBlocks head = snakeBlocksList.getFirst();
         for (int i = 1; i < snakeBlocksList.size(); i++) {
             SnakeBlocks block = snakeBlocksList.get(i);
-            if (head.getRectangle().getX() == block.getRectangle().getX() &&
-                    head.getRectangle().getY() == block.getRectangle().getY()) {
+
+            double headX = head.getRectangle().getX();
+            double headY = head.getRectangle().getY();
+            double headWidth = head.getRectangle().getWidth();
+            double headHeight = head.getRectangle().getHeight();
+
+            double blockX = block.getRectangle().getX();
+            double blockY = block.getRectangle().getY();
+            double blockWidth = block.getRectangle().getWidth();
+            double blockHeight = block.getRectangle().getHeight();
+
+            if (headX < blockX + blockWidth &&
+                    headX + headWidth > blockX &&
+                    headY < blockY + blockHeight &&
+                    headY + headHeight > blockY) {
                 return true;
             }
         }

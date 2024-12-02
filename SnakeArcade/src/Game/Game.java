@@ -17,10 +17,11 @@ public class Game {
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
     private Grid grid;
-    private Text score;
+    private Text scoreText;
     private Text title;
     private GoodOrb goodOrb;
     private int cycleCount;
+    private ScoreSystem scoreSystem;
 
     public Game() throws InterruptedException {
         //this only serves to initialize objects
@@ -29,8 +30,9 @@ public class Game {
         keyboard = new Keyboard(myKeyboard);
         movement = Movements.NONE;
         myKeyboard.init(this);
-        score = new Text(0,0," ");
-        title = new Text(0,0," ");
+        this.scoreText = new Text(0,0," ");
+        this.title = new Text(0,0," ");
+        scoreSystem = new ScoreSystem();
 
         startingScreen();
     }
@@ -42,10 +44,15 @@ public class Game {
         goodOrb = new GoodOrb();
         goodOrb.setGrid(grid);
 
-        Text title = new Text(Grid.PADDING,0,"SnakeArcade:");
+        Text title = new Text(Grid.PADDING ,grid.rowToY(grid.getRows())-Grid.PADDING,"SnakeArcade");
+        title.grow(20,15);
+        title.translate(title.getX()+(Grid.PADDING-title.getX()),5);
         title.setColor(Color.BLACK);
         title.draw();
 
+        this.scoreText.translate(grid.getCols()*grid.getCellSize()-(5*grid.getCellSize()),grid.rowToY(grid.getRows())-Grid.PADDING);
+        this.scoreText.grow(20,20);
+        drawScore();
         start();
         //goodOrb.randomSpawn();
 
@@ -56,9 +63,10 @@ public class Game {
         while (true) {  //infinite loop
 
             Thread.sleep(speed); //speed of the game
-            System.out.println("currentMovement: " + currentMovement);
-            System.out.println("movement: " + movement);
-            System.out.println("opposite: " + movement.getOpposite());
+            //System.out.println("currentMovement: " + currentMovement);
+            //System.out.println("movement: " + movement);
+            //System.out.println("opposite: " + movement.getOpposite());
+            drawScore();
 
             if(!goodOrb.active()){
                 goodOrb.randomSpawn();
@@ -82,13 +90,10 @@ public class Game {
         }
     }
 
-
-
-
     private void drawScore(){
-        score.translate(grid.columnToX(grid.getCols())-score.getWidth()- Grid.PADDING,0);
-        score.setColor(Color.GREEN);
-        score.draw();
+        this.scoreText.setText("Score: " + scoreSystem.getScore());
+        this.scoreText.setColor(Color.GREEN);
+        this.scoreText.draw();
     }
 
     public boolean CollisionCheck() {
@@ -100,6 +105,7 @@ public class Game {
             if(orb.getX() == snake.getHeadX() && orb.getY() == snake.getHeadY()){
                 orb.delete();
                 snake.setBlockBuffer(+1);
+                scoreSystem.addScore(100);
                 System.out.println("SNAKE ATE THE ORB");
             }
         }
@@ -110,8 +116,8 @@ public class Game {
 
         int leftBound = Grid.PADDING;
         int topBound = Grid.PADDING;
-        int rightBound = (grid.getCols() * grid.getCellSize()) - Grid.PADDING;
-        int bottomBound = (grid.getRows() * grid.getCellSize()) - Grid.PADDING;
+        int rightBound = (grid.getCols() * grid.getCellSize()) - Grid.PADDING+1;
+        int bottomBound = (grid.getRows() * grid.getCellSize()) - Grid.PADDING+1;
 
         return snake.getHeadX() < leftBound || snake.getHeadY() < topBound ||
                 snake.getHeadX() > rightBound || snake.getHeadY() > bottomBound;
@@ -140,7 +146,7 @@ public class Game {
         Canvas.setMaxX(grid.getCellSize()* grid.getCols());
         Canvas.setMaxY(grid.getCellSize()* grid.getRows());
         Text text = new Text(((double) grid.columnToX(grid.getCols()) /2), 0, "Snake Arcade");
-        text.translate((double) -text.getWidth() ,0);
+        text.translate(-text.getWidth(),0);
         text.setColor(Color.GREEN);
         text.grow(300,70);
 

@@ -9,7 +9,14 @@ public class ScoreSystem {
         return score;
     }
     public int addScore(int amount) {
-        score = score + amount;
-        return score;
+        return score += amount;
+    }
+    public int resetScore() {
+        return score = 0;
+    }
+
+    @Override
+    public String toString() {
+        return score + " points";
     }
 }
