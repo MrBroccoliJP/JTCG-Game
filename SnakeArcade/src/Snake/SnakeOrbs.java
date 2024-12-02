@@ -6,6 +6,7 @@ public interface SnakeOrbs {
     void delete();
     boolean active();
     int getScore();
+    int getBuffer();
     int getX();
     int getY();
     int getCol();

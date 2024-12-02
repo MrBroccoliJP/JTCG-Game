@@ -4,26 +4,27 @@ import Game.Grid;
 import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 
-public class GoodOrb implements SnakeOrbs {
+public class BadOrb implements SnakeOrbs {
     private int col;
     private int row;
-    private int score = 100;  // score of a good orb
+    private int score = -100;  // score of a good orb
     private Rectangle rectangle;
     private Grid grid;
     private boolean active = false;
-    private int buffer = +1;
+    private int buffer = -1;
 
-    public GoodOrb(Grid grid){
+    public BadOrb(Grid grid){
         this.grid = grid;
     }
 
     @Override
+
     public void randomSpawn() {
         int randomCol = (int) (Math.random() * (grid.getCols()-1));
         int randomRow = (int) (Math.random() * (grid.getRows()-1));
         this.active = true;
         rectangle = new Rectangle(grid.columnToX(randomCol)+1, grid.rowToY(randomRow)+1, 18, 18);
-        rectangle.setColor(Color.RED);
+        rectangle.setColor(Color.PINK);
         rectangle.fill();
     }
 
@@ -42,7 +43,7 @@ public class GoodOrb implements SnakeOrbs {
 
     @Override
     public int getX() {
-       return rectangle.getX();
+        return rectangle.getX();
     }
 
     @Override
