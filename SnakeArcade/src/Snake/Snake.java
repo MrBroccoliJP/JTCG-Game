@@ -1,5 +1,6 @@
 package Snake;
 
+import Game.Game;
 import Game.Grid;
 import Input.Movements;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
@@ -8,7 +9,7 @@ import java.util.LinkedList;
 
 public class Snake {
     private LinkedList<SnakeBlocks> snakeBlocksList;
-    private final int block_size = 20;
+    private final int block_size = Game.CELLSIZE;
     private int blockBuffer = 0;
     private Movements lastMove = Movements.NONE;
 

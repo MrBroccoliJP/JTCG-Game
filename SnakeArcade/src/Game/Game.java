@@ -22,10 +22,11 @@ public class Game {
     private GoodOrb goodOrb;
     private int cycleCount;
     private ScoreSystem scoreSystem;
+    public static int CELLSIZE = 20;
 
     public Game() throws InterruptedException {
         //this only serves to initialize objects
-        grid = new Grid(50, 30, 20);
+        grid = new Grid(50, 30, CELLSIZE);
         MyKeyboard myKeyboard = new MyKeyboard();
         keyboard = new Keyboard(myKeyboard);
         movement = Movements.NONE;
@@ -174,5 +175,7 @@ public class Game {
 
     public void setSnake (Snake snake){
                 this.snake = snake;
-            }
+    }
+
+
 }
