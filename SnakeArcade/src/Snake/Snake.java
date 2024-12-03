@@ -233,5 +233,11 @@ public class Snake {
         return snakeBlocksList.getFirst().getRectangle().getY();
     }
 
+    public void delete(){
+        for(SnakeBlocks block : snakeBlocksList) {
+            block.getRectangle().delete();
+        }
+        snakeBlocksList.clear();
+    }
 
 }

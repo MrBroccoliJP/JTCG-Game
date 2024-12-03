@@ -2,6 +2,7 @@ package Game;
 
 import Input.Movements;
 import Input.MyGameKeyboard;
+import Input.MyMenuKeyboard;
 import Orbs.BadOrb;
 import Orbs.BonusOrb;
 import Orbs.GoodOrb;
@@ -9,9 +10,9 @@ import Orbs.SnakeOrbs;
 import Snake.Snake;
 import com.codeforall.online.simplegraphics.graphics.Canvas;
 import com.codeforall.online.simplegraphics.graphics.Color;
-import com.codeforall.online.simplegraphics.graphics.Rectangle;
 import com.codeforall.online.simplegraphics.graphics.Text;
 import com.codeforall.online.simplegraphics.keyboard.Keyboard;
+import com.codeforall.online.simplegraphics.keyboard.KeyboardEvent;
 import com.codeforall.online.simplegraphics.pictures.Picture;
 
 public class Game {
@@ -24,7 +25,7 @@ public class Game {
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
     private final Grid grid;
-    private final Text scoreText;
+    private Text scoreText;
     private Text title;
     private GoodOrb goodOrb;
     private BadOrb badOrb;
@@ -39,13 +40,12 @@ public class Game {
     //private LinkedList<SnakeOrbs> snakeOrbsLinkedList;   FOR A LATER ADDITION SAVE THE AMMOUNT OF ORBS ON A LINKED LIST AND HAVE MORE THAN ONE GOOD ORB AT A TIME, AND MAKE THEM DISAPPEAR WITH TIME
     public static int CELLSIZE = 20;
 
+    private boolean menuButtonPressed = false;
+
     public Game() throws InterruptedException {
         //this only serves to initialize objects
         grid = new Grid(50, 30, CELLSIZE);
-        MyGameKeyboard myKeyboard = new MyGameKeyboard();
-        keyboard = new Keyboard(myKeyboard);
-        movement = Movements.NONE;
-        myKeyboard.init(this);
+
         this.scoreText = new Text(0,0," ");
         this.title = new Text(0,0," ");
         scoreSystem = new ScoreSystem();
@@ -58,12 +58,20 @@ public class Game {
         snake = new Snake(grid.columnToX(25), grid.rowToY(15));
         setSnake(snake);
 
+        //START KEYBOARD
+        MyGameKeyboard mygameKeyboard = new MyGameKeyboard();
+        //keyboard = new Keyboard(mygameKeyboard);
+        movement = Movements.NONE;
+        mygameKeyboard.init(this);
+
+
         Text title = new Text(Grid.PADDING ,grid.rowToY(grid.getRows())-10,"SnakeArcade");
         title.grow(20,15);
         title.translate(title.getX()+(Grid.PADDING-title.getX()),5);
         title.setColor(Color.BLACK);
         title.draw();
 
+        this.scoreText = new Text(0,0," ");
         this.scoreText.grow(20,15);
         this.scoreText.translate(grid.getCols()*grid.getCellSize()-(5*grid.getCellSize()),grid.rowToY(grid.getRows())-7);
 
@@ -162,16 +170,17 @@ public class Game {
             //System.out.println(badOrbCycleDuration);
         }
 
-        if(orb.getX() == snake.getHeadX() && orb.getY() == snake.getHeadY() && orb.active()){
+        if(orb.active() && (orb.getX() == snake.getHeadX() && orb.getY() == snake.getHeadY())){
             orb.delete();
             snake.setBlockBuffer(orb.getBuffer());
             scoreSystem.addScore(orb.getScore());
             System.out.println("SNAKE ATE THE AN ORB :" + orb.getScore());
-            if(orb instanceof GoodOrb){
-                scoreSystem.addGoodOrbsEaten(1);
-            }
-            else if(orb instanceof BadOrb){
+
+            if(orb instanceof BadOrb){
                 scoreSystem.addBadOrbsEaten(1);
+            }
+            else{
+                scoreSystem.addGoodOrbsEaten(1);
             }
         }
 
@@ -189,9 +198,15 @@ public class Game {
     }
 
 
-    public void keyboardInput (Movements movement){
+    public void gameKeyboardInput(Movements movement){
         //this method recieves the keyboard input to make it synchronous with the game
         this.movement = movement;
+    }
+
+    public void menuKeybordInput(int key){
+        if(key == KeyboardEvent.KEY_SPACE){
+            menuButtonPressed = true;
+        }
     }
 
     private void startingScreen() throws InterruptedException{
@@ -201,15 +216,23 @@ public class Game {
         logo = new Picture();
         logo.load("/resources/snake_arcade_logo.png");  //this logo was created with the dimensions of the screen | todo: make it scale with the screen
         logo.draw();
-        Thread.sleep(5000);
+        Text instruction = new Text(logo.getX()+50,logo.getY()+logo.getHeight()-50, "Press SPACE to start");
+        instruction.draw();
+        MyMenuKeyboard menuKeyboard = new MyMenuKeyboard();
+        menuKeyboard.init(this);
+        while (!menuButtonPressed) {
+            Thread.sleep(100);
+        }
+        menuButtonPressed = false;
+        instruction.delete();
         logo.delete();
         startSnakeGame();
     }
 
-    private void endScreen(){
+    private void endScreen() throws InterruptedException {
 
         scoreSystem.saveHighScore();
-        System.out.println(scoreSystem.printHighScoreList());
+        //System.out.println(scoreSystem.printHighScoreList());
 
         Text end = new Text(((double) grid.columnToX(grid.getCols()) /2), 0, "GAME OVER");
         end.translate((double) -end.getWidth() ,0);
@@ -218,9 +241,56 @@ public class Game {
         end.translate(0,grid.getRows()+((double) end.getHeight() /2));
         end.draw();
 
-        Text stats = new Text(end.getX(), end.getY()+end.getHeight(), "Stats" + "/n" + scoreSystem.printHighScoreList());
-        stats.draw();
 
+        Text stats = new Text(end.getX(), end.getY()+end.getHeight(), "Stats: ");
+        Text stats1 = new Text(end.getX(), stats.getY()+stats.getHeight(),  "High Score:" +  scoreSystem.printHighScoreList(0));
+        Text stats2 = new Text(end.getX(), stats1.getY()+stats1.getHeight(),  "                " + scoreSystem.printHighScoreList(1));
+        Text stats3 = new Text(end.getX(), stats2.getY()+stats2.getHeight(),  "                " + scoreSystem.printHighScoreList(2));
+        Text stats4 = new Text(end.getX(), stats3.getY()+stats3.getHeight(),  "                " + scoreSystem.printHighScoreList(3));
+        Text stats5 = new Text(end.getX(), stats4.getY()+stats4.getHeight(),  "                " + scoreSystem.printHighScoreList(4));
+        Text info = new Text(end.getX(), stats5.getY()+(stats5.getHeight()*2), "Press space to start again");
+
+
+        stats.draw();
+        stats1.draw();
+        stats2.draw();
+        stats3.draw();
+        stats4.draw();
+        stats5.draw();
+        info.draw();
+
+        while (!menuButtonPressed) {
+            Thread.sleep(100);
+        }
+        menuButtonPressed = false;
+        deleteOrbs();
+        snake.delete();
+        stats.delete();
+        stats1.delete();
+        stats2.delete();
+        stats3.delete();
+        stats4.delete();
+        stats5.delete();
+        info.delete();
+
+        end.delete();
+        currentMovement = Movements.NONE;
+        movement = Movements.NONE;
+        scoreText.delete();
+        scoreSystem.resetScore();
+        startSnakeGame();
+
+    }
+    private void deleteOrbs(){
+        if(goodOrb.active()){
+            goodOrb.delete();
+        }
+        if(badOrb.active()){
+            badOrb.delete();
+        }
+        if(bonusOrb.active()){
+            bonusOrb.delete();
+        }
     }
 
     public void setSnake (Snake snake){

@@ -36,19 +36,19 @@ public class MyGameKeyboard implements KeyboardHandler {
     public void keyPressed(KeyboardEvent keyboardEvent) {
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_D || keyboardEvent.getKey() == KeyboardEvent.KEY_RIGHT)  {
             System.out.println("move right");
-            game.keyboardInput(Movements.RIGHT); //this is asynchronous at the moment
+            game.gameKeyboardInput(Movements.RIGHT); //this is asynchronous at the moment
         }
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_A||keyboardEvent.getKey() == KeyboardEvent.KEY_LEFT)  {
             System.out.println("move left");
-            game.keyboardInput(Movements.LEFT); //this is asynchronous at the moment
+            game.gameKeyboardInput(Movements.LEFT); //this is asynchronous at the moment
         }
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_W||keyboardEvent.getKey() == KeyboardEvent.KEY_UP)  {
             System.out.println("move up");
-            game.keyboardInput(Movements.UP); //this is asynchronous at the moment
+            game.gameKeyboardInput(Movements.UP); //this is asynchronous at the moment
         }
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_S||keyboardEvent.getKey() == KeyboardEvent.KEY_DOWN)  {
             System.out.println("move down");
-            game.keyboardInput(Movements.DOWN); //this is asynchronous at the moment
+            game.gameKeyboardInput(Movements.DOWN); //this is asynchronous at the moment
         }
     }
 

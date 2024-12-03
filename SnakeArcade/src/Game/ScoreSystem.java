@@ -7,8 +7,8 @@ public class ScoreSystem {
     private int score;
     private int goodOrbsEaten;
     private int badOrbsEaten;
-    private int[] highScore = new int[4];
-    private String[] stats = new String[4];
+    private int[] highScore = new int[5];
+    private String[] stats = new String[5];
 
     public ScoreSystem() {
         score = 0;
@@ -28,8 +28,10 @@ public class ScoreSystem {
         this.badOrbsEaten += amount;
     }
 
-    public int resetScore() {
-        return score = 0;
+    public void resetScore() {
+        score = 0;
+        goodOrbsEaten = 0;
+        badOrbsEaten = 0;
     }
 
     @Override
@@ -56,13 +58,16 @@ public class ScoreSystem {
         }
     }
 
-    public String printHighScoreList() {
+    public String printHighScoreList(int i) {
         StringBuilder output = new StringBuilder();
-        for(int i = 0; i < highScore.length ; i++) {
+       // for(int i = 0; i < highScore.length ; i++) {
             if(highScore[i] != -1) {
-                output.append(i + 1).append(": Score:").append(highScore[i]).append(" | ").append(stats[i]).append("\n");
+                output.append("Score: ").append(highScore[i]).append(" | ").append(stats[i]).append("\n");
             }
-        }
+            else{
+                output.append(" ");
+            }
+        //}
         return output.toString();
     }
 }
