@@ -75,12 +75,8 @@ public class Game {
 
 
     private void startNormalDifficulty() throws InterruptedException {
-//        goodOrb.randomSpawn();
-//        badOrb.randomSpawn();
-//        bonusOrb.randomSpawn();
 
         while (true) {  //infinite loop
-
             speedStepsCalc();
             drawScore();
 
@@ -88,16 +84,14 @@ public class Game {
                 snake.moveSnake(movement);
                 currentMovement = movement;
                 movement = Movements.NONE;
-                if(CollisionCheck()) {
-                    endScreen();
-                    break;}
             } else {
                 snake.moveSnake();
                 movement = Movements.NONE;
-                if(CollisionCheck()) {
-                    endScreen();
-                    break;}
             }
+
+            if(CollisionCheck()) {
+                endScreen();
+                break;}
 
             orbCheck(goodOrb);
             orbCheck(badOrb);
@@ -105,7 +99,6 @@ public class Game {
 
             cycleCount++;
             Thread.sleep(speed);
-
 
         }
 
@@ -165,7 +158,7 @@ public class Game {
                 orb.delete();
             }
             badOrbCycleDuration--;
-            System.out.println(badOrbCycleDuration);
+            //System.out.println(badOrbCycleDuration);
         }
 
         if(orb.getX() == snake.getHeadX() && orb.getY() == snake.getHeadY() && orb.active()){
@@ -190,21 +183,8 @@ public class Game {
 
 
     public void keyboardInput (Movements movement){
-        //this method will handle keyboard inputs
-        switch (movement) {
-            case UP:
-                this.movement = Movements.UP;
-                break;
-            case DOWN:
-                this.movement = Movements.DOWN;
-                break;
-            case LEFT:
-                this.movement = Movements.LEFT;
-                break;
-            case RIGHT:
-                this.movement = Movements.RIGHT;
-                break;
-        }
+        //this method recieves the keyboard input to make it synchronous with the game
+        this.movement = movement;
     }
 
     private void startingScreen() throws InterruptedException{
