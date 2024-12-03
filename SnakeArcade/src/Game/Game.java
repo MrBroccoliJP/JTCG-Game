@@ -9,6 +9,7 @@ import Orbs.SnakeOrbs;
 import Snake.Snake;
 import com.codeforall.online.simplegraphics.graphics.Canvas;
 import com.codeforall.online.simplegraphics.graphics.Color;
+import com.codeforall.online.simplegraphics.graphics.Rectangle;
 import com.codeforall.online.simplegraphics.graphics.Text;
 import com.codeforall.online.simplegraphics.keyboard.Keyboard;
 import com.codeforall.online.simplegraphics.pictures.Picture;
@@ -166,6 +167,12 @@ public class Game {
             snake.setBlockBuffer(orb.getBuffer());
             scoreSystem.addScore(orb.getScore());
             System.out.println("SNAKE ATE THE AN ORB :" + orb.getScore());
+            if(orb instanceof GoodOrb){
+                scoreSystem.addGoodOrbsEaten(1);
+            }
+            else if(orb instanceof BadOrb){
+                scoreSystem.addBadOrbsEaten(1);
+            }
         }
 
     }
@@ -200,14 +207,20 @@ public class Game {
     }
 
     private void endScreen(){
-        Canvas.setMaxX(grid.getCellSize()* grid.getCols());
-        Canvas.setMaxY(grid.getCellSize()* grid.getRows());
-        Text text = new Text(((double) grid.columnToX(grid.getCols()) /2), 0, "GAME OVER");
-        text.translate((double) -text.getWidth() ,0);
-        text.setColor(Color.RED);
-        text.grow(300,70);
-        text.translate(0,grid.getRows()+((double) text.getHeight() /2));
-        text.draw();
+
+        scoreSystem.saveHighScore();
+        System.out.println(scoreSystem.printHighScoreList());
+
+        Text end = new Text(((double) grid.columnToX(grid.getCols()) /2), 0, "GAME OVER");
+        end.translate((double) -end.getWidth() ,0);
+        end.setColor(Color.RED);
+        end.grow(300,70);
+        end.translate(0,grid.getRows()+((double) end.getHeight() /2));
+        end.draw();
+
+        Text stats = new Text(end.getX(), end.getY()+end.getHeight(), "Stats" + "/n" + scoreSystem.printHighScoreList());
+        stats.draw();
+
     }
 
     public void setSnake (Snake snake){
