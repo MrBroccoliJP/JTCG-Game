@@ -68,6 +68,7 @@ public class BonusOrb implements SnakeOrbs {
     @Override
     public void delete(){
         this.active = false;
+        //rectangle.translate(-grid.getCols(),-grid.getRows());
         rectangle.delete();
         picture.delete();
     }

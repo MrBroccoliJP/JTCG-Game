@@ -27,8 +27,11 @@ public class Game {
     private Text title;
     private GoodOrb goodOrb;
     private BadOrb badOrb;
-    private BonusOrb bonusOrb;
+    private int badOrbCycleDuration = 0;
 
+    private BonusOrb bonusOrb;
+    private int bonusOrbCycleNextAppearance = 0;
+    private int bonusOrbCycleDuration = 0;
 
     private int cycleCount;
     private final ScoreSystem scoreSystem;
@@ -54,14 +57,15 @@ public class Game {
         snake = new Snake(grid.columnToX(25), grid.rowToY(15));
         setSnake(snake);
 
-        Text title = new Text(Grid.PADDING ,grid.rowToY(grid.getRows())-Grid.PADDING,"SnakeArcade");
+        Text title = new Text(Grid.PADDING ,grid.rowToY(grid.getRows())-10,"SnakeArcade");
         title.grow(20,15);
         title.translate(title.getX()+(Grid.PADDING-title.getX()),5);
         title.setColor(Color.BLACK);
         title.draw();
 
-        this.scoreText.translate(grid.getCols()*grid.getCellSize()-(5*grid.getCellSize()),grid.rowToY(grid.getRows())-Grid.PADDING);
-        this.scoreText.grow(20,20);
+        this.scoreText.grow(20,15);
+        this.scoreText.translate(grid.getCols()*grid.getCellSize()-(5*grid.getCellSize()),grid.rowToY(grid.getRows())-7);
+
         drawScore();
         goodOrb = new GoodOrb(grid);
         badOrb = new BadOrb(grid);
@@ -71,40 +75,14 @@ public class Game {
 
 
     private void startNormalDifficulty() throws InterruptedException {
-        int bonusCycleNextAppearance = 0;
-        int bonusCycleDuration = 0;
+//        goodOrb.randomSpawn();
+//        badOrb.randomSpawn();
+//        bonusOrb.randomSpawn();
+
         while (true) {  //infinite loop
 
             speedStepsCalc();
-            Thread.sleep(speed); //speed of the game
-
             drawScore();
-
-            if(!goodOrb.active()){
-                goodOrb.randomSpawn();
-            }
-            if(!badOrb.active()){
-                badOrb.randomSpawn();
-            }
-
-            if(!bonusOrb.active()){
-                if(bonusCycleNextAppearance == cycleCount) {
-                    bonusCycleDuration = 50 + (int) (Math.random() * 29) + 1;
-                    bonusOrb.randomSpawn();
-                    bonusCycleNextAppearance=-1;
-                }
-                else if(bonusCycleNextAppearance == -1){
-                    bonusCycleNextAppearance = cycleCount + 15 + (int)(Math.random()*29)+1;
-                }
-            }
-            if(bonusOrb.active()){
-                if(bonusCycleDuration == 0){
-                    bonusOrb.delete();
-                }
-                bonusCycleDuration--;
-            }
-
-
 
             if (movement != Movements.NONE && movement != currentMovement.getOpposite()) {
                 snake.moveSnake(movement);
@@ -120,11 +98,15 @@ public class Game {
                     endScreen();
                     break;}
             }
+
             orbCheck(goodOrb);
             orbCheck(badOrb);
             orbCheck(bonusOrb);
 
             cycleCount++;
+            Thread.sleep(speed);
+
+
         }
 
     }
@@ -154,12 +136,45 @@ public class Game {
     }
 
     public void orbCheck(SnakeOrbs orb){   //this is to check if the head of the snake "ate" the orb
-        if(orb.getX() == snake.getHeadX() && orb.getY() == snake.getHeadY()){
+        if(orb instanceof GoodOrb && !orb.active()){
+            orb.randomSpawn();
+        }
+        if(orb instanceof BonusOrb && !orb.active()){
+            if(bonusOrbCycleNextAppearance == cycleCount) {
+                bonusOrbCycleDuration = 50 + (int) (Math.random() * 29) + 1;
+                orb.randomSpawn();
+                bonusOrbCycleNextAppearance =-1;
+            }
+            else if(bonusOrbCycleNextAppearance == -1){
+                bonusOrbCycleNextAppearance = cycleCount + 15 + (int)(Math.random()*29)+1;
+            }
+        } else if(orb instanceof BonusOrb && orb.active()){
+            if(bonusOrbCycleDuration == 0){
+                orb.delete();
+                bonusOrbCycleNextAppearance =-1;
+            }
+            bonusOrbCycleDuration--;
+
+        }
+
+        if(orb instanceof BadOrb && !orb.active()){
+                badOrbCycleDuration = 30 + (int) (Math.random() * 29) + 1;
+                orb.randomSpawn();
+        } else if(orb instanceof BadOrb && orb.active()){
+            if(badOrbCycleDuration == 0){
+                orb.delete();
+            }
+            badOrbCycleDuration--;
+            System.out.println(badOrbCycleDuration);
+        }
+
+        if(orb.getX() == snake.getHeadX() && orb.getY() == snake.getHeadY() && orb.active()){
             orb.delete();
             snake.setBlockBuffer(orb.getBuffer());
             scoreSystem.addScore(orb.getScore());
-            System.out.println("SNAKE ATE THE A ORB :" + orb.getScore());
+            System.out.println("SNAKE ATE THE AN ORB :" + orb.getScore());
         }
+
     }
 
     public boolean boundsCollisionCheck() {
@@ -215,14 +230,8 @@ public class Game {
         text.draw();
     }
 
-
     public void setSnake (Snake snake){
                 this.snake = snake;
     }
-
-    private int getSpeed(){
-        return speed;
-    }
-
 
 }
