@@ -26,7 +26,8 @@ public class GoodOrb implements SnakeOrbs {
         int randomRow = (int) (Math.random() * (grid.getRows()-1));
         this.active = true;
         rectangle = new Rectangle(grid.columnToX(randomCol)+1, grid.rowToY(randomRow)+1, grid.getCellSize()-2, grid.getCellSize()-2);
-        picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"resources/IntelliJ_18_18.png");
+        //picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"resources/IntelliJ_18_18.png");
+        picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"IntelliJ_18_18.png"); //THIS IS ONLY FOR THE ANT BUILD
         //rectangle.setColor(Color.WHITE);
         //rectangle.draw();
         picture.draw();

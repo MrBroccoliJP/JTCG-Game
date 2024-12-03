@@ -1,4 +1,3 @@
-//import com.codeforall.online.simplegraphics.*;
 
 import Game.Game;
 
