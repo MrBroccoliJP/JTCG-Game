@@ -308,6 +308,7 @@ public class Game {
         end.draw();
 
 
+
         Text stats = new Text(end.getX(), end.getY()+end.getHeight(), "Stats: ");
         Text stats1 = new Text(end.getX(), stats.getY()+stats.getHeight(),  "High Score:" +  scoreSystem.printHighScoreList(0));
         Text stats2 = new Text(end.getX(), stats1.getY()+stats1.getHeight(),  "                " + scoreSystem.printHighScoreList(1));

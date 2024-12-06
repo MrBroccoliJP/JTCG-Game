@@ -8,12 +8,18 @@ import com.codeforall.online.simplegraphics.graphics.Rectangle;
 import java.util.LinkedList;
 
 public class Snake {
-    private LinkedList<SnakeBlocks> snakeBlocksList;
-    private final int block_size = Game.CELLSIZE;
-    private int blockBuffer = 0;
+    private LinkedList<SnakeBlocks> snakeBlocksList; //snake body
+    private final int block_size = Game.CELLSIZE;  //sets the size of the blocks that make up the snake
+    private int blockBuffer = 0;  //manages snake growth or shrinkage
     private Movements lastMove = Movements.NONE;
 
-
+    /**
+     * Constructor creates snake at specified starting coordinates
+     * Initializes with 3 initial blocks
+     *
+     * @param x Starting x-coordinate
+     * @param y Starting y-coordinate
+     */
     public Snake(int x, int y) {  //x, y starting location
         snakeBlocksList = new LinkedList<>();
         //starts with 3 blocks
@@ -24,6 +30,11 @@ public class Snake {
         }
     }
 
+    /**
+     * Move snake in a specified direction
+     *
+     * @param movement Desired movement direction
+     */
     public void moveSnake(Movements movement) {
             lastMove = movement;
             switch(movement){
@@ -45,6 +56,10 @@ public class Snake {
             }
         //}
     }
+
+    /**
+     * Move snake in the last known direction
+     */
     public void moveSnake() {
         switch(lastMove){
             case UP:
@@ -66,7 +81,9 @@ public class Snake {
     }
 
 
-
+    /**
+     * Moves the snake UP
+     */
     private void moveUP() {
         int previousX, previousY; // To store the previous position of the current block
 
@@ -86,6 +103,9 @@ public class Snake {
         moveBody(previousX, previousY);
     }
 
+    /**
+     * Moves the snake Down
+     */
     private void moveDOWN() {
         int previousX, previousY; // To store the previous position of the current block
 
@@ -105,6 +125,9 @@ public class Snake {
         moveBody(previousX, previousY);
     }
 
+    /**
+     * Moves the snake Left
+     */
     private void moveLEFT() {
         int previousX, previousY; // To store the previous position of the current block
 
@@ -123,6 +146,10 @@ public class Snake {
 
         moveBody(previousX, previousY);
     }
+
+    /**
+     * Moves the snake Right
+     */
     private void moveRIGHT() {
         int previousX, previousY; // To store the previous position of the current block
 
@@ -143,6 +170,12 @@ public class Snake {
     }
 
 
+    /**
+     * Manages snake body movement graphically and growth/shrinkage
+     *
+     * @param previousX Previous x-coordinate of preceding block [head]
+     * @param previousY Previous y-coordinate of preceding block [head]
+     */
     private void moveBody(int previousX, int previousY){
         int newPreviousX, newPreviousY; // To store the new position to pass to the next block
 
@@ -184,6 +217,12 @@ public class Snake {
 
     }
 
+    /**
+     * Adjusts snake length via block buffer
+     * Prevents snake from shrinking below 3 blocks
+     *
+     * @param addition Number of blocks to add or remove
+     */
     public void setBlockBuffer(int addition) {
         if(snakeBlocksList.size() > 3){
             this.blockBuffer+=addition;
@@ -199,6 +238,11 @@ public class Snake {
 
     }
 
+    /**
+     * Checks if snake has collided with itself
+     *
+     * @return True if self-collision occurs, false otherwise
+     */
     public boolean selfCollisionCheck() {
         SnakeBlocks head = snakeBlocksList.getFirst();
         for (int i = 1; i < snakeBlocksList.size(); i++) {
@@ -225,14 +269,23 @@ public class Snake {
         return false;
     }
 
+    /**
+     * @return X-coordinate of snake's head
+     */
     public int getHeadX(){
         return snakeBlocksList.getFirst().getRectangle().getX();
     }
 
+    /**
+     * @return Y-coordinate of snake's head
+     */
     public int getHeadY(){
         return snakeBlocksList.getFirst().getRectangle().getY();
     }
 
+    /**
+     * Deletes all snake blocks from game
+     */
     public void delete(){
         for(SnakeBlocks block : snakeBlocksList) {
             block.getRectangle().delete();
