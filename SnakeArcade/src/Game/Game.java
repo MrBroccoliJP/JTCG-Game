@@ -22,44 +22,68 @@ public class Game {
     private final Grid grid;
     private final ScoreSystem scoreSystem;
 
-
-    Keyboard keyboard;
-    Picture logo;
+    //game speed and movement control
     private int baseSpeed = 200;
     private int speed = 200;
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
 
+    //UI elements
+    Picture logo;
     private Text scoreText;
-    private Text title;
+
+    //Orb Objects
     private GoodOrb goodOrb;
     private BadOrb badOrb;
-    private int badOrbCycleDuration = 0;
-
     private BonusOrb bonusOrb;
+
+    //orb cycle variables
+    private int badOrbCycleDuration = 0;
     private int bonusOrbCycleNextAppearance = 0;
     private int bonusOrbCycleDuration = 0;
 
+    //game cycle tracking
     private int cycleCount;
 
     //private LinkedList<SnakeOrbs> snakeOrbsLinkedList;   FOR A LATER ADDITION SAVE THE AMMOUNT OF ORBS ON A LINKED LIST AND HAVE MORE THAN ONE GOOD ORB AT A TIME, AND MAKE THEM DISAPPEAR WITH TIME
+
+    //game constant
     public static int CELLSIZE = 20;
 
+    //menu interaction todo: change this to maybe join the two keyboards??
     private boolean menuButtonPressed = false;
 
+    /**
+     * Constructor initializes game grid and score system
+     * Starts the initial game screen
+     */
     public Game() throws InterruptedException {
-        //this only serves to initialize objects
+
+        //initializes the grid, 50 cols, 30 rows and cell the size of CELLSIZE
         grid = new Grid(50, 30, CELLSIZE);
 
-        this.scoreText = new Text(0,0," ");
-        this.title = new Text(0,0," ");
+        //this.scoreText = new Text(0,0," ");
+        //this.title = new Text(0,0," ");
+
+        //starts the score tracking system,
+        //this score tracking system remains constant thru the whole game.
         scoreSystem = new ScoreSystem();
 
+        //displays the initial starting screen
         startingScreen();
     }
 
+
+    /**
+     * Initializes the main snake game
+     * Sets up game grid, snake, keyboard, and initial game elements
+     */
     private void startSnakeGame() throws InterruptedException {
+
+        //starts the game grid
         grid.init();
+
+
         snake = new Snake(grid.columnToX(25), grid.rowToY(15));
         setSnake(snake);
 
@@ -88,6 +112,10 @@ public class Game {
     }
 
 
+    /**
+     * Main game loop for normal difficulty
+     * Handles snake movement, orb interactions, and game progression
+     */
     private void startNormalDifficulty() throws InterruptedException {
 
         while (true) {  //infinite loop
@@ -117,7 +145,10 @@ public class Game {
         }
 
     }
-
+    /**
+     * Calculates game speed based on current score
+     * Increases difficulty as score progresses
+     */
     private void speedStepsCalc(){
         int score = scoreSystem.getScore();
 
@@ -132,17 +163,42 @@ public class Game {
         }
     }
 
+
+    /**
+     * Draws current score on screen
+     */
     private void drawScore(){
         this.scoreText.setText("Score: " + scoreSystem.getScore());
         this.scoreText.setColor(Color.GREEN);
         this.scoreText.draw();
     }
 
+    /**
+     * Checks if snake has had any collision
+     * Itself or with the map borders
+     */
     public boolean CollisionCheck() {
         return boundsCollisionCheck() || snake.selfCollisionCheck();
     }
 
-    public void orbCheck(SnakeOrbs orb){   //this is to check if the head of the snake "ate" the orb
+    /**
+     * Checks if snake has hit game boundaries
+     */
+    public boolean boundsCollisionCheck() {
+
+        int leftBound = Grid.PADDING;
+        int topBound = Grid.PADDING;
+        int rightBound = (grid.getCols() * grid.getCellSize()) - Grid.PADDING+1;
+        int bottomBound = (grid.getRows() * grid.getCellSize()) - Grid.PADDING+1;
+
+        return snake.getHeadX() < leftBound || snake.getHeadY() < topBound ||
+                snake.getHeadX() > rightBound || snake.getHeadY() > bottomBound;
+    }
+
+    /**
+     * Manages orb spawning, duration, and interactions
+     */
+     public void orbCheck(SnakeOrbs orb){   //this is to check if the head of the snake "ate" the orb
         if(orb instanceof GoodOrb && !orb.active()){
             orb.randomSpawn();
         }
@@ -191,22 +247,19 @@ public class Game {
 
     }
 
-    public boolean boundsCollisionCheck() {
-
-        int leftBound = Grid.PADDING;
-        int topBound = Grid.PADDING;
-        int rightBound = (grid.getCols() * grid.getCellSize()) - Grid.PADDING+1;
-        int bottomBound = (grid.getRows() * grid.getCellSize()) - Grid.PADDING+1;
-
-        return snake.getHeadX() < leftBound || snake.getHeadY() < topBound ||
-                snake.getHeadX() > rightBound || snake.getHeadY() > bottomBound;
-    }
 
 
+    /**
+     * Receives keyboard input for game movement
+     */
     public void gameKeyboardInput(Movements movement){
         //this method recieves the keyboard input to make it synchronous with the game
         this.movement = movement;
     }
+
+    /**
+     * Receives keyboard input for menu interaction
+     */
 
     public void menuKeybordInput(int key){
         if(key == KeyboardEvent.KEY_SPACE){
@@ -214,6 +267,9 @@ public class Game {
         }
     }
 
+    /**
+     * Displays initial starting screen
+     */
     private void startingScreen() throws InterruptedException{
         Canvas.setMaxX(grid.getCellSize()* grid.getCols());
         Canvas.setMaxY(grid.getCellSize()* grid.getRows());
@@ -236,6 +292,9 @@ public class Game {
         startSnakeGame();
     }
 
+    /**
+     * Displays end screen with game stats
+     */
     private void endScreen() throws InterruptedException {
         menuButtonPressed = false;
         scoreSystem.saveHighScore();
@@ -288,6 +347,10 @@ public class Game {
         startSnakeGame();
 
     }
+
+    /**
+     * Deletes active orbs from the game
+     */
     private void deleteOrbs(){
         if(goodOrb.active()){
             goodOrb.delete();
@@ -300,6 +363,9 @@ public class Game {
         }
     }
 
+    /**
+     * Sets the current snake for the game
+     */
     public void setSnake (Snake snake){
                 this.snake = snake;
     }
