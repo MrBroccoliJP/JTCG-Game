@@ -27,8 +27,8 @@ public class BadOrb implements SnakeOrbs {
         this.active = true;
         rectangle = new Rectangle(grid.columnToX(randomCol)+1, grid.rowToY(randomRow)+1, 18, 18);
         //rectangle.setColor(Color.PINK);
-        //picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"resources/BAD_ORB_18_18.png");
-        picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"BAD_ORB_18_18.png"); //**THIS IS ONLY FOR THE ANT BUILD
+        picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"resources/BAD_ORB_18_18.png");
+        //picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"BAD_ORB_18_18.png"); //**THIS IS ONLY FOR THE ANT BUILD
         picture.draw();
         //rectangle.fill();
     }

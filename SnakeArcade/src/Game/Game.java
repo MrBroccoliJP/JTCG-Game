@@ -214,8 +214,8 @@ public class Game {
         Canvas.setMaxY(grid.getCellSize()* grid.getRows());
 
         logo = new Picture();
-        //logo.load("resources/snake_arcade_logo.png");  //this logo was created with the dimensions of the screen | todo: make it scale with the screen
-        logo.load("snake_arcade_logo.png"); //ONLY FOR THE ANT BUILD
+        logo.load("resources/snake_arcade_logo.png");  //this logo was created with the dimensions of the screen | todo: make it scale with the screen
+        //logo.load("snake_arcade_logo.png"); //ONLY FOR THE ANT BUILD
 
         logo.draw();
         Text instruction = new Text(logo.getX()+50,logo.getY()+logo.getHeight()-50, "Press SPACE to start -- and press arrow keys or 'w,a,s,d' to play");
