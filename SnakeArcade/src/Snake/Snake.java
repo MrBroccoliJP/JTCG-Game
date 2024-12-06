@@ -80,7 +80,6 @@ public class Snake {
         }
     }
 
-
     /**
      * Moves the snake UP
      */

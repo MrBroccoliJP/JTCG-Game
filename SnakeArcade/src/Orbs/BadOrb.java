@@ -1,13 +1,15 @@
 package Orbs;
 
 import Game.Grid;
-import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 import com.codeforall.online.simplegraphics.pictures.Picture;
 
+/**
+ * Represents a "Bad Orb" in the game, which penalizes the player when collected.
+ * This orb decreases the score
+ */
 public class BadOrb implements SnakeOrbs {
-    private int col;
-    private int row;
+
     private int score = -100;  // score of a good orb
     private Rectangle rectangle;
     private Grid grid;
@@ -15,12 +17,20 @@ public class BadOrb implements SnakeOrbs {
     private int buffer = -1;
     private Picture picture;
 
+    /**
+     * Constructs a new {@code BadOrb} with the specified grid for positioning.
+     *
+     * @param grid the game grid to determine orb placement.
+     */
     public BadOrb(Grid grid){
         this.grid = grid;
     }
 
+    /**
+     * Spawns the bad orb at a random location on the grid.
+     * The orb is drawn as a rectangle and with a picture
+     */
     @Override
-
     public void randomSpawn() {
         int randomCol = (int) (Math.random() * (grid.getCols()-1));
         int randomRow = (int) (Math.random() * (grid.getRows()-1));
@@ -33,56 +43,67 @@ public class BadOrb implements SnakeOrbs {
         //rectangle.fill();
     }
 
-    @Override
-    public void spawn(int x, int y) {
-        this.active = true;
-        rectangle = new Rectangle(x, y, 18, 18);
-        rectangle.setColor(Color.PINK);
-        rectangle.fill();
-    }
 
+    /**
+     * Returns the score penalty associated with this orb.
+     *
+     * @return the score penalty value.
+     */
     @Override
     public int getScore() {
         return score;
     }
 
+    /**
+     * Returns the x-coordinate of the bad orb's position.
+     *
+     * @return the x-coordinate in pixels.
+     */
     @Override
     public int getX() {
         return rectangle.getX();
     }
 
+    /**
+     * Returns the y-coordinate of the bad orb's position.
+     *
+     * @return the y-coordinate in pixels.
+     */
     @Override
     public int getY() {
         return rectangle.getY();
     }
 
-    @Override
-    public int getCol() {
-        return this.col;
-    }
-
-    @Override
-    public int getRow() {
-        return this.row;
-    }
-
+    /**
+     * Deletes the bad orb from the game, making it inactive.
+     * Removes the graphical representation of the orb.
+     */
     @Override
     public void delete(){
         this.active = false;
         rectangle.delete();
         picture.delete();
     }
+
+    /**
+     * Returns the buffer value for the bad orb.
+     * This decrements the size of the snake
+     *
+     * @return the buffer value.
+     */
     @Override
     public int getBuffer(){
         return this.buffer;
     }
 
+    /**
+     * Checks if the bad orb is currently active in the game.
+     *
+     * @return {@code true} if the orb is active, {@code false} otherwise.
+     */
     @Override
     public boolean active() {
         return this.active;
     }
 
-    public void setGrid(Grid grid) {
-        this.grid = grid;
-    }
 }

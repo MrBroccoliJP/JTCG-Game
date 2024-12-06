@@ -5,9 +5,13 @@ import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 import com.codeforall.online.simplegraphics.pictures.Picture;
 
+/**
+ * Represents a "Bonus Points Orb"  in the game,
+ * gives double points (compared with Good Orb) to the player when collected.
+ * This orb increases the score
+ */
 public class BonusOrb implements SnakeOrbs {
-    private int col;
-    private int row;
+
     private int score = 200;  // score of a good orb
     private Rectangle rectangle;
     private Grid grid;
@@ -15,11 +19,19 @@ public class BonusOrb implements SnakeOrbs {
     private int buffer = +2;
     private Picture picture;
 
-
+    /**
+     * Constructs a new {@code BonusOrb} with the specified grid for positioning.
+     *
+     * @param grid the game grid to determine orb placement.
+     */
     public BonusOrb(Grid grid){
         this.grid = grid;
     }
 
+    /**
+     * Spawns the Bonus orb at a random location on the grid.
+     * The orb is drawn as a rectangle and with a picture
+     */
     @Override
     public void randomSpawn() {
         int randomCol = (int) (Math.random() * (grid.getCols()-1));
@@ -33,39 +45,40 @@ public class BonusOrb implements SnakeOrbs {
         picture.draw();
     }
 
-    @Override
-    public void spawn(int x, int y) {
-        this.active = true;
-        rectangle = new Rectangle(x, y, 18, 18);
-        rectangle.setColor(Color.PINK);
-        rectangle.fill();
-    }
-
+    /**
+     * Returns the score points associated with this orb.
+     *
+     * @return the score points value.
+     */
     @Override
     public int getScore() {
         return score;
     }
 
+    /**
+     * Returns the x-coordinate of the bonus orb's position.
+     *
+     * @return the x-coordinate in pixels.
+     */
     @Override
     public int getX() {
         return rectangle.getX();
     }
 
+    /**
+     * Returns the y-coordinate of the bonus orb's position.
+     *
+     * @return the y-coordinate in pixels.
+     */
     @Override
     public int getY() {
         return rectangle.getY();
     }
 
-    @Override
-    public int getCol() {
-        return this.col;
-    }
-
-    @Override
-    public int getRow() {
-        return this.row;
-    }
-
+    /**
+     * Deletes the bonus orb from the game, making it inactive.
+     * Removes the graphical representation of the orb.
+     */
     @Override
     public void delete(){
         this.active = false;
@@ -73,17 +86,27 @@ public class BonusOrb implements SnakeOrbs {
         rectangle.delete();
         picture.delete();
     }
+
+    /**
+     * Returns the buffer value for the bonus orb.
+     * This increments the size of the snake (+2)
+     *
+     * @return the buffer value.
+     */
     @Override
     public int getBuffer(){
         return this.buffer;
     }
 
+    /**
+     * Checks if the bonus orb is currently active in the game.
+     *
+     * @return {@code true} if the orb is active, {@code false} otherwise.
+     */
     @Override
     public boolean active() {
         return this.active;
     }
 
-    public void setGrid(Grid grid) {
-        this.grid = grid;
-    }
+
 }
