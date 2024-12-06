@@ -23,7 +23,7 @@ public class MyGameKeyboard implements KeyboardHandler {
     public void init(Game game){
         this.game = game;
         keyboard = new Keyboard(this);
-
+        addKey(KeyboardEvent.KEY_SPACE);
         addKey(KeyboardEvent.KEY_RIGHT);
         addKey(KeyboardEvent.KEY_LEFT);
         addKey(KeyboardEvent.KEY_UP);
@@ -68,6 +68,9 @@ public class MyGameKeyboard implements KeyboardHandler {
         if(keyboardEvent.getKey() == KeyboardEvent.KEY_S||keyboardEvent.getKey() == KeyboardEvent.KEY_DOWN)  {
             System.out.println("move down");
             game.gameKeyboardInput(Movements.DOWN);
+        }
+        if(keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE){
+            game.menuKeybordInput();
         }
     }
 

@@ -2,7 +2,6 @@ package Game;
 
 import Input.Movements;
 import Input.MyGameKeyboard;
-import Input.MyMenuKeyboard;
 import Orbs.BadOrb;
 import Orbs.BonusOrb;
 import Orbs.GoodOrb;
@@ -87,11 +86,8 @@ public class Game {
         snake = new Snake(grid.columnToX(25), grid.rowToY(15));
         setSnake(snake);
 
-        //START KEYBOARD
-        MyGameKeyboard mygameKeyboard = new MyGameKeyboard();
-        //keyboard = new Keyboard(mygameKeyboard);
+
         movement = Movements.NONE;
-        mygameKeyboard.init(this);
 
 
         Text title = new Text(Grid.PADDING ,grid.rowToY(grid.getRows())-10,"SnakeArcade");
@@ -260,11 +256,8 @@ public class Game {
     /**
      * Receives keyboard input for menu interaction
      */
-
-    public void menuKeybordInput(int key){
-        if(key == KeyboardEvent.KEY_SPACE){
-            menuButtonPressed = true;
-        }
+    public void menuKeybordInput(){
+            menuButtonPressed = true;  //spacebar pressed
     }
 
     /**
@@ -281,8 +274,10 @@ public class Game {
         logo.draw();
         Text instruction = new Text(logo.getX()+50,logo.getY()+logo.getHeight()-50, "Press SPACE to start -- and press arrow keys or 'w,a,s,d' to play");
         instruction.draw();
-        MyMenuKeyboard menuKeyboard = new MyMenuKeyboard();
-        menuKeyboard.init(this);
+
+        //START KEYBOARD
+        MyGameKeyboard mygameKeyboard = new MyGameKeyboard();
+        mygameKeyboard.init(this);
         while (!menuButtonPressed) {
             Thread.sleep(100);
         }
