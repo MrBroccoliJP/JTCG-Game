@@ -17,14 +17,19 @@ import com.codeforall.online.simplegraphics.pictures.Picture;
 
 public class Game {
 
-    Snake snake;
+    //Game core components
+    private Snake snake;
+    private final Grid grid;
+    private final ScoreSystem scoreSystem;
+
+
     Keyboard keyboard;
     Picture logo;
     private int baseSpeed = 200;
     private int speed = 200;
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
-    private final Grid grid;
+
     private Text scoreText;
     private Text title;
     private GoodOrb goodOrb;
@@ -36,7 +41,7 @@ public class Game {
     private int bonusOrbCycleDuration = 0;
 
     private int cycleCount;
-    private final ScoreSystem scoreSystem;
+
     //private LinkedList<SnakeOrbs> snakeOrbsLinkedList;   FOR A LATER ADDITION SAVE THE AMMOUNT OF ORBS ON A LINKED LIST AND HAVE MORE THAN ONE GOOD ORB AT A TIME, AND MAKE THEM DISAPPEAR WITH TIME
     public static int CELLSIZE = 20;
 
