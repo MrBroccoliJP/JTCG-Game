@@ -1,18 +1,11 @@
 package Game;
 
-import Input.Movements;
-import Input.MyGameKeyboard;
-import Orbs.BadOrb;
-import Orbs.BonusOrb;
-import Orbs.GoodOrb;
-import Orbs.SnakeOrbs;
+import Input.*;
+import Orbs.*;
 import Snake.Snake;
-import com.codeforall.online.simplegraphics.graphics.Canvas;
+import com.codeforall.online.simplegraphics.graphics.*;
 import com.codeforall.online.simplegraphics.graphics.Color;
-import com.codeforall.online.simplegraphics.graphics.Text;
-import com.codeforall.online.simplegraphics.keyboard.Keyboard;
-import com.codeforall.online.simplegraphics.keyboard.KeyboardEvent;
-import com.codeforall.online.simplegraphics.pictures.Picture;
+import com.codeforall.online.simplegraphics.pictures.*;
 
 public class Game {
 
@@ -49,7 +42,7 @@ public class Game {
     //game constant
     public static int CELLSIZE = 20;
 
-    //menu interaction todo: change this to maybe join the two keyboards??
+    //menu interaction
     private boolean menuButtonPressed = false;
 
     /**
@@ -268,7 +261,7 @@ public class Game {
         Canvas.setMaxY(grid.getCellSize()* grid.getRows());
 
         logo = new Picture();
-        logo.load("resources/snake_arcade_logo.png");  //this logo was created with the dimensions of the screen | todo: make it scale with the screen
+        logo.load("snake_arcade_logo.png");  //this logo was created with the dimensions of the screen | todo: make it scale with the screen
         //logo.load("snake_arcade_logo.png"); //ONLY FOR THE ANT BUILD
 
         logo.draw();
