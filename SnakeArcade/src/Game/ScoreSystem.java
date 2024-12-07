@@ -1,5 +1,8 @@
 package Game;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class ScoreSystem {
@@ -57,6 +60,37 @@ public class ScoreSystem {
             }
         }
     }
+
+    public void saveScoreToFile(){
+        createScoreFile();
+        try {
+            FileWriter scoreFileWriter = new FileWriter("scores.txt");
+            for (int i = 0; i < highScore.length; i++) {
+                scoreFileWriter.write(printHighScoreList(i));
+            }
+
+            scoreFileWriter.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void createScoreFile(){
+        try {
+            File scoreFile = new File("scores.txt");
+            if(!scoreFile.exists()){
+                scoreFile.createNewFile();
+            }
+
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
 
     public String printHighScoreList(int i) {
         StringBuilder output = new StringBuilder();
