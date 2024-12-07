@@ -3,6 +3,7 @@ package Snake;
 import Game.Game;
 import Game.Grid;
 import Input.Movements;
+import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 
 import java.util.LinkedList;
@@ -12,6 +13,8 @@ public class Snake {
     private final int block_size = Game.CELLSIZE;  //sets the size of the blocks that make up the snake
     private int blockBuffer = 0;  //manages snake growth or shrinkage
     private Movements lastMove = Movements.NONE;
+    private Color snakeColor = new Color(0,255,0);
+
 
     /**
      * Constructor creates snake at specified starting coordinates
@@ -22,11 +25,13 @@ public class Snake {
      */
     public Snake(int x, int y) {  //x, y starting location
         snakeBlocksList = new LinkedList<>();
+        snakeColor = new Color(0,255,0); //ensure it starts at the right color
         //starts with 3 blocks
         for (int i = 0; i < 3; i++) {
-            SnakeBlocks block = new SnakeBlocks(x - (i * block_size), y);
+            SnakeBlocks block = new SnakeBlocks(x - (i * block_size), y ,snakeColor);
             snakeBlocksList.add(block);
             block.getRectangle().fill();
+            snakeColor = new Color(0,255-i*2,0);
         }
     }
 
@@ -177,7 +182,7 @@ public class Snake {
      */
     private void moveBody(int previousX, int previousY){
         int newPreviousX, newPreviousY; // To store the new position to pass to the next block
-
+        Color previousBlockColor = Color.PINK; //Just in case.
         // Move the rest of the snake blocks
         for (int i = 1; i < snakeBlocksList.size(); i++) {
             SnakeBlocks block = snakeBlocksList.get(i);
@@ -203,12 +208,14 @@ public class Snake {
                 // Update previous position for the next iteration
                 previousX = newPreviousX;
                 previousY = newPreviousY;
+                previousBlockColor = block.getColor();
+
             }
 
         }
 
         if(blockBuffer > 0){
-            SnakeBlocks block = new SnakeBlocks(previousX,previousY);
+            SnakeBlocks block = new SnakeBlocks(previousX,previousY,new Color(previousBlockColor.getRed(),previousBlockColor.getGreen()-2,previousBlockColor.getBlue()));
             snakeBlocksList.add(block);
             block.getRectangle().fill();
             blockBuffer--;

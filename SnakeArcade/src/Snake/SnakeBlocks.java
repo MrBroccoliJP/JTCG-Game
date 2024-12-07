@@ -11,13 +11,14 @@ public class SnakeBlocks {
     private Rectangle rectangle;
     private Color color;
 
-    public SnakeBlocks(int x, int y){
+    public SnakeBlocks(int x, int y, Color color) {
         this.x = x;
         this.y = y;
-        color = Color.GREEN;
+        //color = Color.GREEN;
         rectangle = new Rectangle(x+1,y+1,width,height);
         rectangle.setColor(color);
-        //rectangle.fill(); // Fill the rectangle
+        this.color = color;
+
     }
 
     public int getX(){
@@ -31,6 +32,9 @@ public class SnakeBlocks {
     }
     public void setY(int y){
         this.y = y;
+    }
+    public Color getColor(){
+        return this.color;
     }
 
 
