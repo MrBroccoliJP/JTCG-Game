@@ -130,9 +130,7 @@ public class Game {
 
             cycleCount++;
             Thread.sleep(speed);
-
         }
-
     }
     /**
      * Calculates game speed based on current score
@@ -295,7 +293,6 @@ public class Game {
         end.translate(0,grid.getRows()+((double) end.getHeight() /2));
         end.draw();
 
-        scoreSystem.saveScoreToFile();
 
         Text stats = new Text(end.getX(), end.getY()+end.getHeight(), "Stats: ");
         Text stats1 = new Text(end.getX(), stats.getY()+stats.getHeight(),  "High Score:" +  scoreSystem.printHighScoreList(0));
