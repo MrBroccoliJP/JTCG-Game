@@ -11,6 +11,9 @@ import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEvent;
 import com.codeforall.online.simplegraphics.pictures.*;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Game {
 
     //Game core components
@@ -31,6 +34,9 @@ public class Game {
     private boolean menuButtonPressed = false;
     private boolean menuUpPressed = false;
     private boolean menuDownPressed = false;
+    private boolean menuLeftPressed = false;
+    private boolean menuRightPressed = false;
+    private Queue<Integer> keyQueue = new LinkedList<>();
 
     /**
      * Constructor initializes game grid and score system
@@ -102,6 +108,7 @@ public class Game {
     }
 
     private void handleMenuButtonSelection(){
+
         if(menuUpPressed) {
             switch (gameTypeSelection) {
                 case 0:
@@ -155,6 +162,13 @@ public class Game {
         if(keyCode == KeyboardEvent.KEY_DOWN){
             menuDownPressed = true;
         }
+        if(keyCode == KeyboardEvent.KEY_LEFT){
+            menuLeftPressed = true;
+        }
+        if(keyCode == KeyboardEvent.KEY_RIGHT){
+            menuRightPressed = true;
+        }
+        keyQueue.add(keyCode);
     }
 
 

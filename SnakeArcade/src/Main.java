@@ -7,6 +7,6 @@ public class Main {
         //Controlado pelas setas do teclado
         //O jogo começa quando o user clica no espaço
         new Game();
-
     }
+
 }
