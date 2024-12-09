@@ -1,8 +1,6 @@
 package Game;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 
 public class ScoreSystem {
@@ -66,7 +64,7 @@ public class ScoreSystem {
         try {
             FileWriter scoreFileWriter = new FileWriter("scores.txt");
             for (int i = 0; i < highScore.length; i++) {
-                scoreFileWriter.write(printHighScoreList(i));
+                scoreFileWriter.write("N " + printHighScoreList(i));
             }
 
             scoreFileWriter.close();
@@ -90,8 +88,6 @@ public class ScoreSystem {
         }
     }
 
-
-
     public String printHighScoreList(int i) {
         StringBuilder output = new StringBuilder();
        // for(int i = 0; i < highScore.length ; i++) {
@@ -104,4 +100,20 @@ public class ScoreSystem {
         //}
         return output.toString();
     }
+
+//    public void readScoreFile(){
+//        String tmp;
+//        try {
+//            FileReader scoreFileReader = new FileReader("scores.txt");
+//            tmp = scoreFileReader.read();
+//            while(tmp != null){
+//
+//            }
+//        }
+//        catch(FileNotFoundException e){
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }
