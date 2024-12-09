@@ -4,12 +4,12 @@ import Game.Grid;
 import Game.Screen;
 import Input.Movements;
 import Orbs.*;
-import Snake.Snake;
 import ScoreSystem.ScoreSystem;
+import Snake.Snake;
 
 import java.util.LinkedList;
 
-public class NormalDifficulty implements GameType {
+public class MediumDifficulty implements GameType{
     private Snake snake;
     private final Grid grid;
     private final ScoreSystem scoreSystem;
@@ -17,23 +17,19 @@ public class NormalDifficulty implements GameType {
     private OrbManager orbManager;
     private Screen screen;
     //game speed and movement control
-    private int baseSpeed = 200;
-    private int speed = 200;
+    private int baseSpeed = 400;
+    private int speed = 400;
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
 
     //Orb Objects
     private LinkedList<SnakeOrbs> activeOrbs = new LinkedList<>();
     private GoodOrb goodOrb;
-    private GoodOrb goodOrb2;
-    private GoodOrb goodOrb3;
     private BadOrb badOrb;
     private BonusOrb bonusOrb;
-    private BonusOrb bonusOrb2;
-    private BonusOrb bonusOrb3;
 
 
-    public NormalDifficulty(Grid grid, Screen screen, ScoreSystem scoreSystem) {
+    public MediumDifficulty(Grid grid, Screen screen, ScoreSystem scoreSystem) {
 
         this.grid = grid;
         this.snake = new Snake(grid.columnToX(25), grid.rowToY(15));
@@ -41,19 +37,11 @@ public class NormalDifficulty implements GameType {
         this.scoreSystem = scoreSystem;
         orbManager = new OrbManager(snake, scoreSystem);
         goodOrb = new GoodOrb(grid);
-        goodOrb2 = new GoodOrb(grid);
-        goodOrb3 = new GoodOrb(grid);
         badOrb = new BadOrb(grid);
         bonusOrb = new BonusOrb(grid);
-        bonusOrb2 = new BonusOrb(grid);
-        bonusOrb3 = new BonusOrb(grid);
         activeOrbs.add(goodOrb);
-        activeOrbs.add(goodOrb2);
-        activeOrbs.add(goodOrb3);
         activeOrbs.add(badOrb);
         activeOrbs.add(bonusOrb);
-        activeOrbs.add(bonusOrb2);
-        activeOrbs.add(bonusOrb3);
     }
 
     public void start(){

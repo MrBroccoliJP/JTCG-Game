@@ -1,6 +1,8 @@
 package Game;
 
 import Game.Types.GameType;
+import Game.Types.HardDifficulty;
+import Game.Types.MediumDifficulty;
 import Game.Types.NormalDifficulty;
 import Input.*;
 import Orbs.*;
@@ -66,7 +68,7 @@ public class Game {
      * Initializes the main snake game
      * Sets up game grid, snake, keyboard, and initial game elements
      */
-    private void startSnakeGame() {
+    private void startSnakeGame(int gameTypeSelection) {
         //starts the game grid
         grid.init();
         scoreSystem = new ScoreSystem();
@@ -82,13 +84,26 @@ public class Game {
 
 
         try {
-            startNormalDifficulty();
+            switch (gameTypeSelection) {
+                case 0:
+                    startNormalDifficulty();
+                    break;
+                case 1:
+                    startMediumDifficulty();
+                    break;
+                case 2:
+                    startHardDifficulty();
+                    break;
+            }
+
         }
         catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
     }
+
+
 
     /**
      * Displays initial starting screen
@@ -110,7 +125,7 @@ public class Game {
         menuButtonPressed = false;
 
         screen.startMenuDelete();
-        startSnakeGame();
+        startSnakeGame(gameTypeSelection);
     }
 
     private void handleMenuButtonSelection(){
@@ -124,6 +139,7 @@ public class Game {
                     break;
                 case 2:
                     gameTypeSelection = 1;
+                    break;
             }
             menuUpPressed = false;
         }
@@ -137,6 +153,7 @@ public class Game {
                     break;
                 case 2:
                     gameTypeSelection = 0;
+                    break;
             }
             menuDownPressed = false;
         }
@@ -149,6 +166,20 @@ public class Game {
     private void startNormalDifficulty() throws InterruptedException {
 
         gameType = new NormalDifficulty(grid, screen , scoreSystem);
+        mygameKeyboard.setGameType(gameType);
+        gameType.start();
+        endScreen();
+    }
+    private void startMediumDifficulty() throws InterruptedException {
+
+        gameType = new MediumDifficulty(grid, screen , scoreSystem);
+        mygameKeyboard.setGameType(gameType);
+        gameType.start();
+        endScreen();
+    }
+    private void startHardDifficulty() throws InterruptedException {
+
+        gameType = new HardDifficulty(grid, screen , scoreSystem);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         endScreen();
@@ -204,12 +235,13 @@ public class Game {
     /**
      * Displays end screen with game stats
      */
-    private void endScreen() {
+    private void endScreen() throws InterruptedException {
         menuButtonPressed = false;
         scoreSystem.saveHighScore();
         //System.out.println(scoreSystem.printHighScoreList());
 
         screen.endScreen();
+        mygameKeyboard.setGameStage(0);
         try {
             while (!menuButtonPressed) {
                 Thread.sleep(100);
@@ -223,7 +255,9 @@ public class Game {
         menuButtonPressed = false;
 
         scoreSystem.resetScore();
-        startSnakeGame();
+        //startSnakeGame();
+        startMenu();
+        //startSnakeGame(1);
 
     }
 
