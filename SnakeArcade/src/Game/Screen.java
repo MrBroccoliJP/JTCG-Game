@@ -23,10 +23,14 @@ public class Screen {
     Text stats3;
     Text stats4;
     Text stats5;
+    Text info;
 
     public Screen(ScoreSystem scoreSystem, Grid grid) {
         this.scoreSystem = scoreSystem;
         this.grid = grid;
+
+        this.scoreText.grow(20,15);
+        this.scoreText.translate(grid.getCols()*grid.getCellSize()-(5*grid.getCellSize()),grid.rowToY(grid.getRows())-7);
     }
 
     public void startMenu(){ //sponsored by microsoft xD
@@ -68,11 +72,7 @@ public class Screen {
      * Draws current score on screen
      */
     public void drawScore() {
-        if(!newGame){
-            this.scoreText.grow(20,15);
-            this.scoreText.translate(grid.getCols()*grid.getCellSize()-(5*grid.getCellSize()),grid.rowToY(grid.getRows())-7);
-        }
-
+        this.scoreText.setText(" ");
         this.scoreText.setText("Score: " + scoreSystem.getScore());
         this.scoreText.setColor(Color.GREEN);
         this.scoreText.draw();
@@ -80,8 +80,6 @@ public class Screen {
 
     public void endScreen(){
 
-
-        Text info;
 
         gameOverText = new Text(((double) grid.columnToX(grid.getCols()) /2), 0, "GAME OVER");
         gameOverText.translate((double) -gameOverText.getWidth() ,0);
@@ -122,5 +120,7 @@ public class Screen {
          stats3.delete();
          stats4.delete();
          stats5.delete();
+         info.delete();
+         scoreText.delete();
     }
 }

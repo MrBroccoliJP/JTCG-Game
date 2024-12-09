@@ -54,6 +54,7 @@ public class Game {
         //initializes the grid, 50 cols, 30 rows and cell the size of CELLSIZE
         grid = new Grid(50, 40, CELLSIZE);
         screen = new Screen(scoreSystem, grid);
+
         //displays the initial starting screen
         try {
             startMenu();
@@ -164,21 +165,18 @@ public class Game {
      * Handles snake movement, orb interactions, and game progression
      */
     private void startNormalDifficulty() throws InterruptedException {
-
         gameType = new NormalDifficulty(grid, screen , scoreSystem);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         endScreen();
     }
     private void startMediumDifficulty() throws InterruptedException {
-
         gameType = new MediumDifficulty(grid, screen , scoreSystem);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         endScreen();
     }
     private void startHardDifficulty() throws InterruptedException {
-
         gameType = new HardDifficulty(grid, screen , scoreSystem);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
