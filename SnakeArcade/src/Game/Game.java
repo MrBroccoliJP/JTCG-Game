@@ -11,8 +11,11 @@ import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEvent;
 import com.codeforall.online.simplegraphics.pictures.*;
 
+import java.sql.SQLOutput;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+
 
 public class Game {
 
@@ -36,6 +39,9 @@ public class Game {
     private boolean menuDownPressed = false;
     private boolean menuLeftPressed = false;
     private boolean menuRightPressed = false;
+    private boolean AKeyPressed = false;
+    private boolean BKeyPressed = false;
+
     private Queue<Integer> keyQueue = new LinkedList<>();
 
     /**
@@ -108,7 +114,6 @@ public class Game {
     }
 
     private void handleMenuButtonSelection(){
-
         if(menuUpPressed) {
             switch (gameTypeSelection) {
                 case 0:
@@ -152,7 +157,7 @@ public class Game {
     /**
      * Receives keyboard input for menu interaction
      */
-    public void menuKeyboardInput(int keyCode ) {
+    public void menuKeyboardInput(int keyCode) {
         if(keyCode == KeyboardEvent.KEY_SPACE) {
             menuButtonPressed = true;  //spacebar pressed
         }
@@ -168,9 +173,32 @@ public class Game {
         if(keyCode == KeyboardEvent.KEY_RIGHT){
             menuRightPressed = true;
         }
-        keyQueue.add(keyCode);
+        if(keyCode == KeyboardEvent.KEY_A){
+            AKeyPressed = true;
+        }
+        if(keyCode == KeyboardEvent.KEY_B){
+            BKeyPressed = true;
+        }
+
+
+            keyQueue.offer(keyCode);
+            AKeyPressed = false;
+            BKeyPressed = false;
+
+            if(keyQueue.size() > 10){
+                keyQueue.poll();
+            }
+        checkForKonamiCode(keyQueue);
+
     }
 
+    private void checkForKonamiCode(Queue<Integer> keyQueue) {
+        Integer[] target = {38,38,40,40,37,39,37,39,66,65};
+
+        if(Arrays.equals(keyQueue.toArray(), target)){
+            System.out.println("konami achieved");
+        }
+    }
 
 
     /**
