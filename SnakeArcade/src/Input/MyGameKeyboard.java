@@ -2,6 +2,7 @@ package Input;
 
 
 import Game.Game;
+import Game.Types.GameType;
 import com.codeforall.online.simplegraphics.keyboard.Keyboard;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEvent;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEventType;
@@ -13,6 +14,10 @@ import com.codeforall.online.simplegraphics.keyboard.KeyboardHandler;
 public class MyGameKeyboard implements KeyboardHandler {
     private Keyboard keyboard;
     private Game game;
+    private GameType gameType;
+    private int gameStage = 0;
+    //gameStage 0 = menu
+    //gameStage 1 = game
 
 
     /**
@@ -20,8 +25,9 @@ public class MyGameKeyboard implements KeyboardHandler {
      *
      * @param game the game instance to associate with this keyboard handler.
      */
-    public void init(Game game){
+    public void init(Game game, GameType gameType) {
         this.game = game;
+        this.gameType = gameType;
         keyboard = new Keyboard(this);
         addKey(KeyboardEvent.KEY_SPACE);
         addKey(KeyboardEvent.KEY_RIGHT);
@@ -53,25 +59,25 @@ public class MyGameKeyboard implements KeyboardHandler {
      */
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-        if(keyboardEvent.getKey() == KeyboardEvent.KEY_D || keyboardEvent.getKey() == KeyboardEvent.KEY_RIGHT)  {
-            System.out.println("move right");
-            game.gameKeyboardInput(Movements.RIGHT);
+
+        if(gameStage == 1) {
+            if (keyboardEvent.getKey() == KeyboardEvent.KEY_D || keyboardEvent.getKey() == KeyboardEvent.KEY_RIGHT) {
+                gameType.gameKeyboardInput(Movements.RIGHT);
+            }
+            if (keyboardEvent.getKey() == KeyboardEvent.KEY_A || keyboardEvent.getKey() == KeyboardEvent.KEY_LEFT) {
+                gameType.gameKeyboardInput(Movements.LEFT);
+            }
+            if (keyboardEvent.getKey() == KeyboardEvent.KEY_W || keyboardEvent.getKey() == KeyboardEvent.KEY_UP) {
+                gameType.gameKeyboardInput(Movements.UP);
+            }
+            if (keyboardEvent.getKey() == KeyboardEvent.KEY_S || keyboardEvent.getKey() == KeyboardEvent.KEY_DOWN) {
+                gameType.gameKeyboardInput(Movements.DOWN);
+            }
         }
-        if(keyboardEvent.getKey() == KeyboardEvent.KEY_A||keyboardEvent.getKey() == KeyboardEvent.KEY_LEFT)  {
-            System.out.println("move left");
-            game.gameKeyboardInput(Movements.LEFT);
+        else if(gameStage == 0) {
+                game.menuKeyboardInput(keyboardEvent.getKey());
         }
-        if(keyboardEvent.getKey() == KeyboardEvent.KEY_W||keyboardEvent.getKey() == KeyboardEvent.KEY_UP)  {
-            System.out.println("move up");
-            game.gameKeyboardInput(Movements.UP);
-        }
-        if(keyboardEvent.getKey() == KeyboardEvent.KEY_S||keyboardEvent.getKey() == KeyboardEvent.KEY_DOWN)  {
-            System.out.println("move down");
-            game.gameKeyboardInput(Movements.DOWN);
-        }
-        if(keyboardEvent.getKey() == KeyboardEvent.KEY_SPACE){
-            game.menuKeybordInput();
-        }
+
     }
 
     /**
@@ -82,6 +88,14 @@ public class MyGameKeyboard implements KeyboardHandler {
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
         //not used in this game
+    }
+
+    public void setGameType(GameType gameType) {
+        this.gameType = gameType;
+    }
+
+    public void setGameStage(int gameStage) {
+        this.gameStage = gameStage;
     }
 
 }

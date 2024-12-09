@@ -1,6 +1,5 @@
-package Game;
+package ScoreSystem;
 
-import java.io.*;
 import java.util.Arrays;
 
 public class ScoreSystem {
