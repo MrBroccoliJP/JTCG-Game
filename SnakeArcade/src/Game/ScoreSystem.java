@@ -101,19 +101,21 @@ public class ScoreSystem {
         return output.toString();
     }
 
-//    public void readScoreFile(){
-//        String tmp;
-//        try {
-//            FileReader scoreFileReader = new FileReader("scores.txt");
-//            tmp = scoreFileReader.read();
-//            while(tmp != null){
-//
-//            }
-//        }
-//        catch(FileNotFoundException e){
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    public void readScoreFile(){
+        try(BufferedReader reader = new BufferedReader(new FileReader("scores.txt"))) {
+            String line = reader.readLine();
+            while (line != null) {
+                System.out.println(line);
+                line = reader.readLine();
+            }
+        }
+            catch (FileNotFoundException e){
+                System.err.println("Score file not found");
+            }
+            catch (IOException e){
+                System.err.println("Error reading score file");
+            }
+
+        }
+
 }
