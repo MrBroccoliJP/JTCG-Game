@@ -16,6 +16,7 @@ public class ScoreSystem {
         score = 0;
         Arrays.fill(highScore, -1);
         fileHandler = new FileHandler(this);
+        fileHandler.readScoreFile();
     }
 
     public int getScore() {
@@ -74,6 +75,12 @@ public class ScoreSystem {
         return output.toString();
     }
 
+    public void setStats(String[] stats) {
+        this.stats = stats;
+    }
+    public void setHighScore(int[] highScore) {
+        this.highScore = highScore;
+    }
 
 
 }
