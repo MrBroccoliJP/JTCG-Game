@@ -7,4 +7,5 @@ public interface GameType {
     void gameKeyboardInput(Movements movement);
     void end();
     void delete();
+    void setRainbowCycleDuration(int duration);
 }

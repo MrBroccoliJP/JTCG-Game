@@ -1,6 +1,7 @@
 package Game.Types;
 
 import Game.Grid;
+import Game.Game;
 import Game.Screen;
 import Input.Movements;
 import Orbs.*;
@@ -21,6 +22,7 @@ public class NormalDifficulty implements GameType {
     private int speed = 200;
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
+    private int rainbowCycleDuration = 100;
 
     //Orb Objects
     private LinkedList<SnakeOrbs> activeOrbs = new LinkedList<>();
@@ -31,15 +33,15 @@ public class NormalDifficulty implements GameType {
     private BonusOrb bonusOrb;
     private BonusOrb bonusOrb2;
     private BonusOrb bonusOrb3;
+    private RainbowOrb rainbowOrb;
 
 
     public NormalDifficulty(Grid grid, Screen screen, ScoreSystem scoreSystem) {
-
         this.grid = grid;
         this.snake = new Snake(grid.columnToX(25), grid.rowToY(15));
         this.screen = screen;
         this.scoreSystem = scoreSystem;
-        orbManager = new OrbManager(snake, scoreSystem);
+        orbManager = new OrbManager(this, snake, scoreSystem);
         goodOrb = new GoodOrb(grid);
         goodOrb2 = new GoodOrb(grid);
         goodOrb3 = new GoodOrb(grid);
@@ -47,6 +49,8 @@ public class NormalDifficulty implements GameType {
         bonusOrb = new BonusOrb(grid);
         bonusOrb2 = new BonusOrb(grid);
         bonusOrb3 = new BonusOrb(grid);
+        rainbowOrb = new RainbowOrb(grid);
+
         activeOrbs.add(goodOrb);
         activeOrbs.add(goodOrb2);
         activeOrbs.add(goodOrb3);
@@ -54,6 +58,7 @@ public class NormalDifficulty implements GameType {
         activeOrbs.add(bonusOrb);
         activeOrbs.add(bonusOrb2);
         activeOrbs.add(bonusOrb3);
+        activeOrbs.add(rainbowOrb);
     }
 
     public void start(){
@@ -61,6 +66,7 @@ public class NormalDifficulty implements GameType {
             while (true) {  //infinite loop
                 speedStepsCalc();
                 screen.drawScore();
+                rainbowEffectManager();
 
                 if (movement != Movements.NONE && movement != currentMovement.getOpposite()) {
                     snake.moveSnake(movement);
@@ -160,6 +166,25 @@ public class NormalDifficulty implements GameType {
             if(orb != null && orb.active()) {
                 orb.delete();
             }
+        }
+    }
+
+
+    @Override
+    public void setRainbowCycleDuration(int addToRainbowCycleDuration) {
+        this.rainbowCycleDuration+= addToRainbowCycleDuration;
+    }
+
+    private void rainbowEffectManager(){
+        if(rainbowCycleDuration > 0 && !snake.getRainbowStatus()){
+            snake.rainbowEffectToggle();
+            rainbowCycleDuration--;
+        }
+        else if(rainbowCycleDuration <= 0 && snake.getRainbowStatus()){
+            snake.rainbowEffectToggle();
+        }
+        else if(snake.getRainbowStatus()){
+            rainbowCycleDuration--;
         }
     }
 }

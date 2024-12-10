@@ -1,6 +1,7 @@
 package Game.Types;
 
 import Game.Grid;
+import Game.Game;
 import Game.Screen;
 import Input.Movements;
 import Orbs.*;
@@ -21,6 +22,7 @@ public class HardDifficulty implements GameType {
     private int speed = 600;
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
+    private int rainbowCycleDuration = 100;
 
     //Orb Objects
     private LinkedList<SnakeOrbs> activeOrbs = new LinkedList<>();
@@ -30,12 +32,11 @@ public class HardDifficulty implements GameType {
 
 
     public HardDifficulty(Grid grid, Screen screen, ScoreSystem scoreSystem) {
-
         this.grid = grid;
         this.snake = new Snake(grid.columnToX(25), grid.rowToY(15));
         this.screen = screen;
         this.scoreSystem = scoreSystem;
-        orbManager = new OrbManager(snake, scoreSystem);
+        orbManager = new OrbManager(this, snake, scoreSystem);
         goodOrb = new GoodOrb(grid);
         badOrb = new BadOrb(grid);
         bonusOrb = new BonusOrb(grid);
@@ -49,6 +50,7 @@ public class HardDifficulty implements GameType {
             while (true) {  //infinite loop
                 speedStepsCalc();
                 screen.drawScore();
+                rainbowEffectManager();
 
                 if (movement != Movements.NONE && movement != currentMovement.getOpposite()) {
                     snake.moveSnake(movement);
@@ -150,4 +152,25 @@ public class HardDifficulty implements GameType {
             }
         }
     }
+
+
+    @Override
+    public void setRainbowCycleDuration(int addToRainbowCycleDuration) {
+        this.rainbowCycleDuration+= addToRainbowCycleDuration;
+    }
+
+
+    public void rainbowEffectManager(){
+        if(rainbowCycleDuration > 0 && !snake.getRainbowStatus()){
+            snake.rainbowEffectToggle();
+            rainbowCycleDuration--;
+        }
+        else if(rainbowCycleDuration <= 0 && snake.getRainbowStatus()){
+            snake.rainbowEffectToggle();
+        }
+        else if(snake.getRainbowStatus()){
+            rainbowCycleDuration--;
+        }
+    }
+
 }

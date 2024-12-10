@@ -14,6 +14,7 @@ public class Snake {
     private int blockBuffer = 0;  //manages snake growth or shrinkage
     private Movements lastMove = Movements.NONE;
     private Color snakeColor = new Color(0,255,0);
+    private boolean rainbowActive = false;
 
 
     /**
@@ -298,5 +299,32 @@ public class Snake {
         }
         snakeBlocksList.clear();
     }
+
+    public boolean getRainbowStatus(){
+        return rainbowActive;
+    }
+
+    public void rainbowEffectToggle(){ //this method acts as a toggle
+        Rectangle rectangle;
+        if(rainbowActive){
+            rainbowActive = false;
+            //snakeColor = new Color(0,255,0); //ensure it starts at the right color
+            for (int i = 0; i < snakeBlocksList.size(); i++) {
+                rectangle = snakeBlocksList.get(i).getRectangle();
+                rectangle.setColor(new Color(0,255-i,0));
+                rectangle.fill();
+            }
+        }
+        else {
+            rainbowActive = true;
+            for (SnakeBlocks block : snakeBlocksList) {
+                rectangle = block.getRectangle();
+                rectangle.setColor(new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
+                rectangle.fill();
+            }
+        }
+    }
+
+
 
 }

@@ -1,6 +1,8 @@
 package Orbs;
+import Game.Types.GameType;
 import ScoreSystem.ScoreSystem;
 import Snake.Snake;
+import Game.Game;
 
 public class OrbManager {
     //orb cycle variables
@@ -8,12 +10,17 @@ public class OrbManager {
     private int bonusOrbCycleNextAppearance = 0;
     private int bonusOrbCycleDuration = 0;
 
+    private int rainbowOrbCycleNextAppearance = 0;
+    private int rainbowOrbCycleDuration = 0;
+
     private final Snake snake;
     private final ScoreSystem scoreSystem;
+    private final GameType gameType;
 
-    public OrbManager(Snake snake, ScoreSystem scoreSystem) {
+    public OrbManager(GameType gameType, Snake snake, ScoreSystem scoreSystem) {
         this.snake = snake;
         this.scoreSystem = scoreSystem;
+        this.gameType = gameType;
     }
     /**
      * Manages orb spawning, duration, and interactions
@@ -41,6 +48,22 @@ public class OrbManager {
 
             }
 
+            if (orb instanceof RainbowOrb && !orb.active()) {
+                if (rainbowOrbCycleNextAppearance == cycleCount) {
+                    rainbowOrbCycleDuration = 10 + (int) (Math.random() * 29) + 1;
+                    orb.randomSpawn();
+                    rainbowOrbCycleNextAppearance = -1;
+                } else if (rainbowOrbCycleNextAppearance == -1) {
+                    rainbowOrbCycleNextAppearance = cycleCount + 100 + (int) (Math.random() * 29) + 1;
+                }
+            } else if (orb instanceof RainbowOrb && orb.active()) {
+                if (rainbowOrbCycleDuration == 0) {
+                    orb.delete();
+                    rainbowOrbCycleNextAppearance = -1;
+                }
+                rainbowOrbCycleDuration--;
+            }
+
             if (orb instanceof BadOrb && !orb.active()) {
                 badOrbCycleDuration = 30 + (int) (Math.random() * 29) + 1;
                 orb.randomSpawn();
@@ -62,6 +85,10 @@ public class OrbManager {
                     scoreSystem.addBadOrbsEaten(1);
                 } else {
                     scoreSystem.addGoodOrbsEaten(1);
+                }
+
+                if(orb instanceof RainbowOrb){
+                   gameType.setRainbowCycleDuration(50);
                 }
             }
         }

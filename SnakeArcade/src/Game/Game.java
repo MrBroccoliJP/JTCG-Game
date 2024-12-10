@@ -44,6 +44,8 @@ public class Game {
     private boolean AKeyPressed = false;
     private boolean BKeyPressed = false;
 
+
+
     private Queue<Integer> keyQueue = new LinkedList<>();
 
     /**
