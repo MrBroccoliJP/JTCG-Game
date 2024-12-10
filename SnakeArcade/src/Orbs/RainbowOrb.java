@@ -1,6 +1,6 @@
 package Orbs;
 
-import Game.Grid;
+import Game.Map;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 import com.codeforall.online.simplegraphics.pictures.Picture;
 /**
@@ -12,30 +12,30 @@ public class RainbowOrb implements SnakeOrbs{
 
         private int score = 300;  // score of a good orb
         private Rectangle rectangle;
-        private Grid grid;
+        private Map map;
         private boolean active = false;
         private int buffer = +3;
         private Picture picture;
 
         /**
-         * Constructs a new {@code BonusOrb} with the specified grid for positioning.
+         * Constructs a new {@code BonusOrb} with the specified map for positioning.
          *
-         * @param grid the game grid to determine orb placement.
+         * @param map the game map to determine orb placement.
          */
-        public RainbowOrb(Grid grid){
-            this.grid = grid;
+        public RainbowOrb(Map map){
+            this.map = map;
         }
 
         /**
-         * Spawns the Bonus orb at a random location on the grid.
+         * Spawns the Bonus orb at a random location on the map.
          * The orb is drawn as a rectangle and with a picture
          */
         @Override
         public void randomSpawn() {
-            int randomCol = (int) (Math.random() * (grid.getCols()-1));
-            int randomRow = (int) (Math.random() * (grid.getRows()-1));
+            int randomCol = (int) (Math.random() * (map.getCols()-1));
+            int randomRow = (int) (Math.random() * (map.getRows()-1));
             this.active = true;
-            rectangle = new Rectangle(grid.columnToX(randomCol)+1, grid.rowToY(randomRow)+1, grid.getCellSize()-2, grid.getCellSize()-2);
+            rectangle = new Rectangle(map.columnToX(randomCol)+1, map.rowToY(randomRow)+1, map.getCellSize()-2, map.getCellSize()-2);
             picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"resources/Rainbow_18_18.png");
             //picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"VIM_18_18.png"); //THIS IS ONLY FOR THE ANT BUILD
             //rectangle.setColor(Color.WHITE);
@@ -80,7 +80,7 @@ public class RainbowOrb implements SnakeOrbs{
         @Override
         public void delete(){
             this.active = false;
-            //rectangle.translate(-grid.getCols(),-grid.getRows());
+            //rectangle.translate(-map.getCols(),-map.getRows());
             rectangle.delete();
             picture.delete();
         }

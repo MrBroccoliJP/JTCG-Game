@@ -1,7 +1,6 @@
 package Game.Types;
 
-import Game.Grid;
-import Game.Game;
+import Game.Map;
 import Game.Screen;
 import Input.Movements;
 import Orbs.*;
@@ -13,7 +12,7 @@ import java.util.LinkedList;
 
 public class MediumDifficulty implements GameType{
     private Snake snake;
-    private final Grid grid;
+    private final Map map;
     private final ScoreSystem scoreSystem;
     private int cycleCount;
     private OrbManager orbManager;
@@ -36,19 +35,19 @@ public class MediumDifficulty implements GameType{
     private RainbowOrb rainbowOrb;
 
 
-    public MediumDifficulty(Grid grid, Screen screen, ScoreSystem scoreSystem,boolean konamiMode) {
-        this.grid = grid;
-        this.snake = new Snake(grid.columnToX(25), grid.rowToY(15));
+    public MediumDifficulty(Map map, Screen screen, ScoreSystem scoreSystem, boolean konamiMode) {
+        this.map = map;
+        this.snake = new Snake(map.columnToX(25), map.rowToY(15));
         this.screen = screen;
         this.scoreSystem = scoreSystem;
         this.konamiMode = konamiMode;
         orbManager = new OrbManager(this, snake, scoreSystem);
-        goodOrb = new GoodOrb(grid);
-        badOrb = new BadOrb(grid);
-        badOrb2 = new BadOrb(grid);
-        badOrb3 = new BadOrb(grid);
-        bonusOrb = new BonusOrb(grid);
-        rainbowOrb = new RainbowOrb(grid);
+        goodOrb = new GoodOrb(map);
+        badOrb = new BadOrb(map);
+        badOrb2 = new BadOrb(map);
+        badOrb3 = new BadOrb(map);
+        bonusOrb = new BonusOrb(map);
+        rainbowOrb = new RainbowOrb(map);
         activeOrbs.add(goodOrb);
         activeOrbs.add(badOrb);
         activeOrbs.add(badOrb2);
@@ -145,10 +144,10 @@ public class MediumDifficulty implements GameType{
      */
     public boolean boundsCollisionCheck() {
 
-        int leftBound = Grid.PADDING;
-        int topBound = Grid.PADDING;
-        int rightBound = (grid.getCols() * grid.getCellSize()) - Grid.PADDING+1;
-        int bottomBound = (grid.getRows() * grid.getCellSize()) - Grid.PADDING+1;
+        int leftBound = Map.PADDING;
+        int topBound = Map.PADDING;
+        int rightBound = (map.getCols() * map.getCellSize()) - Map.PADDING+1;
+        int bottomBound = (map.getRows() * map.getCellSize()) - Map.PADDING+1;
 
         return snake.getHeadX() < leftBound || snake.getHeadY() < topBound ||
                 snake.getHeadX() > rightBound || snake.getHeadY() > bottomBound;
@@ -183,15 +182,15 @@ public class MediumDifficulty implements GameType{
         if(rainbowCycleDuration > 0 && !snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
             rainbowCycleDuration--;
-            if(!grid.isRainbowModeActive() && !konamiMode){
-                grid.rainbowModeToggle();
+            if(!map.isRainbowModeActive() && !konamiMode){
+                map.rainbowModeToggle();
             }
         }
         else if(rainbowCycleDuration <= 0 && snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
 
-            if(grid.isRainbowModeActive() && !konamiMode){
-                grid.rainbowModeToggle();
+            if(map.isRainbowModeActive() && !konamiMode){
+                map.rainbowModeToggle();
             }
         }
         else if(snake.getRainbowStatus()){
@@ -203,6 +202,6 @@ public class MediumDifficulty implements GameType{
         if(!snake.getRainbowStatus()) {
             snake.rainbowEffectToggle();
         }
-        grid.setMapColor(new Color(255,225,225));
+        map.setMapColor(new Color(255,225,225));
     }
 }

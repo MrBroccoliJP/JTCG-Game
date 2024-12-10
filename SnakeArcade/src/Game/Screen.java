@@ -11,7 +11,7 @@ import com.codeforall.online.simplegraphics.pictures.Picture;
 public class Screen {
     private Text scoreText = new Text(0,0," ");
     private boolean newGame = false;
-    private Grid grid;
+    private Map map;
     private ScoreSystem scoreSystem;
     Picture logo;
     Rectangle gameTypeSelectionRect;
@@ -27,17 +27,17 @@ public class Screen {
     Text stats5;
     Text info;
 
-    public Screen(ScoreSystem scoreSystem, Grid grid) {
+    public Screen(ScoreSystem scoreSystem, Map map) {
         this.scoreSystem = scoreSystem;
-        this.grid = grid;
+        this.map = map;
 
         this.scoreText.grow(20,15);
-        this.scoreText.translate(grid.getCols()*grid.getCellSize()-(5*grid.getCellSize()),grid.rowToY(grid.getRows())-7);
+        this.scoreText.translate(map.getCols()* map.getCellSize()-(5* map.getCellSize()), map.rowToY(map.getRows())-7);
     }
 
     public void startMenu(){ //sponsored by microsoft xD
-        Canvas.setMaxX(grid.getCellSize()* grid.getCols()+Grid.PADDING);
-        Canvas.setMaxY(grid.getCellSize()* grid.getRows()+Grid.PADDING);
+        Canvas.setMaxX(map.getCellSize()* map.getCols()+ Map.PADDING);
+        Canvas.setMaxY(map.getCellSize()* map.getRows()+ Map.PADDING);
         logo = new Picture();
         logo.load("resources/StartScreen.png");
         logo.draw();
@@ -82,11 +82,11 @@ public class Screen {
 
     public void endScreen(GameType gameType){
 
-        gameOverText = new Text(((double) grid.columnToX(grid.getCols()) /2), 0, "GAME OVER");
+        gameOverText = new Text(((double) map.columnToX(map.getCols()) /2), 0, "GAME OVER");
         gameOverText.translate((double) -gameOverText.getWidth() ,0);
         gameOverText.setColor(Color.RED);
         gameOverText.grow(300,70);
-        gameOverText.translate(0,grid.getRows()+((double) gameOverText.getHeight() /2));
+        gameOverText.translate(0, map.getRows()+((double) gameOverText.getHeight() /2));
 
         thisScore = new Text(gameOverText.getX(), gameOverText.getY()+ gameOverText.getHeight(), "Your Score: " + scoreSystem.getStat());
 

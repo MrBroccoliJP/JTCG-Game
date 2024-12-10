@@ -3,7 +3,7 @@ import com.codeforall.online.simplegraphics.graphics.Canvas;
 import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 
-public class Grid {
+public class Map {
 
     public static final int PADDING = 20;
 
@@ -20,7 +20,7 @@ public class Grid {
      * @param cols number of the columns
      * @param rows number of rows
      */
-    public Grid(int cols, int rows, int cellSize) {
+    public Map(int cols, int rows, int cellSize) {
         this.cols = cols;
         this.rows = rows;
         this.cellSize = cellSize;

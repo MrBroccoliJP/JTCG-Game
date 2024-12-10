@@ -19,7 +19,7 @@ public class Game {
 
     //Game core components
     private Snake snake;
-    private Grid grid;
+    private Map map;
     private Screen screen;
     private ScoreSystem scoreSystem;
     private int gameTypeSelection = 0;
@@ -46,13 +46,13 @@ public class Game {
     private Queue<Integer> keyQueue = new LinkedList<>();
 
     /**
-     * Constructor initializes game grid and score system
+     * Constructor initializes game map and score system
      * Starts the initial game screen
      */
     public Game()  {
-        //initializes the grid, 50 cols, 30 rows and cell the size of CELLSIZE
-        grid = new Grid(50, 40, CELLSIZE);
-        screen = new Screen(scoreSystem, grid);
+        //initializes the map, 50 cols, 30 rows and cell the size of CELLSIZE
+        map = new Map(50, 40, CELLSIZE);
+        screen = new Screen(scoreSystem, map);
 
         //displays the initial starting screen
         try {
@@ -66,17 +66,17 @@ public class Game {
 
     /**
      * Initializes the main snake game
-     * Sets up game grid, snake, keyboard, and initial game elements
+     * Sets up game map, snake, keyboard, and initial game elements
      */
     private void startSnakeGame(int gameTypeSelection) {
-        //starts the game grid
-        grid.init();
+        //starts the game map
+        map.init();
         scoreSystem = new ScoreSystem();
-        screen = new Screen(scoreSystem, grid);
+        screen = new Screen(scoreSystem, map);
 
-        Text title = new Text(Grid.PADDING ,grid.rowToY(grid.getRows())-10,"SnakeArcade");
+        Text title = new Text(Map.PADDING , map.rowToY(map.getRows())-10,"SnakeArcade");
         title.grow(20,15);
-        title.translate(title.getX()+(Grid.PADDING-title.getX()),5);
+        title.translate(title.getX()+(Map.PADDING-title.getX()),5);
         title.setColor(Color.BLACK);
         title.draw();
 
@@ -164,7 +164,7 @@ public class Game {
      * Handles snake movement, orb interactions, and game progression
      */
     private void startNormalDifficulty() throws InterruptedException {
-        gameType = new NormalDifficulty(grid, screen , scoreSystem,konamiMode );
+        gameType = new NormalDifficulty(map, screen , scoreSystem,konamiMode );
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         scoreSystem.saveHighScore(gameType);
@@ -172,7 +172,7 @@ public class Game {
 
     }
     private void startMediumDifficulty() throws InterruptedException {
-        gameType = new MediumDifficulty(grid, screen , scoreSystem, konamiMode);
+        gameType = new MediumDifficulty(map, screen , scoreSystem, konamiMode);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         scoreSystem.saveHighScore(gameType);
@@ -180,7 +180,7 @@ public class Game {
 
     }
     private void startHardDifficulty() throws InterruptedException {
-        gameType = new HardDifficulty(grid, screen , scoreSystem, konamiMode);
+        gameType = new HardDifficulty(map, screen , scoreSystem, konamiMode);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         scoreSystem.saveHighScore(gameType);
@@ -241,7 +241,7 @@ public class Game {
     private void endScreen() throws InterruptedException {
         menuButtonPressed = false;
         konamiMode = false;
-        grid.resetColors();
+        map.resetColors();
 
         //System.out.println(scoreSystem.printHighScoreList());
 

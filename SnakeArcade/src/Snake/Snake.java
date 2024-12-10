@@ -1,7 +1,6 @@
 package Snake;
 
 import Game.Game;
-import Game.Grid;
 import Input.Movements;
 import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;

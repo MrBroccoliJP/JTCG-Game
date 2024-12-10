@@ -1,6 +1,6 @@
 package Orbs;
 
-import Game.Grid;
+import Game.Map;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 import com.codeforall.online.simplegraphics.pictures.Picture;
 
@@ -12,30 +12,30 @@ public class BadOrb implements SnakeOrbs {
 
     private int score = -100;  // score of a good orb
     private Rectangle rectangle;
-    private Grid grid;
+    private Map map;
     private boolean active = false;
     private int buffer = -1;
     private Picture picture;
 
     /**
-     * Constructs a new {@code BadOrb} with the specified grid for positioning.
+     * Constructs a new {@code BadOrb} with the specified map for positioning.
      *
-     * @param grid the game grid to determine orb placement.
+     * @param map the game map to determine orb placement.
      */
-    public BadOrb(Grid grid){
-        this.grid = grid;
+    public BadOrb(Map map){
+        this.map = map;
     }
 
     /**
-     * Spawns the bad orb at a random location on the grid.
+     * Spawns the bad orb at a random location on the map.
      * The orb is drawn as a rectangle and with a picture
      */
     @Override
     public void randomSpawn() {
-        int randomCol = (int) (Math.random() * (grid.getCols()-1));
-        int randomRow = (int) (Math.random() * (grid.getRows()-1));
+        int randomCol = (int) (Math.random() * (map.getCols()-1));
+        int randomRow = (int) (Math.random() * (map.getRows()-1));
         this.active = true;
-        rectangle = new Rectangle(grid.columnToX(randomCol)+1, grid.rowToY(randomRow)+1, 18, 18);
+        rectangle = new Rectangle(map.columnToX(randomCol)+1, map.rowToY(randomRow)+1, 18, 18);
         //rectangle.setColor(Color.PINK);
         picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"resources/BAD_ORB_18_18.png");
         //picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"BAD_ORB_18_18.png"); //**THIS IS ONLY FOR THE ANT BUILD
