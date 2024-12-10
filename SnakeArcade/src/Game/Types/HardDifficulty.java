@@ -23,7 +23,7 @@ public class HardDifficulty implements GameType {
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
     private int rainbowCycleDuration = 0;
-
+    private boolean konamiMode = false;
     //Orb Objects
     private LinkedList<SnakeOrbs> activeOrbs = new LinkedList<>();
     private GoodOrb goodOrb;
@@ -36,11 +36,12 @@ public class HardDifficulty implements GameType {
     private RainbowOrb rainbowOrb;
 
 
-    public HardDifficulty(Grid grid, Screen screen, ScoreSystem scoreSystem) {
+    public HardDifficulty(Grid grid, Screen screen, ScoreSystem scoreSystem, boolean konamiMode) {
         this.grid = grid;
         this.snake = new Snake(grid.columnToX(25), grid.rowToY(15));
         this.screen = screen;
         this.scoreSystem = scoreSystem;
+        this.konamiMode = konamiMode;
         orbManager = new OrbManager(this, snake, scoreSystem);
         goodOrb = new GoodOrb(grid);
         badOrb = new BadOrb(grid);
@@ -58,6 +59,7 @@ public class HardDifficulty implements GameType {
         activeOrbs.add(badOrb5);
         activeOrbs.add(bonusOrb);
         activeOrbs.add(rainbowOrb);
+
     }
 
     public void start(){
@@ -85,7 +87,15 @@ public class HardDifficulty implements GameType {
                     orbManager.orbCheck(orbs, cycleCount);
                 }
                 cycleCount++;
+
+                if(konamiMode){
+                    rainbowCycleDuration = 5;
+                    scoreSystem.addScore(5);
+
+                }
+
                 Thread.sleep(speed);
+
             }
             end();
         }

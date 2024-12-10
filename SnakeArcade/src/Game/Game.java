@@ -39,6 +39,7 @@ public class Game {
     private boolean menuRightPressed = false;
     private boolean AKeyPressed = false;
     private boolean BKeyPressed = false;
+    private boolean konamiMode = false;
 
 
 
@@ -163,7 +164,7 @@ public class Game {
      * Handles snake movement, orb interactions, and game progression
      */
     private void startNormalDifficulty() throws InterruptedException {
-        gameType = new NormalDifficulty(grid, screen , scoreSystem);
+        gameType = new NormalDifficulty(grid, screen , scoreSystem,konamiMode );
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         scoreSystem.saveHighScore(gameType);
@@ -171,7 +172,7 @@ public class Game {
 
     }
     private void startMediumDifficulty() throws InterruptedException {
-        gameType = new MediumDifficulty(grid, screen , scoreSystem);
+        gameType = new MediumDifficulty(grid, screen , scoreSystem, konamiMode);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         scoreSystem.saveHighScore(gameType);
@@ -179,12 +180,11 @@ public class Game {
 
     }
     private void startHardDifficulty() throws InterruptedException {
-        gameType = new HardDifficulty(grid, screen , scoreSystem);
+        gameType = new HardDifficulty(grid, screen , scoreSystem, konamiMode);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         scoreSystem.saveHighScore(gameType);
         endScreen();
-
     }
 
     /**
@@ -201,7 +201,7 @@ public class Game {
             menuDownPressed = true;
         }
         if(keyCode == KeyboardEvent.KEY_LEFT){
-            menuLeftPressed = true;
+            this.menuLeftPressed = true;
         }
         if(keyCode == KeyboardEvent.KEY_RIGHT){
             menuRightPressed = true;
@@ -230,6 +230,7 @@ public class Game {
 
         if(Arrays.equals(keyQueue.toArray(), target)){
             System.out.println("konami achieved");
+            konamiMode = true;
         }
     }
 
@@ -239,6 +240,8 @@ public class Game {
      */
     private void endScreen() throws InterruptedException {
         menuButtonPressed = false;
+        konamiMode = false;
+        grid.resetColors();
 
         //System.out.println(scoreSystem.printHighScoreList());
 
