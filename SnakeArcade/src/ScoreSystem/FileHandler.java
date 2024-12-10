@@ -153,7 +153,7 @@ public class FileHandler {
             // If parsing fails, set default values
             scoreArray[index] = -1;
             statsArray[index] = "";
-            System.err.println("Error parsing score line: " + line);
+            System.out.println("Parsing score line: [LINE EMPTY]" + line);
         }
     }
 
