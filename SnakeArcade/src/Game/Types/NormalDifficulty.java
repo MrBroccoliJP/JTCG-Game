@@ -6,6 +6,8 @@ import Input.Movements;
 import Orbs.*;
 import Snake.Snake;
 import ScoreSystem.ScoreSystem;
+import Sound.Sound;
+import Sound.SoundManager;
 import com.codeforall.online.simplegraphics.graphics.Color;
 
 import java.util.LinkedList;
@@ -35,15 +37,17 @@ public class NormalDifficulty implements GameType {
     private BonusOrb bonusOrb2;
     private BonusOrb bonusOrb3;
     private RainbowOrb rainbowOrb;
+    private SoundManager soundManager;
 
 
-    public NormalDifficulty(Map map, Screen screen, ScoreSystem scoreSystem, boolean konamiMode) {
+    public NormalDifficulty(Map map, Screen screen, ScoreSystem scoreSystem, SoundManager soundManager, boolean konamiMode) {
         this.map = map;
         this.snake = new Snake(map.columnToX(25), map.rowToY(15));
         this.screen = screen;
         this.scoreSystem = scoreSystem;
         this.konamiMode = konamiMode;
-        orbManager = new OrbManager(this, snake, scoreSystem);
+        this.soundManager = soundManager;
+        orbManager = new OrbManager(this, snake, this.scoreSystem, this.soundManager);
         goodOrb = new GoodOrb(map);
         goodOrb2 = new GoodOrb(map);
         goodOrb3 = new GoodOrb(map);
@@ -185,6 +189,8 @@ public class NormalDifficulty implements GameType {
 
     private void rainbowEffectManager(){
         if(rainbowCycleDuration > 0 && !snake.getRainbowStatus()){
+            soundManager.stopAllSounds();
+            soundManager.toggleRainbowSound();
             snake.rainbowEffectToggle();
             rainbowCycleDuration--;
             if(!map.isRainbowModeActive() && !konamiMode){
@@ -193,6 +199,8 @@ public class NormalDifficulty implements GameType {
         }
         else if(rainbowCycleDuration <= 0 && snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
+            soundManager.toggleRainbowSound();
+            soundManager.toggleNormalGameStartSound();
 
             if(map.isRainbowModeActive() && !konamiMode){
                 map.rainbowModeToggle();
@@ -201,7 +209,6 @@ public class NormalDifficulty implements GameType {
         else if(snake.getRainbowStatus()){
             rainbowCycleDuration--;
         }
-
     }
 
     private void setKonamiMode(){

@@ -6,6 +6,7 @@ import Input.Movements;
 import Orbs.*;
 import ScoreSystem.ScoreSystem;
 import Snake.Snake;
+import Sound.SoundManager;
 import com.codeforall.online.simplegraphics.graphics.Color;
 
 import java.util.LinkedList;
@@ -34,15 +35,17 @@ public class HardDifficulty implements GameType {
     private BadOrb badOrb5;
     private BonusOrb bonusOrb;
     private RainbowOrb rainbowOrb;
+    private SoundManager soundManager;
 
 
-    public HardDifficulty(Map map, Screen screen, ScoreSystem scoreSystem, boolean konamiMode) {
+    public HardDifficulty(Map map, Screen screen, ScoreSystem scoreSystem, SoundManager soundManager, boolean konamiMode) {
         this.map = map;
         this.snake = new Snake(map.columnToX(25), map.rowToY(15));
         this.screen = screen;
         this.scoreSystem = scoreSystem;
         this.konamiMode = konamiMode;
-        orbManager = new OrbManager(this, snake, scoreSystem);
+        this.soundManager = soundManager;
+        orbManager = new OrbManager(this, snake, scoreSystem, soundManager);
         goodOrb = new GoodOrb(map);
         badOrb = new BadOrb(map);
         badOrb2 = new BadOrb(map);
@@ -183,9 +186,10 @@ public class HardDifficulty implements GameType {
         this.rainbowCycleDuration+= addToRainbowCycleDuration;
     }
 
-
     private void rainbowEffectManager(){
         if(rainbowCycleDuration > 0 && !snake.getRainbowStatus()){
+            soundManager.stopAllSounds();
+            soundManager.toggleRainbowSound();
             snake.rainbowEffectToggle();
             rainbowCycleDuration--;
             if(!map.isRainbowModeActive() && !konamiMode){
@@ -194,6 +198,8 @@ public class HardDifficulty implements GameType {
         }
         else if(rainbowCycleDuration <= 0 && snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
+            soundManager.toggleRainbowSound();
+            soundManager.toggleNormalGameStartSound();
 
             if(map.isRainbowModeActive() && !konamiMode){
                 map.rainbowModeToggle();
@@ -202,8 +208,8 @@ public class HardDifficulty implements GameType {
         else if(snake.getRainbowStatus()){
             rainbowCycleDuration--;
         }
-
     }
+
     private void setKonamiMode(){
         if(!snake.getRainbowStatus()) {
             snake.rainbowEffectToggle();

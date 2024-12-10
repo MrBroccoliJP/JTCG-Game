@@ -3,6 +3,7 @@ import Game.Types.GameType;
 import ScoreSystem.ScoreSystem;
 import Snake.Snake;
 import Game.Game;
+import Sound.SoundManager;
 
 public class OrbManager {
     //orb cycle variables
@@ -16,11 +17,13 @@ public class OrbManager {
     private final Snake snake;
     private final ScoreSystem scoreSystem;
     private final GameType gameType;
+    private SoundManager soundManager;
 
-    public OrbManager(GameType gameType, Snake snake, ScoreSystem scoreSystem) {
+    public OrbManager(GameType gameType, Snake snake, ScoreSystem scoreSystem , SoundManager soundManager) {
         this.snake = snake;
         this.scoreSystem = scoreSystem;
         this.gameType = gameType;
+        this.soundManager = soundManager;
     }
     /**
      * Manages orb spawning, duration, and interactions
@@ -83,7 +86,9 @@ public class OrbManager {
 
                 if (orb instanceof BadOrb) {
                     scoreSystem.addBadOrbsEaten(1);
+                    soundManager.playEatBadOrbSound();
                 } else {
+                    soundManager.playEatOrbSound();
                     scoreSystem.addGoodOrbsEaten(1);
                 }
 

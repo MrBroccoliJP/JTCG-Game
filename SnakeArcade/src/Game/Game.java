@@ -7,6 +7,7 @@ import Game.Types.NormalDifficulty;
 import Input.*;
 import Snake.Snake;
 import ScoreSystem.ScoreSystem;
+import Sound.SoundManager;
 import com.codeforall.online.simplegraphics.graphics.*;
 import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEvent;
@@ -23,6 +24,7 @@ public class Game {
     private Screen screen;
     private ScoreSystem scoreSystem;
     private int gameTypeSelection = 0;
+    private SoundManager soundManager = new SoundManager();
 
     private GameType gameType;
 
@@ -109,7 +111,7 @@ public class Game {
      * Displays initial starting screen
      */
     private void startMenu() throws InterruptedException {
-
+        soundManager.toggleMenuSound();
         mygameKeyboard = new MyGameKeyboard();
         mygameKeyboard.setGameStage(0);
         mygameKeyboard.init(this, null);
@@ -125,6 +127,7 @@ public class Game {
         menuButtonPressed = false;
 
         screen.startMenuDelete();
+        soundManager.stopAllSounds();
         startSnakeGame(gameTypeSelection);
     }
 
@@ -164,26 +167,32 @@ public class Game {
      * Handles snake movement, orb interactions, and game progression
      */
     private void startNormalDifficulty() throws InterruptedException {
-        gameType = new NormalDifficulty(map, screen , scoreSystem,konamiMode );
+        soundManager.toggleNormalGameStartSound();
+        gameType = new NormalDifficulty(map, screen , scoreSystem,soundManager, konamiMode );
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         scoreSystem.saveHighScore(gameType);
+        soundManager.stopAllSounds();
         endScreen();
 
     }
     private void startMediumDifficulty() throws InterruptedException {
-        gameType = new MediumDifficulty(map, screen , scoreSystem, konamiMode);
+        gameType = new MediumDifficulty(map, screen , scoreSystem,soundManager, konamiMode);
+        soundManager.toggleMediumGameStartSound();
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         scoreSystem.saveHighScore(gameType);
+        soundManager.stopAllSounds();
         endScreen();
 
     }
     private void startHardDifficulty() throws InterruptedException {
-        gameType = new HardDifficulty(map, screen , scoreSystem, konamiMode);
+        gameType = new HardDifficulty(map, screen , scoreSystem, soundManager, konamiMode);
+        soundManager.toggleHardGameStartSound();
         mygameKeyboard.setGameType(gameType);
         gameType.start();
         scoreSystem.saveHighScore(gameType);
+        soundManager.stopAllSounds();
         endScreen();
     }
 
@@ -239,6 +248,8 @@ public class Game {
      * Displays end screen with game stats
      */
     private void endScreen() throws InterruptedException {
+        soundManager.stopAllSounds();
+        soundManager.playEndGameSound();
         menuButtonPressed = false;
         konamiMode = false;
         map.resetColors();
