@@ -1,6 +1,7 @@
 package Orbs;
 
 import Game.Map;
+import Game.ResourcePath;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 import com.codeforall.online.simplegraphics.pictures.Picture;
 
@@ -38,7 +39,7 @@ public class GoodOrb implements SnakeOrbs {
         int randomRow = (int) (Math.random() * (map.getRows()-1));
         this.active = true;
         rectangle = new Rectangle(map.columnToX(randomCol)+1, map.rowToY(randomRow)+1, map.getCellSize()-2, map.getCellSize()-2);
-        picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"resources/IntelliJ_18_18.png");
+        picture = new Picture(rectangle.getX()-1,rectangle.getY()-1, ResourcePath.RESOURCE_PATH + "IntelliJ_18_18.png");
         //picture = new Picture(rectangle.getX()-1,rectangle.getY()-1,"IntelliJ_18_18.png"); //THIS IS ONLY FOR THE ANT BUILD
         //rectangle.setColor(Color.WHITE);
         //rectangle.draw();

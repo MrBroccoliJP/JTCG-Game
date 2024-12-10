@@ -182,7 +182,7 @@ public class Snake {
      */
     private void moveBody(int previousX, int previousY){
         int newPreviousX, newPreviousY; // To store the new position to pass to the next block
-        Color previousBlockColor = Color.PINK; //Just in case.
+        Color previousBlockColor = Color.PURPLE; //Just in case.
         // Move the rest of the snake blocks
         for (int i = 1; i < snakeBlocksList.size(); i++) {
             SnakeBlocks block = snakeBlocksList.get(i);

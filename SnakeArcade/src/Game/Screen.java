@@ -8,6 +8,7 @@ import com.codeforall.online.simplegraphics.graphics.Text;
 import ScoreSystem.ScoreSystem;
 import com.codeforall.online.simplegraphics.pictures.Picture;
 
+
 public class Screen {
     private Text scoreText = new Text(0,0," ");
     private boolean newGame = false;
@@ -39,7 +40,7 @@ public class Screen {
         Canvas.setMaxX(map.getCellSize()* map.getCols()+ Map.PADDING);
         Canvas.setMaxY(map.getCellSize()* map.getRows()+ Map.PADDING);
         logo = new Picture();
-        logo.load("resources/StartScreen.png");
+        logo.load(ResourcePath.RESOURCE_PATH + "StartScreen.png");
         logo.draw();
         drawStartMenuRect(-1);
     }

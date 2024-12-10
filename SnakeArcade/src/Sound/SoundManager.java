@@ -1,5 +1,7 @@
 package Sound;
 
+import Game.ResourcePath;
+
 public class SoundManager {
 
     private Sound menuSound;
@@ -13,14 +15,23 @@ public class SoundManager {
 
     public SoundManager() {
         // Load sound files
-        menuSound = new Sound("resources/menuSound.wav");
-        normalGameStartSound = new Sound("resources/normalGameStartSound.wav");
-        mediumGameStartSound = new Sound("resources/mediumGameStartSound.wav");
-        hardGameStartSound = new Sound("resources/hardGameStartSound.wav");
-        eatOrbSound = new Sound("resources/eatOrbSound.wav");
-        eatBadOrbSound = new Sound("resources/eatBadOrbSound.wav");
-        endGameSound = new Sound("resources/endGameSound.wav");
-        rainbowSound = new Sound("resources/rainbowModeSound.wav");
+//        menuSound = new Sound(ResourcePath.RESOURCE_PATH + "menuSound.wav");
+//        normalGameStartSound = new Sound(ResourcePath.RESOURCE_PATH + "normalGameStartSound.wav");
+//        mediumGameStartSound = new Sound(ResourcePath.RESOURCE_PATH + "mediumGameStartSound.wav");
+//        hardGameStartSound = new Sound(ResourcePath.RESOURCE_PATH + "hardGameStartSound.wav");
+//        eatOrbSound = new Sound(ResourcePath.RESOURCE_PATH + "eatOrbSound.wav");
+//        eatBadOrbSound = new Sound(ResourcePath.RESOURCE_PATH + "eatBadOrbSound.wav");
+//        endGameSound = new Sound(ResourcePath.RESOURCE_PATH + "endGameSound.wav");
+//        rainbowSound = new Sound(ResourcePath.RESOURCE_PATH + "rainbowModeSound.wav");
+
+        menuSound = new Sound("/menuSound.wav");
+        normalGameStartSound = new Sound("/normalGameStartSound.wav");
+        mediumGameStartSound = new Sound("/mediumGameStartSound.wav");
+        hardGameStartSound = new Sound("/hardGameStartSound.wav");
+        eatOrbSound = new Sound("/eatOrbSound.wav");
+        eatBadOrbSound = new Sound("/eatBadOrbSound.wav");
+        endGameSound = new Sound("/endGameSound.wav");
+        rainbowSound = new Sound("/rainbowModeSound.wav");
     }
 
     /**

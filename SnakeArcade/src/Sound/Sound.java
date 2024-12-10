@@ -1,8 +1,7 @@
 package Sound;
 
 import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class Sound {
 
@@ -27,6 +26,52 @@ public class Sound {
             System.err.println("Error loading sound: " + e.getMessage());
         }
     }
+
+    //VERSAO 2
+//    public Sound(String soundFilePath) {
+//        try {
+//            // Ensure the path does not include "resources/"
+//            InputStream inputStream = getClass().getResourceAsStream(soundFilePath);
+//            if (inputStream == null) {
+//                throw new IOException("Sound file not found in resources: " + soundFilePath);
+//            }
+//
+//            // Get an AudioInputStream from the InputStream
+//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+//
+//            // Get a Clip object and open the audio stream
+//            clip = AudioSystem.getClip();
+//            clip.open(audioStream);
+//            isPlaying = false;
+//        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+//            System.err.println("Error loading sound: " + e.getMessage());
+//        }
+//    }
+
+    //VERSAO 3
+
+//    public Sound(String soundFilePath) {
+//        try {
+//            // Load the sound file as a resource stream
+//            InputStream inputStream = getClass().getResourceAsStream(soundFilePath);
+//            if (inputStream == null) {
+//                throw new IOException("Sound file not found in resources: " + soundFilePath);
+//            }
+//
+//            // Wrap the InputStream in a BufferedInputStream to support mark/reset
+//            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+//
+//            // Get an AudioInputStream from the BufferedInputStream
+//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedInputStream);
+//
+//            // Get a Clip object and open the audio stream
+//            clip = AudioSystem.getClip();
+//            clip.open(audioStream);
+//            isPlaying = false;
+//        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+//            System.err.println("Error loading sound: " + e.getMessage());
+//        }
+//    }
 
     /**
      * Toggles sound on or off
