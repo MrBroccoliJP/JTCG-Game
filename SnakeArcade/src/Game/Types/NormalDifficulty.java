@@ -23,6 +23,7 @@ public class NormalDifficulty implements GameType {
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
     private int rainbowCycleDuration = 0;
+    private boolean konamiMode = false;
 
     //Orb Objects
     private LinkedList<SnakeOrbs> activeOrbs = new LinkedList<>();
@@ -36,11 +37,12 @@ public class NormalDifficulty implements GameType {
     private RainbowOrb rainbowOrb;
 
 
-    public NormalDifficulty(Grid grid, Screen screen, ScoreSystem scoreSystem) {
+    public NormalDifficulty(Grid grid, Screen screen, ScoreSystem scoreSystem, boolean konamiMode) {
         this.grid = grid;
         this.snake = new Snake(grid.columnToX(25), grid.rowToY(15));
         this.screen = screen;
         this.scoreSystem = scoreSystem;
+        this.konamiMode = konamiMode;
         orbManager = new OrbManager(this, snake, scoreSystem);
         goodOrb = new GoodOrb(grid);
         goodOrb2 = new GoodOrb(grid);
@@ -85,8 +87,11 @@ public class NormalDifficulty implements GameType {
                 for(SnakeOrbs orbs : activeOrbs) {
                     orbManager.orbCheck(orbs, cycleCount);
                 }
-                //orbManager.orbCheck(badOrb, cycleCount);
-                //orbManager.orbCheck(bonusOrb, cycleCount);
+
+                if(konamiMode){
+                    rainbowCycleDuration = 2;
+                    scoreSystem.addScore(500);
+                }
 
                 cycleCount++;
                 Thread.sleep(speed);

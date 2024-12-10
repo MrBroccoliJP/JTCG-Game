@@ -81,4 +81,10 @@ public class Grid {
         }
     }
 
+    public void resetColors(){
+        rainbowModeActive = false;
+        field.setColor(new Color(0,0,0));
+        field.draw();
+    }
+
 }
