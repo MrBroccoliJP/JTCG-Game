@@ -168,19 +168,25 @@ public class Game {
         gameType = new NormalDifficulty(grid, screen , scoreSystem);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
+        scoreSystem.saveHighScore(gameType);
         endScreen();
+
     }
     private void startMediumDifficulty() throws InterruptedException {
         gameType = new MediumDifficulty(grid, screen , scoreSystem);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
+        scoreSystem.saveHighScore(gameType);
         endScreen();
+
     }
     private void startHardDifficulty() throws InterruptedException {
         gameType = new HardDifficulty(grid, screen , scoreSystem);
         mygameKeyboard.setGameType(gameType);
         gameType.start();
+        scoreSystem.saveHighScore(gameType);
         endScreen();
+
     }
 
     /**
@@ -235,10 +241,10 @@ public class Game {
      */
     private void endScreen() throws InterruptedException {
         menuButtonPressed = false;
-        scoreSystem.saveHighScore();
+
         //System.out.println(scoreSystem.printHighScoreList());
 
-        screen.endScreen();
+        screen.endScreen(gameType);
         mygameKeyboard.setGameStage(0);
         try {
             while (!menuButtonPressed) {

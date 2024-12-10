@@ -1,5 +1,6 @@
 package Game;
 
+import Game.Types.GameType;
 import com.codeforall.online.simplegraphics.graphics.Canvas;
 import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
@@ -78,8 +79,7 @@ public class Screen {
         this.scoreText.draw();
     }
 
-    public void endScreen(){
-
+    public void endScreen(GameType gameType){
 
         gameOverText = new Text(((double) grid.columnToX(grid.getCols()) /2), 0, "GAME OVER");
         gameOverText.translate((double) -gameOverText.getWidth() ,0);
@@ -91,11 +91,11 @@ public class Screen {
 
         HighScore =  new Text(statsTitle.getX(), statsTitle.getY()+statsTitle.getHeight(), "High Score: ");
 
-        stats1 = new Text(HighScore.getX(), HighScore.getY()+HighScore.getHeight(), scoreSystem.printHighScoreList(0));
-        stats2 = new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*2, scoreSystem.printHighScoreList(1));
-        stats3 = new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*3, scoreSystem.printHighScoreList(2));
-        stats4 = new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*4, scoreSystem.printHighScoreList(3));
-        stats5= new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*5, scoreSystem.printHighScoreList(4));
+        stats1 = new Text(HighScore.getX(), HighScore.getY()+HighScore.getHeight(), scoreSystem.printHighScoreList(gameType,0));
+        stats2 = new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*2, scoreSystem.printHighScoreList(gameType,1));
+        stats3 = new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*3, scoreSystem.printHighScoreList(gameType,2));
+        stats4 = new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*4, scoreSystem.printHighScoreList(gameType, 3));
+        stats5= new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*5, scoreSystem.printHighScoreList(gameType, 4));
 
         info = new Text(gameOverText.getX(), stats1.getY()+stats1.getHeight()*6, "Press space to start again");
 
