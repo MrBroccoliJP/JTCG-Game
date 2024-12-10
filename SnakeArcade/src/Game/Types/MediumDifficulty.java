@@ -18,8 +18,8 @@ public class MediumDifficulty implements GameType{
     private OrbManager orbManager;
     private Screen screen;
     //game speed and movement control
-    private int baseSpeed = 400;
-    private int speed = 400;
+    private int baseSpeed = 120;
+    private int speed = 120;
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
     private int rainbowCycleDuration = 0;
@@ -28,6 +28,8 @@ public class MediumDifficulty implements GameType{
     private LinkedList<SnakeOrbs> activeOrbs = new LinkedList<>();
     private GoodOrb goodOrb;
     private BadOrb badOrb;
+    private BadOrb badOrb2;
+    private BadOrb badOrb3;
     private BonusOrb bonusOrb;
     private RainbowOrb rainbowOrb;
 
@@ -40,10 +42,14 @@ public class MediumDifficulty implements GameType{
         orbManager = new OrbManager(this, snake, scoreSystem);
         goodOrb = new GoodOrb(grid);
         badOrb = new BadOrb(grid);
+        badOrb2 = new BadOrb(grid);
+        badOrb3 = new BadOrb(grid);
         bonusOrb = new BonusOrb(grid);
         rainbowOrb = new RainbowOrb(grid);
         activeOrbs.add(goodOrb);
         activeOrbs.add(badOrb);
+        activeOrbs.add(badOrb2);
+        activeOrbs.add(badOrb3);
         activeOrbs.add(bonusOrb);
         activeOrbs.add(rainbowOrb);
     }
@@ -107,7 +113,7 @@ public class MediumDifficulty implements GameType{
 
         // Base speed adjustment logic
         if (score < 1000) {
-            speed = 200; // Default speed for scores below 1000
+            speed = baseSpeed; // Default speed for scores below 1000
         } else {
             if(speed > 100) {
                 speed = (int) (baseSpeed - (score - 1000) * 0.01); // Increase speed for scores above 1000

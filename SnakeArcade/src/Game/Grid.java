@@ -11,6 +11,7 @@ public class Grid {
     private int cols;
     private int rows;
     private Rectangle field;
+    private Rectangle margins;
     private boolean rainbowModeActive = false;
 
     /**
@@ -31,8 +32,9 @@ public class Grid {
     public void init() {
         Canvas.setMaxX((cols * cellSize)+PADDING);
         Canvas.setMaxY((rows * cellSize)+PADDING);
-        field = new Rectangle(PADDING, PADDING, cols * cellSize - PADDING, rows * cellSize - PADDING);
-        field.draw();
+        field = new Rectangle(PADDING+1, PADDING+1, cols * cellSize - PADDING-1, rows * cellSize - PADDING-1);
+        margins = new Rectangle(PADDING, PADDING, cols * cellSize - PADDING, rows * cellSize - PADDING);
+        margins.draw();
     }
 
     public int getCellSize() {
@@ -76,9 +78,18 @@ public class Grid {
         }
         else{
             rainbowModeActive = true;
+            //margins.draw();
+
             field.setColor(new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
             field.fill();
+            //margins.draw();
         }
     }
 
+    public void setMapColor(Color color) {
+
+        field.setColor(color);
+        field.fill();
+        //margins.draw();
+    }
 }

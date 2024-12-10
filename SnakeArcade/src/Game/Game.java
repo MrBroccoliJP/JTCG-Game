@@ -263,4 +263,8 @@ public class Game {
 
     }
 
+    public void exit(){
+        System.exit(0);
+    }
+
 }

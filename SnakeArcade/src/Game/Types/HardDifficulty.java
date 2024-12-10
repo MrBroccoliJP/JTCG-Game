@@ -18,8 +18,8 @@ public class HardDifficulty implements GameType {
     private OrbManager orbManager;
     private Screen screen;
     //game speed and movement control
-    private int baseSpeed = 600;
-    private int speed = 600;
+    private int baseSpeed = 80;
+    private int speed = 80;
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
     private int rainbowCycleDuration = 0;
@@ -28,6 +28,10 @@ public class HardDifficulty implements GameType {
     private LinkedList<SnakeOrbs> activeOrbs = new LinkedList<>();
     private GoodOrb goodOrb;
     private BadOrb badOrb;
+    private BadOrb badOrb2;
+    private BadOrb badOrb3;
+    private BadOrb badOrb4;
+    private BadOrb badOrb5;
     private BonusOrb bonusOrb;
     private RainbowOrb rainbowOrb;
 
@@ -40,10 +44,18 @@ public class HardDifficulty implements GameType {
         orbManager = new OrbManager(this, snake, scoreSystem);
         goodOrb = new GoodOrb(grid);
         badOrb = new BadOrb(grid);
+        badOrb2 = new BadOrb(grid);
+        badOrb3 = new BadOrb(grid);
+        badOrb4 = new BadOrb(grid);
+        badOrb5 = new BadOrb(grid);
         bonusOrb = new BonusOrb(grid);
         rainbowOrb = new RainbowOrb(grid);
         activeOrbs.add(goodOrb);
         activeOrbs.add(badOrb);
+        activeOrbs.add(badOrb2);
+        activeOrbs.add(badOrb3);
+        activeOrbs.add(badOrb4);
+        activeOrbs.add(badOrb5);
         activeOrbs.add(bonusOrb);
         activeOrbs.add(rainbowOrb);
     }
@@ -72,9 +84,6 @@ public class HardDifficulty implements GameType {
                 for(SnakeOrbs orbs : activeOrbs) {
                     orbManager.orbCheck(orbs, cycleCount);
                 }
-                //orbManager.orbCheck(badOrb, cycleCount);
-                //orbManager.orbCheck(bonusOrb, cycleCount);
-
                 cycleCount++;
                 Thread.sleep(speed);
             }
@@ -105,14 +114,12 @@ public class HardDifficulty implements GameType {
     private void speedStepsCalc(){
         int score = scoreSystem.getScore();
 
-        // Base speed adjustment logic
         if (score < 1000) {
-            speed = 200; // Default speed for scores below 1000
+            speed = baseSpeed;
         } else {
             if(speed > 100) {
                 speed = (int) (baseSpeed - (score - 1000) * 0.01); // Increase speed for scores above 1000
             }
-            //System.out.println("speed change: " + speed);
         }
     }
 

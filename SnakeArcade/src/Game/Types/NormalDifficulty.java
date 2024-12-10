@@ -120,7 +120,7 @@ public class NormalDifficulty implements GameType {
 
         // Base speed adjustment logic
         if (score < 1000) {
-            speed = 200; // Default speed for scores below 1000
+            speed = baseSpeed; // Default speed for scores below 1000
         } else {
             if(speed > 100) {
                 speed = (int) (baseSpeed - (score - 1000) * 0.01); // Increase speed for scores above 1000

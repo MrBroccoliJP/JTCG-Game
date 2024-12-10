@@ -39,6 +39,7 @@ public class MyGameKeyboard implements KeyboardHandler {
         addKey(KeyboardEvent.KEY_S);
         addKey(KeyboardEvent.KEY_W);
         addKey(KeyboardEvent.KEY_B);
+        addKey(KeyboardEvent.KEY_ESC);
     }
 
     /**
@@ -77,6 +78,10 @@ public class MyGameKeyboard implements KeyboardHandler {
         }
         else if(gameStage == 0) {
                 game.menuKeyboardInput(keyboardEvent.getKey());
+        }
+
+        if(keyboardEvent.getKey() == KeyboardEvent.KEY_ESC) {
+            game.exit();
         }
 
     }
