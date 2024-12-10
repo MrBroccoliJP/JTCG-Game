@@ -1,5 +1,6 @@
 package Game;
 import com.codeforall.online.simplegraphics.graphics.Canvas;
+import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 
 public class Grid {
@@ -9,6 +10,8 @@ public class Grid {
     private int cellSize;
     private int cols;
     private int rows;
+    private Rectangle field;
+    private boolean rainbowModeActive = false;
 
     /**
      * Simple graphics grid constructor with a certain number of rows and columns
@@ -28,7 +31,7 @@ public class Grid {
     public void init() {
         Canvas.setMaxX((cols * cellSize)+PADDING);
         Canvas.setMaxY((rows * cellSize)+PADDING);
-        Rectangle field = new Rectangle(PADDING, PADDING, cols * cellSize - PADDING, rows * cellSize - PADDING);
+        field = new Rectangle(PADDING, PADDING, cols * cellSize - PADDING, rows * cellSize - PADDING);
         field.draw();
     }
 
@@ -63,6 +66,19 @@ public class Grid {
      */
     public int columnToX(int column) {
         return PADDING + cellSize * column;
+    }
+
+    public void rainbowModeToggle(){
+        if(rainbowModeActive){
+            rainbowModeActive = false;
+            field.setColor(new Color(0,0,0));
+            field.draw();
+        }
+        else{
+            rainbowModeActive = true;
+            field.setColor(new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
+            field.fill();
+        }
     }
 
 }

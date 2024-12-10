@@ -22,13 +22,14 @@ public class HardDifficulty implements GameType {
     private int speed = 600;
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
-    private int rainbowCycleDuration = 100;
+    private int rainbowCycleDuration = 0;
 
     //Orb Objects
     private LinkedList<SnakeOrbs> activeOrbs = new LinkedList<>();
     private GoodOrb goodOrb;
     private BadOrb badOrb;
     private BonusOrb bonusOrb;
+    private RainbowOrb rainbowOrb;
 
 
     public HardDifficulty(Grid grid, Screen screen, ScoreSystem scoreSystem) {
@@ -40,9 +41,11 @@ public class HardDifficulty implements GameType {
         goodOrb = new GoodOrb(grid);
         badOrb = new BadOrb(grid);
         bonusOrb = new BonusOrb(grid);
+        rainbowOrb = new RainbowOrb(grid);
         activeOrbs.add(goodOrb);
         activeOrbs.add(badOrb);
         activeOrbs.add(bonusOrb);
+        activeOrbs.add(rainbowOrb);
     }
 
     public void start(){
@@ -163,10 +166,12 @@ public class HardDifficulty implements GameType {
     public void rainbowEffectManager(){
         if(rainbowCycleDuration > 0 && !snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
+            grid.rainbowModeToggle();
             rainbowCycleDuration--;
         }
         else if(rainbowCycleDuration <= 0 && snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
+            grid.rainbowModeToggle();
         }
         else if(snake.getRainbowStatus()){
             rainbowCycleDuration--;

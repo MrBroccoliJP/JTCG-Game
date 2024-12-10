@@ -216,7 +216,14 @@ public class Snake {
         }
 
         if(blockBuffer > 0){
-            SnakeBlocks block = new SnakeBlocks(previousX,previousY,new Color(previousBlockColor.getRed(),previousBlockColor.getGreen()-2,previousBlockColor.getBlue()));
+            SnakeBlocks block;
+            if(rainbowActive){
+                block = new SnakeBlocks(previousX, previousY, new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
+            }
+            else {
+                int greenCalc = Math.max(255 - (snakeBlocksList.size() * 2), 0);
+                block = new SnakeBlocks(previousX, previousY, new Color(0,greenCalc , 0));
+            }
             snakeBlocksList.add(block);
             block.getRectangle().fill();
             blockBuffer--;
@@ -311,7 +318,7 @@ public class Snake {
             //snakeColor = new Color(0,255,0); //ensure it starts at the right color
             for (int i = 0; i < snakeBlocksList.size(); i++) {
                 rectangle = snakeBlocksList.get(i).getRectangle();
-                rectangle.setColor(new Color(0,255-i,0));
+                rectangle.setColor(new Color(0, Math.max((255-(i*2)),0) ,0));
                 rectangle.fill();
             }
         }

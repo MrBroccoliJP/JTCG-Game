@@ -37,7 +37,6 @@ public class SnakeBlocks {
         return this.color;
     }
 
-
     public Rectangle getRectangle() {
         return rectangle;
     }

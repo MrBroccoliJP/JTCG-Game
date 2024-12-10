@@ -5,15 +5,11 @@ import Game.Types.HardDifficulty;
 import Game.Types.MediumDifficulty;
 import Game.Types.NormalDifficulty;
 import Input.*;
-import Orbs.*;
 import Snake.Snake;
 import ScoreSystem.ScoreSystem;
 import com.codeforall.online.simplegraphics.graphics.*;
 import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEvent;
-import com.codeforall.online.simplegraphics.pictures.*;
-
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;

@@ -22,7 +22,7 @@ public class NormalDifficulty implements GameType {
     private int speed = 200;
     private Movements movement = Movements.NONE;
     private Movements currentMovement = Movements.NONE;
-    private int rainbowCycleDuration = 100;
+    private int rainbowCycleDuration = 0;
 
     //Orb Objects
     private LinkedList<SnakeOrbs> activeOrbs = new LinkedList<>();
@@ -178,10 +178,12 @@ public class NormalDifficulty implements GameType {
     private void rainbowEffectManager(){
         if(rainbowCycleDuration > 0 && !snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
+            grid.rainbowModeToggle();
             rainbowCycleDuration--;
         }
         else if(rainbowCycleDuration <= 0 && snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
+            grid.rainbowModeToggle();
         }
         else if(snake.getRainbowStatus()){
             rainbowCycleDuration--;
