@@ -16,6 +16,7 @@ public class Screen {
     Picture logo;
     Rectangle gameTypeSelectionRect;
 
+    Text thisScore;
     Text statsTitle;
     Text gameOverText;
     Text HighScore;
@@ -87,18 +88,21 @@ public class Screen {
         gameOverText.grow(300,70);
         gameOverText.translate(0,grid.getRows()+((double) gameOverText.getHeight() /2));
 
-        statsTitle = new Text(gameOverText.getX(), gameOverText.getY()+ gameOverText.getHeight(), "Stats: ");
+        thisScore = new Text(gameOverText.getX(), gameOverText.getY()+ gameOverText.getHeight(), "Your Score: " + scoreSystem.getStat());
 
-        HighScore =  new Text(statsTitle.getX(), statsTitle.getY()+statsTitle.getHeight(), "High Score: ");
+        statsTitle = new Text(thisScore.getX(), thisScore.getY()+ thisScore.getHeight()*2, "High Score Table:");
 
-        stats1 = new Text(HighScore.getX(), HighScore.getY()+HighScore.getHeight(), scoreSystem.printHighScoreList(gameType,0));
-        stats2 = new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*2, scoreSystem.printHighScoreList(gameType,1));
-        stats3 = new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*3, scoreSystem.printHighScoreList(gameType,2));
-        stats4 = new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*4, scoreSystem.printHighScoreList(gameType, 3));
-        stats5= new Text(HighScore.getX(), stats1.getY()+stats1.getHeight()*5, scoreSystem.printHighScoreList(gameType, 4));
+        HighScore =  new Text(statsTitle.getX(), statsTitle.getY()+statsTitle.getHeight(), "All time Greatest Score: ");
+
+        stats1 = new Text(HighScore.getX()+ HighScore.getWidth(), HighScore.getY(), scoreSystem.printHighScoreList(gameType,0));
+        stats2 = new Text(stats1.getX(), stats1.getY()+stats1.getHeight(), scoreSystem.printHighScoreList(gameType,1));
+        stats3 = new Text(stats2.getX(), stats1.getY()+stats1.getHeight()*2, scoreSystem.printHighScoreList(gameType,2));
+        stats4 = new Text(stats3.getX(), stats1.getY()+stats1.getHeight()*3, scoreSystem.printHighScoreList(gameType, 3));
+        stats5= new Text(stats4.getX(), stats1.getY()+stats1.getHeight()*4, scoreSystem.printHighScoreList(gameType, 4));
 
         info = new Text(gameOverText.getX(), stats1.getY()+stats1.getHeight()*6, "Press space to start again");
 
+        thisScore.draw();
         gameOverText.draw();
         statsTitle.draw();
         HighScore.draw();
@@ -112,6 +116,7 @@ public class Screen {
     }
 
     public void clear(){
+         thisScore.delete();
          statsTitle.delete();
          gameOverText.delete();
          HighScore.delete();

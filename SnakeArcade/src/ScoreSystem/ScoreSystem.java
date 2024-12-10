@@ -37,6 +37,12 @@ public class ScoreSystem {
     public int getScore() {
         return score;
     }
+
+    public String getStat() {
+        String newStat;
+        return newStat = "Score: " + score + "| Good Orbs Eaten: " + goodOrbsEaten + " | Bad Orbs Eaten: " + badOrbsEaten;
+    }
+
     public int addScore(int amount) {
         return score += amount;
     }
@@ -136,13 +142,6 @@ public class ScoreSystem {
                 output.append(" ");
             }
         return output.toString();
-    }
-
-    public void setStats(String[] stats) {
-        this.stats = stats;
-    }
-    public void setHighScore(int[] highScore) {
-        this.highScore = highScore;
     }
 
     public void setHighScores(int[] highScoresN, String[] statsN, int[] highScoresM, String[] statsM, int[] highScoresH, String[] statsH) {
