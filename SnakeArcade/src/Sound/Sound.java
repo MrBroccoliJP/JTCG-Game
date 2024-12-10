@@ -12,34 +12,13 @@ public class Sound {
      * Loads a sound file from the given path
      * @param soundFilePath Path to the .wav sound file
      */
-    public Sound(String soundFilePath) {
-        try {
-            File soundFile = new File(soundFilePath);
-            if (!soundFile.exists()) {
-                throw new IOException("Sound file not found: " + soundFilePath);
-            }
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
-            clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            isPlaying = false;
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            System.err.println("Error loading sound: " + e.getMessage());
-        }
-    }
-
-    //VERSAO 2
 //    public Sound(String soundFilePath) {
 //        try {
-//            // Ensure the path does not include "resources/"
-//            InputStream inputStream = getClass().getResourceAsStream(soundFilePath);
-//            if (inputStream == null) {
-//                throw new IOException("Sound file not found in resources: " + soundFilePath);
+//            File soundFile = new File(soundFilePath);
+//            if (!soundFile.exists()) {
+//                throw new IOException("Sound file not found: " + soundFilePath);
 //            }
-//
-//            // Get an AudioInputStream from the InputStream
-//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
-//
-//            // Get a Clip object and open the audio stream
+//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
 //            clip = AudioSystem.getClip();
 //            clip.open(audioStream);
 //            isPlaying = false;
@@ -50,28 +29,28 @@ public class Sound {
 
     //VERSAO 3
 
-//    public Sound(String soundFilePath) {
-//        try {
-//            // Load the sound file as a resource stream
-//            InputStream inputStream = getClass().getResourceAsStream(soundFilePath);
-//            if (inputStream == null) {
-//                throw new IOException("Sound file not found in resources: " + soundFilePath);
-//            }
-//
-//            // Wrap the InputStream in a BufferedInputStream to support mark/reset
-//            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-//
-//            // Get an AudioInputStream from the BufferedInputStream
-//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedInputStream);
-//
-//            // Get a Clip object and open the audio stream
-//            clip = AudioSystem.getClip();
-//            clip.open(audioStream);
-//            isPlaying = false;
-//        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-//            System.err.println("Error loading sound: " + e.getMessage());
-//        }
-//    }
+    public Sound(String soundFilePath) {
+        try {
+            // Load the sound file as a resource stream
+            InputStream inputStream = getClass().getResourceAsStream(soundFilePath);
+            if (inputStream == null) {
+                throw new IOException("Sound file not found in resources: " + soundFilePath);
+            }
+
+            // Wrap the InputStream in a BufferedInputStream to support mark/reset
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+
+            // Get an AudioInputStream from the BufferedInputStream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedInputStream);
+
+            // Get a Clip object and open the audio stream
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            isPlaying = false;
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.err.println("Error loading sound: " + e.getMessage());
+        }
+    }
 
     /**
      * Toggles sound on or off
