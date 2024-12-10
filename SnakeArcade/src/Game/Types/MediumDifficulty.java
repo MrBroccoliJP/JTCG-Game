@@ -7,6 +7,7 @@ import Input.Movements;
 import Orbs.*;
 import ScoreSystem.ScoreSystem;
 import Snake.Snake;
+import com.codeforall.online.simplegraphics.graphics.Color;
 
 import java.util.LinkedList;
 
@@ -57,6 +58,10 @@ public class MediumDifficulty implements GameType{
     }
 
     public void start(){
+        if(konamiMode) {
+            setKonamiMode();
+        }
+
         try {
             while (true) {  //infinite loop
                 speedStepsCalc();
@@ -174,18 +179,30 @@ public class MediumDifficulty implements GameType{
         this.rainbowCycleDuration+= addToRainbowCycleDuration;
     }
 
-    public void rainbowEffectManager(){
+    private void rainbowEffectManager(){
         if(rainbowCycleDuration > 0 && !snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
-            grid.rainbowModeToggle();
             rainbowCycleDuration--;
+            if(!grid.isRainbowModeActive() && !konamiMode){
+                grid.rainbowModeToggle();
+            }
         }
         else if(rainbowCycleDuration <= 0 && snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
-            grid.rainbowModeToggle();
+
+            if(grid.isRainbowModeActive() && !konamiMode){
+                grid.rainbowModeToggle();
+            }
         }
         else if(snake.getRainbowStatus()){
             rainbowCycleDuration--;
         }
+
+    }
+    private void setKonamiMode(){
+        if(!snake.getRainbowStatus()) {
+            snake.rainbowEffectToggle();
+        }
+        grid.setMapColor(new Color(255,225,225));
     }
 }

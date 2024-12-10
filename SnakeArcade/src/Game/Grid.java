@@ -34,6 +34,8 @@ public class Grid {
         Canvas.setMaxY((rows * cellSize)+PADDING);
         field = new Rectangle(PADDING+1, PADDING+1, cols * cellSize - PADDING-1, rows * cellSize - PADDING-1);
         margins = new Rectangle(PADDING, PADDING, cols * cellSize - PADDING, rows * cellSize - PADDING);
+        field.setColor(Color.WHITE);
+        field.draw();
         margins.draw();
     }
 
@@ -87,9 +89,19 @@ public class Grid {
     }
 
     public void setMapColor(Color color) {
-
         field.setColor(color);
         field.fill();
         //margins.draw();
+    }
+
+    public void resetColors(){
+
+        field.setColor(Color.WHITE);
+        field.fill();
+        margins.draw();
+    }
+
+    public boolean isRainbowModeActive(){
+        return rainbowModeActive;
     }
 }

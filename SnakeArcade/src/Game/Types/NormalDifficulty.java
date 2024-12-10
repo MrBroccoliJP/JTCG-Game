@@ -7,6 +7,7 @@ import Input.Movements;
 import Orbs.*;
 import Snake.Snake;
 import ScoreSystem.ScoreSystem;
+import com.codeforall.online.simplegraphics.graphics.Color;
 
 import java.util.LinkedList;
 
@@ -65,6 +66,10 @@ public class NormalDifficulty implements GameType {
 
     public void start(){
         try {
+            if(konamiMode) {
+                setKonamiMode();
+            }
+
             while (true) {  //infinite loop
                 speedStepsCalc();
                 screen.drawScore();
@@ -174,7 +179,6 @@ public class NormalDifficulty implements GameType {
         }
     }
 
-
     @Override
     public void setRainbowCycleDuration(int addToRainbowCycleDuration) {
         this.rainbowCycleDuration+= addToRainbowCycleDuration;
@@ -183,15 +187,28 @@ public class NormalDifficulty implements GameType {
     private void rainbowEffectManager(){
         if(rainbowCycleDuration > 0 && !snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
-            grid.rainbowModeToggle();
             rainbowCycleDuration--;
+            if(!grid.isRainbowModeActive() && !konamiMode){
+                grid.rainbowModeToggle();
+            }
         }
         else if(rainbowCycleDuration <= 0 && snake.getRainbowStatus()){
             snake.rainbowEffectToggle();
-            grid.rainbowModeToggle();
+
+            if(grid.isRainbowModeActive() && !konamiMode){
+                grid.rainbowModeToggle();
+            }
         }
         else if(snake.getRainbowStatus()){
             rainbowCycleDuration--;
         }
+
+    }
+
+    private void setKonamiMode(){
+        if(!snake.getRainbowStatus()) {
+            snake.rainbowEffectToggle();
+        }
+        grid.setMapColor(new Color(255,225,225));
     }
 }
