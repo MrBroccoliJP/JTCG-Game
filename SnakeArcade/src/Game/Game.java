@@ -52,8 +52,11 @@ public class Game {
         map = new Map(50, 40, CELLSIZE);
         screen = new Screen(scoreSystem, map);
 
-        //displays the initial starting screen
+        mygameKeyboard = new MyGameKeyboard();
+        mygameKeyboard.init(this, null);
+
         try {
+            //displays the initial starting screen
             startMenu();
         }
         catch (Exception e) {
@@ -69,6 +72,7 @@ public class Game {
     private void startSnakeGame(int gameTypeSelection) {
         //starts the game map
         map.init();
+
         scoreSystem = new ScoreSystem();
         screen = new Screen(scoreSystem, map);
 
@@ -108,9 +112,8 @@ public class Game {
      */
     private void startMenu() throws InterruptedException {
         soundManager.toggleMenuSound();
-        mygameKeyboard = new MyGameKeyboard();
+
         mygameKeyboard.setGameStage(0);
-        mygameKeyboard.init(this, null);
 
         screen.startMenu();
 
@@ -126,6 +129,10 @@ public class Game {
         soundManager.stopAllSounds();
         startSnakeGame(gameTypeSelection);
     }
+
+    /**
+     * Handles the main menu interaction
+     */
 
     private void handleMenuButtonSelection(){
         if(menuUpPressed) {
@@ -159,8 +166,7 @@ public class Game {
     }
 
     /**
-     * Main game loop for normal difficulty
-     * Handles snake movement, orb interactions, and game progression
+     * Starts the normal difficulty game
      */
     private void startNormalDifficulty() throws InterruptedException {
         mygameKeyboard.setGameStage(1);
@@ -173,6 +179,9 @@ public class Game {
         endScreen();
 
     }
+    /**
+     * Starts the Medium difficulty game
+     */
     private void startMediumDifficulty() throws InterruptedException {
         mygameKeyboard.setGameStage(1);
         gameType = new MediumDifficulty(map, screen , scoreSystem,soundManager, konamiMode);
@@ -184,6 +193,9 @@ public class Game {
         endScreen();
 
     }
+    /**
+     * Starts the Hard difficulty game
+     */
     private void startHardDifficulty() throws InterruptedException {
         mygameKeyboard.setGameStage(1);
         gameType = new HardDifficulty(map, screen , scoreSystem, soundManager, konamiMode);
@@ -199,6 +211,7 @@ public class Game {
      * Receives keyboard input for menu interaction
      */
     public void menuKeyboardInput(int keyCode) {
+        keyQueue.offer(keyCode);
         if(keyCode == KeyboardEvent.KEY_SPACE) {
             menuButtonPressed = true;  //spacebar pressed
         }
@@ -208,16 +221,13 @@ public class Game {
         if(keyCode == KeyboardEvent.KEY_DOWN){
             menuDownPressed = true;
         }
-
-        //System.out.println("here" + Arrays.toString(keyQueue.toArray()));
-
-            keyQueue.offer(keyCode);
-
             if(keyQueue.size() > 10){
+                System.out.println(Arrays.toString(keyQueue.toArray()));
                 keyQueue.poll();
+                System.out.println(Arrays.toString(keyQueue.toArray()));
+
             }
         checkForKonamiCode(keyQueue);
-
     }
 
     private void checkForKonamiCode(Queue<Integer> keyQueue) {
@@ -226,7 +236,6 @@ public class Game {
         if(Arrays.equals(keyQueue.toArray(), target)){
             System.out.println("konami achieved");
             konamiMode = true;
-
         }
     }
 
@@ -243,6 +252,7 @@ public class Game {
         //System.out.println(scoreSystem.printHighScoreList());
         screen.endScreen(gameType);
         mygameKeyboard.setGameStage(0);
+        keyQueue.clear();
         try {
             while (!menuButtonPressed) {
                 Thread.sleep(100);
@@ -259,7 +269,7 @@ public class Game {
     }
 
     public void resetKeys(){
-        menuButtonPressed = false;
+         menuButtonPressed = false;
          menuUpPressed = false;
          menuDownPressed = false;
     }

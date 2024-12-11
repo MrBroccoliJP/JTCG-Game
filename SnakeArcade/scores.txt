@@ -1,8 +1,8 @@
 N Score: 394400| Good Orbs Eaten: 29 | Bad Orbs Eaten: 0
 N Score: 281400| Good Orbs Eaten: 18 | Bad Orbs Eaten: 1
+N Score: 248900| Good Orbs Eaten: 14 | Bad Orbs Eaten: 0
+N Score: 213500| Good Orbs Eaten: 16 | Bad Orbs Eaten: 0
 N Score: 164500| Good Orbs Eaten: 11 | Bad Orbs Eaten: 0
-N Score: 109500| Good Orbs Eaten: 10 | Bad Orbs Eaten: 0
-N Score: 95800| Good Orbs Eaten: 10 | Bad Orbs Eaten: 0
 M Score: 1400| Good Orbs Eaten: 9 | Bad Orbs Eaten: 0
 M Score: 500| Good Orbs Eaten: 2 | Bad Orbs Eaten: 0
 M Score: 300| Good Orbs Eaten: 2 | Bad Orbs Eaten: 0

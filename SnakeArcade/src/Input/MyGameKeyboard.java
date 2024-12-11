@@ -61,7 +61,7 @@ public class MyGameKeyboard implements KeyboardHandler {
      */
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-
+       // System.out.println("Key pressed: " + keyboardEvent.getKey() + " at time: " + System.currentTimeMillis());  //debug
         if(gameStage == 1) {
             if (keyboardEvent.getKey() == KeyboardEvent.KEY_D || keyboardEvent.getKey() == KeyboardEvent.KEY_RIGHT) {
                 this.gameType.gameKeyboardInput(Movements.RIGHT);
