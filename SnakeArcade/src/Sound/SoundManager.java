@@ -55,6 +55,23 @@ public class SoundManager {
         hardGameStartSound.togglePlay();
     }
 
+    public void toggleGameStartSound(String difficultyName) {
+        switch (difficultyName.toLowerCase()) {
+            case "normal":
+                normalGameStartSound.togglePlay();
+                break;
+            case "medium":
+                mediumGameStartSound.togglePlay();
+                break;
+            case "hard":
+                hardGameStartSound.togglePlay();
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown difficulty: " + difficultyName);
+        }
+    }
+
+
     /**
      * Toggles the menu sound
      */

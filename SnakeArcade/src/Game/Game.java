@@ -11,6 +11,7 @@ import Sound.SoundManager;
 import com.codeforall.online.simplegraphics.graphics.*;
 import com.codeforall.online.simplegraphics.graphics.Color;
 import com.codeforall.online.simplegraphics.keyboard.KeyboardEvent;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -23,10 +24,10 @@ public class Game {
     private Map map;
     private Screen screen;
     private ScoreSystem scoreSystem;
-    private int gameTypeSelection = 0;
-    private SoundManager soundManager = new SoundManager();
+    private SoundManager soundManager;
 
     private GameType gameType;
+    private int gameTypeSelection = 0;
 
     private MyGameKeyboard mygameKeyboard;
 
@@ -37,86 +38,63 @@ public class Game {
     private boolean menuButtonPressed = false;
     private boolean menuUpPressed = false;
     private boolean menuDownPressed = false;
-    private boolean konamiMode = false;
-
-
+    private boolean konamiMode = false;  //cheat code activation flag
 
     private Queue<Integer> keyQueue = new LinkedList<>();
 
     /**
-     * Constructor initializes game map and score system
-     * Starts the initial game screen
+     * Constructor initializes game map, score system, keyboard and sound
+     * Game map: 50 cols, 30 rows, 20x20 px
      */
-    public Game()  {
+    public Game() {
         //initializes the map, 50 cols, 30 rows and cell the size of CELLSIZE
         map = new Map(50, 40, CELLSIZE);
         screen = new Screen(scoreSystem, map);
-
+        soundManager = new SoundManager();
         mygameKeyboard = new MyGameKeyboard();
         mygameKeyboard.init(this, null);
 
         try {
             //displays the initial starting screen
             startMenu();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
-
     /**
-     * Initializes the main snake game
-     * Sets up game map, snake, keyboard, and initial game elements
+     * Initializes the main Snake game based on the selected difficulty.
+     *
+     * @param gameTypeSelection Difficulty selection index
      */
     private void startSnakeGame(int gameTypeSelection) {
         //starts the game map
         map.init();
-
         scoreSystem = new ScoreSystem();
+        drawTitle();
         screen = new Screen(scoreSystem, map);
-
-        Text title = new Text(Map.PADDING , map.rowToY(map.getRows())-10,"SnakeArcade");
-        title.grow(20,15);
-        title.translate(title.getX()+(Map.PADDING-title.getX()),5);
-        title.setColor(Color.BLACK);
-        title.draw();
-
         screen.drawScore();
 
 
         try {
             switch (gameTypeSelection) {
-                case 0:
-                    startNormalDifficulty();
-                    break;
-                case 1:
-                    startMediumDifficulty();
-                    break;
-                case 2:
-                    startHardDifficulty();
-                    break;
+                case 0 -> startNormalDifficulty();
+                case 1 -> startMediumDifficulty();
+                case 2 -> startHardDifficulty();
             }
-
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
     }
 
-
-
     /**
-     * Displays initial starting screen
+     * Displays the initial starting menu and handles user interaction.
      */
     private void startMenu() throws InterruptedException {
         soundManager.toggleMenuSound();
-
         mygameKeyboard.setGameStage(0);
-
         screen.startMenu();
-
         while (!menuButtonPressed) {
             handleMenuButtonSelection();
             screen.drawStartMenuRect(gameTypeSelection);
@@ -124,132 +102,131 @@ public class Game {
         }
         mygameKeyboard.setGameStage(1);
         menuButtonPressed = false;
-
         screen.startMenuDelete();
         soundManager.stopAllSounds();
         startSnakeGame(gameTypeSelection);
     }
 
     /**
-     * Handles the main menu interaction
+     * Handles user input for menu navigation.
      */
-
-    private void handleMenuButtonSelection(){
-        if(menuUpPressed) {
+    private void handleMenuButtonSelection() {
+        if (menuUpPressed) {
             switch (gameTypeSelection) {
-                case 0:
-                    gameTypeSelection = 2;
-                    break;
-                case 1:
-                    gameTypeSelection = 0;
-                    break;
-                case 2:
-                    gameTypeSelection = 1;
-                    break;
+                case 0 -> gameTypeSelection = 2;
+                case 1 -> gameTypeSelection = 0;
+                case 2 -> gameTypeSelection = 1;
             }
             menuUpPressed = false;
         }
-        if(menuDownPressed) {
+        if (menuDownPressed) {
             switch (gameTypeSelection) {
-                case 0:
-                    gameTypeSelection = 1;
-                    break;
-                case 1:
-                    gameTypeSelection = 2;
-                    break;
-                case 2:
-                    gameTypeSelection = 0;
-                    break;
+                case 0 -> gameTypeSelection = 1;
+                case 1 -> gameTypeSelection = 2;
+                case 2 -> gameTypeSelection = 0;
             }
             menuDownPressed = false;
         }
     }
 
     /**
-     * Starts the normal difficulty game
+     * Draws the title on the game screen.
+     */
+    private void drawTitle() {
+        Text title = new Text(Map.PADDING, map.rowToY(map.getRows()) - 10, "SnakeArcade");
+        title.grow(20, 15);
+        title.translate(title.getX() + (Map.PADDING - title.getX()), 5);
+        title.setColor(Color.BLACK);
+        title.draw();
+    }
+
+    /**
+     * Starts the game with Normal difficulty settings.
      */
     private void startNormalDifficulty() throws InterruptedException {
-        mygameKeyboard.setGameStage(1);
-        soundManager.toggleNormalGameStartSound();
-        gameType = new NormalDifficulty(map, screen , scoreSystem,soundManager, konamiMode );
-        mygameKeyboard.setGameType(gameType);
-        gameType.start();
-        scoreSystem.saveHighScore(gameType);
-        soundManager.stopAllSounds();
-        endScreen();
-
+        initializeGame(new NormalDifficulty(map, screen, scoreSystem, soundManager, konamiMode),
+                "Normal");
     }
+
     /**
-     * Starts the Medium difficulty game
+     * Starts the game with Medium difficulty settings.
      */
     private void startMediumDifficulty() throws InterruptedException {
-        mygameKeyboard.setGameStage(1);
-        gameType = new MediumDifficulty(map, screen , scoreSystem,soundManager, konamiMode);
-        soundManager.toggleMediumGameStartSound();
-        mygameKeyboard.setGameType(gameType);
-        gameType.start();
-        scoreSystem.saveHighScore(gameType);
-        soundManager.stopAllSounds();
-        endScreen();
-
+        initializeGame(new MediumDifficulty(map, screen, scoreSystem, soundManager, konamiMode),
+                "Medium");
     }
+
     /**
-     * Starts the Hard difficulty game
+     * Starts the game with Hard difficulty settings.
      */
     private void startHardDifficulty() throws InterruptedException {
-        mygameKeyboard.setGameStage(1);
-        gameType = new HardDifficulty(map, screen , scoreSystem, soundManager, konamiMode);
-        soundManager.toggleHardGameStartSound();
-        mygameKeyboard.setGameType(gameType);
-        gameType.start();
-        scoreSystem.saveHighScore(gameType);
-        soundManager.stopAllSounds();
-        endScreen();
+        initializeGame(new HardDifficulty(map, screen, scoreSystem, soundManager, konamiMode),
+                "Hard");
     }
 
     /**
-     * Receives keyboard input for menu interaction
+     * Initializes the game with the provided difficulty settings.
+     *
+     * @param gameType       The selected game difficulty
+     * @param difficultyName The name of the difficulty (for logging/sound purposes)
+     */
+    private void initializeGame(GameType gameType, String difficultyName) throws InterruptedException {
+        this.gameType = gameType;
+        mygameKeyboard.setGameStage(1); // Set keyboard to gameplay stage
+        soundManager.toggleGameStartSound(difficultyName); // Play start sound
+        mygameKeyboard.setGameType(gameType); // Link game type to keyboard
+        gameType.start(); // Start the game loop
+        scoreSystem.saveHighScore(gameType); // Save high score
+        soundManager.stopAllSounds();
+        endScreen(); // Display end screen
+    }
+
+    /**
+     * Handles keyboard input during menu navigation.
      */
     public void menuKeyboardInput(int keyCode) {
-        keyQueue.offer(keyCode);
-        if(keyCode == KeyboardEvent.KEY_SPACE) {
-            menuButtonPressed = true;  //spacebar pressed
-        }
-        if(keyCode == KeyboardEvent.KEY_UP){
+        keyQueue.offer(keyCode); // Add key to queue
+
+        // Set menu interaction flags based on key press
+        if (keyCode == KeyboardEvent.KEY_SPACE) {
+            menuButtonPressed = true;
+        } else if (keyCode == KeyboardEvent.KEY_UP) {
             menuUpPressed = true;
-        }
-        if(keyCode == KeyboardEvent.KEY_DOWN){
+        } else if (keyCode == KeyboardEvent.KEY_DOWN) {
             menuDownPressed = true;
         }
-            if(keyQueue.size() > 10){
-                System.out.println(Arrays.toString(keyQueue.toArray()));
-                keyQueue.poll();
-                System.out.println(Arrays.toString(keyQueue.toArray()));
 
-            }
+        // Limit queue size and check for Konami code
+        if (keyQueue.size() > 10) {
+            keyQueue.poll(); // Remove oldest key
+        }
         checkForKonamiCode(keyQueue);
     }
 
-    private void checkForKonamiCode(Queue<Integer> keyQueue) {
-        Integer[] target = {38,38,40,40,37,39,37,39,66,65};
 
-        if(Arrays.equals(keyQueue.toArray(), target)){
-            System.out.println("konami achieved");
+    /**
+     * Checks if the Konami code has been entered.
+     * Cheat code, enables cheat mode on the game
+     */
+    private void checkForKonamiCode(Queue<Integer> keyQueue) {
+        Integer[] target = {38, 38, 40, 40, 37, 39, 37, 39, 66, 65}; // Up, Up, Down, Down, Left, Right, Left, Right, B, A
+
+        if (Arrays.equals(keyQueue.toArray(), target)) {
+            System.out.println("Konami code activated!");
             konamiMode = true;
         }
     }
 
+
     /**
-     * Displays end screen with game stats
+     * Displays the end screen and resets game state.
      */
     private void endScreen() throws InterruptedException {
         soundManager.stopAllSounds();
         soundManager.playEndGameSound();
         resetKeys();
-        menuButtonPressed = false;
         konamiMode = false;
         map.resetColors();
-        //System.out.println(scoreSystem.printHighScoreList());
         screen.endScreen(gameType);
         mygameKeyboard.setGameStage(0);
         keyQueue.clear();
@@ -257,8 +234,7 @@ public class Game {
             while (!menuButtonPressed) {
                 Thread.sleep(100);
             }
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             System.err.println(e.getMessage());
         }
         gameType.delete();
@@ -268,13 +244,19 @@ public class Game {
         startMenu();
     }
 
-    public void resetKeys(){
-         menuButtonPressed = false;
-         menuUpPressed = false;
-         menuDownPressed = false;
+    /**
+     * Resets menu-related key states.
+     */
+    public void resetKeys() {
+        menuButtonPressed = false;
+        menuUpPressed = false;
+        menuDownPressed = false;
     }
 
-    public void exit(){
+    /**
+     * Exits the application.
+     */
+    public void exit() {
         System.exit(0);
     }
 
