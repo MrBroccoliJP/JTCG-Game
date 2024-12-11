@@ -37,10 +37,6 @@ public class Game {
     private boolean menuButtonPressed = false;
     private boolean menuUpPressed = false;
     private boolean menuDownPressed = false;
-    private boolean menuLeftPressed = false;
-    private boolean menuRightPressed = false;
-    private boolean AKeyPressed = false;
-    private boolean BKeyPressed = false;
     private boolean konamiMode = false;
 
 
@@ -167,6 +163,7 @@ public class Game {
      * Handles snake movement, orb interactions, and game progression
      */
     private void startNormalDifficulty() throws InterruptedException {
+        mygameKeyboard.setGameStage(1);
         soundManager.toggleNormalGameStartSound();
         gameType = new NormalDifficulty(map, screen , scoreSystem,soundManager, konamiMode );
         mygameKeyboard.setGameType(gameType);
@@ -177,6 +174,7 @@ public class Game {
 
     }
     private void startMediumDifficulty() throws InterruptedException {
+        mygameKeyboard.setGameStage(1);
         gameType = new MediumDifficulty(map, screen , scoreSystem,soundManager, konamiMode);
         soundManager.toggleMediumGameStartSound();
         mygameKeyboard.setGameType(gameType);
@@ -187,6 +185,7 @@ public class Game {
 
     }
     private void startHardDifficulty() throws InterruptedException {
+        mygameKeyboard.setGameStage(1);
         gameType = new HardDifficulty(map, screen , scoreSystem, soundManager, konamiMode);
         soundManager.toggleHardGameStartSound();
         mygameKeyboard.setGameType(gameType);
@@ -209,23 +208,10 @@ public class Game {
         if(keyCode == KeyboardEvent.KEY_DOWN){
             menuDownPressed = true;
         }
-        if(keyCode == KeyboardEvent.KEY_LEFT){
-            this.menuLeftPressed = true;
-        }
-        if(keyCode == KeyboardEvent.KEY_RIGHT){
-            menuRightPressed = true;
-        }
-        if(keyCode == KeyboardEvent.KEY_A){
-            AKeyPressed = true;
-        }
-        if(keyCode == KeyboardEvent.KEY_B){
-            BKeyPressed = true;
-        }
 
+        //System.out.println("here" + Arrays.toString(keyQueue.toArray()));
 
             keyQueue.offer(keyCode);
-            AKeyPressed = false;
-            BKeyPressed = false;
 
             if(keyQueue.size() > 10){
                 keyQueue.poll();
@@ -240,9 +226,9 @@ public class Game {
         if(Arrays.equals(keyQueue.toArray(), target)){
             System.out.println("konami achieved");
             konamiMode = true;
+
         }
     }
-
 
     /**
      * Displays end screen with game stats
@@ -250,12 +236,11 @@ public class Game {
     private void endScreen() throws InterruptedException {
         soundManager.stopAllSounds();
         soundManager.playEndGameSound();
+        resetKeys();
         menuButtonPressed = false;
         konamiMode = false;
         map.resetColors();
-
         //System.out.println(scoreSystem.printHighScoreList());
-
         screen.endScreen(gameType);
         mygameKeyboard.setGameStage(0);
         try {
@@ -269,12 +254,14 @@ public class Game {
         gameType.delete();
         screen.clear();
         menuButtonPressed = false;
-
         scoreSystem.resetScore();
-        //startSnakeGame();
         startMenu();
-        //startSnakeGame(1);
+    }
 
+    public void resetKeys(){
+        menuButtonPressed = false;
+         menuUpPressed = false;
+         menuDownPressed = false;
     }
 
     public void exit(){

@@ -67,9 +67,9 @@ public class NormalDifficulty implements GameType {
         activeOrbs.add(rainbowOrb);
     }
 
-    public void start(){
+    public void start() {
         try {
-            if(konamiMode) {
+            if (konamiMode) {
                 setKonamiMode();
             }
 
@@ -92,11 +92,11 @@ public class NormalDifficulty implements GameType {
                     break;
                 }
 
-                for(SnakeOrbs orbs : activeOrbs) {
+                for (SnakeOrbs orbs : activeOrbs) {
                     orbManager.orbCheck(orbs, cycleCount);
                 }
 
-                if(konamiMode){
+                if (konamiMode) {
                     rainbowCycleDuration = 2;
                     scoreSystem.addScore(500);
                 }
@@ -105,11 +105,11 @@ public class NormalDifficulty implements GameType {
                 Thread.sleep(speed);
             }
             end();
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             System.err.println("process interrupted" + e.getMessage());
         }
     }
+
     @Override
     public void end() {
         System.out.println("Game Over");
@@ -119,7 +119,7 @@ public class NormalDifficulty implements GameType {
      * Receives keyboard input for game movement
      */
     @Override
-    public void gameKeyboardInput(Movements movement){
+    public void gameKeyboardInput(Movements movement) {
         //this method recieves the keyboard input to make it synchronous with the game
         this.movement = movement;
     }
@@ -128,14 +128,14 @@ public class NormalDifficulty implements GameType {
      * Calculates game speed based on current score
      * Increases difficulty as score progresses
      */
-    private void speedStepsCalc(){
+    private void speedStepsCalc() {
         int score = scoreSystem.getScore();
 
         // Base speed adjustment logic
         if (score < 1000) {
             speed = baseSpeed; // Default speed for scores below 1000
         } else {
-            if(speed > 100) {
+            if (speed > 100) {
                 speed = (int) (baseSpeed - (score - 1000) * 0.01); // Increase speed for scores above 1000
             }
             //System.out.println("speed change: " + speed);
@@ -157,8 +157,8 @@ public class NormalDifficulty implements GameType {
 
         int leftBound = Map.PADDING;
         int topBound = Map.PADDING;
-        int rightBound = (map.getCols() * map.getCellSize()) - Map.PADDING+1;
-        int bottomBound = (map.getRows() * map.getCellSize()) - Map.PADDING+1;
+        int rightBound = (map.getCols() * map.getCellSize()) - Map.PADDING + 1;
+        int bottomBound = (map.getRows() * map.getCellSize()) - Map.PADDING + 1;
 
         return snake.getHeadX() < leftBound || snake.getHeadY() < topBound ||
                 snake.getHeadX() > rightBound || snake.getHeadY() > bottomBound;
@@ -174,9 +174,9 @@ public class NormalDifficulty implements GameType {
     /**
      * Deletes active orbs from the game
      */
-    private void deleteOrbs(){
-        for(SnakeOrbs orb : activeOrbs) {
-            if(orb != null && orb.active()) {
+    private void deleteOrbs() {
+        for (SnakeOrbs orb : activeOrbs) {
+            if (orb != null && orb.active()) {
                 orb.delete();
             }
         }
@@ -184,37 +184,35 @@ public class NormalDifficulty implements GameType {
 
     @Override
     public void setRainbowCycleDuration(int addToRainbowCycleDuration) {
-        this.rainbowCycleDuration+= addToRainbowCycleDuration;
+        this.rainbowCycleDuration += addToRainbowCycleDuration;
     }
 
-    private void rainbowEffectManager(){
-        if(rainbowCycleDuration > 0 && !snake.getRainbowStatus()){
+    private void rainbowEffectManager() {
+        if (rainbowCycleDuration > 0 && !snake.getRainbowStatus()) {
             soundManager.stopAllSounds();
             soundManager.toggleRainbowSound();
             snake.rainbowEffectToggle();
             rainbowCycleDuration--;
-            if(!map.isRainbowModeActive() && !konamiMode){
+            if (!map.isRainbowModeActive() && !konamiMode) {
                 map.rainbowModeToggle();
             }
-        }
-        else if(rainbowCycleDuration <= 0 && snake.getRainbowStatus()){
+        } else if (rainbowCycleDuration <= 0 && snake.getRainbowStatus()) {
             snake.rainbowEffectToggle();
             soundManager.toggleRainbowSound();
             soundManager.toggleNormalGameStartSound();
 
-            if(map.isRainbowModeActive() && !konamiMode){
+            if (map.isRainbowModeActive() && !konamiMode) {
                 map.rainbowModeToggle();
             }
-        }
-        else if(snake.getRainbowStatus()){
+        } else if (snake.getRainbowStatus()) {
             rainbowCycleDuration--;
         }
     }
 
-    private void setKonamiMode(){
-        if(!snake.getRainbowStatus()) {
+    private void setKonamiMode() {
+        if (!snake.getRainbowStatus()) {
             snake.rainbowEffectToggle();
         }
-        map.setMapColor(new Color(255,225,225));
+        map.setMapColor(new Color(255, 225, 225));
     }
 }

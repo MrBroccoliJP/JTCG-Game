@@ -64,16 +64,16 @@ public class MyGameKeyboard implements KeyboardHandler {
 
         if(gameStage == 1) {
             if (keyboardEvent.getKey() == KeyboardEvent.KEY_D || keyboardEvent.getKey() == KeyboardEvent.KEY_RIGHT) {
-                gameType.gameKeyboardInput(Movements.RIGHT);
+                this.gameType.gameKeyboardInput(Movements.RIGHT);
             }
             if (keyboardEvent.getKey() == KeyboardEvent.KEY_A || keyboardEvent.getKey() == KeyboardEvent.KEY_LEFT) {
-                gameType.gameKeyboardInput(Movements.LEFT);
+                this.gameType.gameKeyboardInput(Movements.LEFT);
             }
             if (keyboardEvent.getKey() == KeyboardEvent.KEY_W || keyboardEvent.getKey() == KeyboardEvent.KEY_UP) {
-                gameType.gameKeyboardInput(Movements.UP);
+                this.gameType.gameKeyboardInput(Movements.UP);
             }
             if (keyboardEvent.getKey() == KeyboardEvent.KEY_S || keyboardEvent.getKey() == KeyboardEvent.KEY_DOWN) {
-                gameType.gameKeyboardInput(Movements.DOWN);
+                this.gameType.gameKeyboardInput(Movements.DOWN);
             }
         }
         else if(gameStage == 0) {
