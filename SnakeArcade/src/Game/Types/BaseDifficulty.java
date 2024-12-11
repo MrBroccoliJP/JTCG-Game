@@ -11,6 +11,10 @@ import com.codeforall.online.simplegraphics.graphics.Color;
 
 import java.util.LinkedList;
 
+/**
+ * BaseDifficulty provides a base for different difficulty levels in the game.
+ * It manages the game loop, player inputs, orb interactions, and snake behaviors.
+ */
 public abstract class BaseDifficulty implements GameType {
     protected Snake snake;
     protected final Map map;
@@ -22,13 +26,22 @@ public abstract class BaseDifficulty implements GameType {
     protected int baseSpeed;
     protected int speed;
     protected Movements movement = Movements.NONE;
-    protected Movements currentMovement = Movements.NONE;
+    protected Movements currentMovement = Movements.RIGHT;
     protected int rainbowCycleDuration = 0;
     protected boolean konamiMode = false;
 
     protected LinkedList<SnakeOrbs> activeOrbs = new LinkedList<>();
     protected SoundManager soundManager;
 
+    /**
+     * Constructs a BaseDifficulty object with the provided game components.
+     *
+     * @param map         The game map.
+     * @param screen      The screen renderer.
+     * @param scoreSystem The scoring system.
+     * @param soundManager The sound manager.
+     * @param konamiMode  Whether Konami mode (cheat mode) is active.
+     */
     public BaseDifficulty(Map map, Screen screen, ScoreSystem scoreSystem, SoundManager soundManager, boolean konamiMode) {
         this.map = map;
         this.screen = screen;
@@ -39,6 +52,10 @@ public abstract class BaseDifficulty implements GameType {
         this.orbManager = new OrbManager(this, snake, scoreSystem, soundManager);
     }
 
+
+    /**
+     * Starts the game loop and handles core gameplay mechanics.
+     */
     public void start() {
         if (konamiMode) {
             setKonamiMode();
@@ -76,11 +93,20 @@ public abstract class BaseDifficulty implements GameType {
         }
     }
 
+    /**
+     * Handles player keyboard input for controlling the snake.
+     *
+     * @param movement The movement direction input by the player.
+     */
     @Override
     public void gameKeyboardInput(Movements movement) {
         this.movement = movement;
     }
 
+
+    /**
+     * Adjusts the game speed based on the player's score.
+     */
     private void speedStepsCalc() {
         int score = scoreSystem.getScore();
         if (score < 1000) {
@@ -90,10 +116,20 @@ public abstract class BaseDifficulty implements GameType {
         }
     }
 
+    /**
+     * Checks for collisions with map boundaries or the snake itself.
+     *
+     * @return True if a collision occurred, false otherwise.
+     */
     private boolean CollisionCheck() {
         return boundsCollisionCheck() || snake.selfCollisionCheck();
     }
 
+    /**
+     * Checks if the snake has collided with the map boundaries.
+     *
+     * @return True if a boundary collision occurred, false otherwise.
+     */
     private boolean boundsCollisionCheck() {
         int leftBound = Map.PADDING;
         int topBound = Map.PADDING;
@@ -104,6 +140,10 @@ public abstract class BaseDifficulty implements GameType {
                 snake.getHeadX() > rightBound || snake.getHeadY() > bottomBound;
     }
 
+
+    /**
+     * Manages the activation and deactivation of the rainbow effect.
+     */
     private void rainbowEffectManager() {
         if (rainbowCycleDuration > 0 && !snake.getRainbowStatus()) {
             soundManager.stopAllSounds();
@@ -126,6 +166,11 @@ public abstract class BaseDifficulty implements GameType {
         }
     }
 
+    /**
+     * Activates Konami mode [cheat mode] with some visual effects
+     * Forces the permanent state of the rainbow effect on the snake
+     * Sets a specific color to the map
+     */
     private void setKonamiMode() {
         if (!snake.getRainbowStatus()) {
             snake.rainbowEffectToggle();
@@ -133,12 +178,18 @@ public abstract class BaseDifficulty implements GameType {
         map.setMapColor(new Color(255, 225, 225));
     }
 
+    /**
+     * Deletes the snake and all active orbs from the game.
+     */
     @Override
     public void delete() {
         snake.delete();
         deleteOrbs();
     }
 
+    /**
+     * Deletes all active orbs in the game.
+     */
     private void deleteOrbs() {
         for (SnakeOrbs orb : activeOrbs) {
             if (orb != null && orb.active()) {
@@ -147,15 +198,26 @@ public abstract class BaseDifficulty implements GameType {
         }
     }
 
+    /**
+     * Sets the duration for the rainbow cycle effect.
+     *
+     * @param duration The duration to set.
+     */
     @Override
     public void setRainbowCycleDuration(int duration) {
         this.rainbowCycleDuration += duration;
     }
 
+    /**
+     * Ends the game
+     */
     @Override
     public void end() {
         System.out.println("Game Over");
     }
 
+    /**
+     * Configures orbs for the specific difficulty level.
+     */
     protected abstract void configureOrbs();
 }
