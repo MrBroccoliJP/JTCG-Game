@@ -15,7 +15,7 @@ public class Map {
     private boolean rainbowModeActive = false;
 
     /**
-     * Simple graphics grid constructor with a certain number of rows and columns
+     * Map constructor with a certain number of rows and columns
      *
      * @param cols number of the columns
      * @param rows number of rows
