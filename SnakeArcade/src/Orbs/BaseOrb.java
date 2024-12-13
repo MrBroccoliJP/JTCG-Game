@@ -1,34 +1,26 @@
 package Orbs;
 
 import Game.Map;
-import Game.ResourcePath;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 import com.codeforall.online.simplegraphics.pictures.Picture;
 
-/**
- * Represents a "Bad Orb" in the game, which penalizes the player when collected.
- * This orb decreases the score
- */
-public class BadOrb implements SnakeOrbs {
-
+public abstract class BaseOrb implements SnakeOrbs{
     private int score = -100;  // score of a good orb
     private Rectangle rectangle;
     private Map map;
     private boolean active = false;
     private int buffer = -1;
     private Picture picture;
+    private String picturePath;
 
-    /**
-     * Constructs a new {@code BadOrb} with the specified map for positioning.
-     *
-     * @param map the game map to determine orb placement.
-     */
-    public BadOrb(Map map){
+    public BaseOrb(Map map, int score, String PicturePath){
         this.map = map;
+        this.picturePath = PicturePath;
+        this.score = score;
     }
 
     /**
-     * Spawns the bad orb at a random location on the map.
+     * Spawns the orb at a random location on the map.
      * The orb is drawn as a rectangle and with a picture
      */
     @Override
@@ -37,10 +29,9 @@ public class BadOrb implements SnakeOrbs {
         int randomRow = (int) (Math.random() * (map.getRows()-1));
         this.active = true;
         rectangle = new Rectangle(map.columnToX(randomCol)+1, map.rowToY(randomRow)+1, 18, 18);
-        picture = new Picture(rectangle.getX()-1,rectangle.getY()-1, ResourcePath.RESOURCE_PATH + "BAD_ORB_18_18.png");
+        picture = new Picture(rectangle.getX()-1,rectangle.getY()-1, picturePath);
         picture.draw();
     }
-
 
     /**
      * Returns the score penalty associated with this orb.
