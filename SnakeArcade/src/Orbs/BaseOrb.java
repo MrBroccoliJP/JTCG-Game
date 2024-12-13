@@ -4,6 +4,10 @@ import Game.Map;
 import com.codeforall.online.simplegraphics.graphics.Rectangle;
 import com.codeforall.online.simplegraphics.pictures.Picture;
 
+/**
+ * Superclass represents an orb in the game
+ * This is the base implementation
+ */
 public abstract class BaseOrb implements SnakeOrbs{
     private int score = -100;  // score of a good orb
     private Rectangle rectangle;
